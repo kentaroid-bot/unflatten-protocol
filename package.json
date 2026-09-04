@@ -1,0 +1,34 @@
+{
+  "name": "unflatten-protocol",
+  "version": "0.1.0",
+  "description": "Loadable agent roles and validation primitives for preserving sharp hypotheses across AI workflows.",
+  "license": "UNLICENSED",
+  "main": "validator/index.js",
+  "type": "commonjs",
+  "bin": {
+    "unflatten": "validator/cli.js"
+  },
+  "files": [
+    "AGENTS.md",
+    "File-hierarchy.md",
+    "README.md",
+    "manifest.json",
+    "docs",
+    "prompt-templates",
+    "schema",
+    "validator"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "validate:fixtures": "node validator/cli.js validate handoff fixtures/handoff.valid.yaml",
+    "prepack": "npm test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "ajv": "^8.0.0",
+    "ajv-formats": "^3.0.0",
+    "yaml": "^2.0.0"
+  }
+}

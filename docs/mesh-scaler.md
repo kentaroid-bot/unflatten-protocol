@@ -1,0 +1,1 @@
+../prompt-templates/extensions/mesh-scaler.md

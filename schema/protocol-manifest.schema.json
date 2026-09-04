@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unflatten.dev/schema/protocol-manifest.schema.json",
+  "title": "Unflatten Protocol Manifest",
+  "type": "object",
+  "required": ["id", "version", "protocol", "handoff", "roles", "schemas"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "id": { "const": "unflatten-protocol" },
+    "version": { "type": "string", "minLength": 1 },
+    "protocol": { "type": "string", "minLength": 1 },
+    "handoff": { "type": "string", "minLength": 1 },
+    "roles": {
+      "type": "object",
+      "minProperties": 4,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["alias", "template", "kind"],
+        "properties": {
+          "alias": { "type": "string", "pattern": "^@[a-z]+$" },
+          "aliases": { "type": "array", "items": { "type": "string", "pattern": "^@[a-z]+$" }, "uniqueItems": true },
+          "template": { "type": "string", "minLength": 1 },
+          "kind": { "enum": ["core", "extension", "meta"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "engines": { "type": "object", "additionalProperties": { "type": "string" } },
+    "schemas": {
+      "type": "object",
+      "required": ["handoff", "state-history", "audit-report"],
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": false
+}

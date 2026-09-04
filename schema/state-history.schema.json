@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unflatten.dev/schema/state-history.schema.json",
+  "title": "Unflatten Inquiry State History",
+  "type": "object",
+  "required": ["inquiry_id", "entries"],
+  "properties": {
+    "inquiry_id": { "type": "string", "minLength": 1 },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "at", "role", "action", "hypothesis", "preserved_dimensions", "evidence", "residuals"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "at": { "type": "string", "format": "date-time" },
+          "role": { "type": "string", "minLength": 1 },
+          "action": { "enum": ["frame", "expand", "audit", "advance", "revise", "replace", "hold", "implement", "integrate", "pivot"] },
+          "hypothesis": { "type": "string", "minLength": 1 },
+          "parent_id": { "type": ["string", "null"] },
+          "preserved_dimensions": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+          "changed_claims": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "evidence": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "residuals": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "reason": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

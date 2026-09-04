@@ -1,0 +1,1 @@
+../../prompt-templates/core/auditor.md

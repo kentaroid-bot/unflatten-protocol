@@ -1,0 +1,76 @@
+handoff:
+  protocol_version: "0.1.0"
+  from_role: innovator
+  to_role: auditor
+  reason: 尖った仮説を最強形のまま二重ストレス監査へ渡すため。
+  inquiry:
+    problem_tension: 自動検証が既存カテゴリへの適合検査になると、未知の仮説ほど低く評価される。
+    current_question: 構造検証と意味的監査を分離したSDKは平坦化を防げるか。
+    distinct_dimensions:
+      - dimension: 静的検証器自身に意味的な最終決定権を与えない。
+        significance: 単一スコアが現在の認識スキーマを主権化するのを防ぐため。
+    flattening_risks:
+      - 尖りを単語出現数だけで評価する。
+  hypothesis:
+    statement: 静的検証とロードされたAuditorを分離すれば、自動化と認識上の開口部を両立できる。
+    core_claims:
+      - 静的検証は意味的な最終判定を行わない。
+      - 意味的監査はプロトコルと役割を明示的にロードする。
+    mechanism: スキーマ検証が欠落を固定し、Auditorが仮説世界内部の反証と認知・身体的摩擦を評価する。
+    assumptions:
+      - assumption: 利用側がLLM実行アダプターを提供できる。
+        status: unknown
+    scope:
+      applies_to:
+        - エージェントが生成する仮説、設計、文書
+      does_not_apply_to:
+        - 数値計算だけで完結する成果物
+  hypothetical_world:
+    description: 複数プロジェクトが同じUnflatten契約をロードし、差異を失わずに成果物を交換する。
+    consequences:
+      primary:
+        - Handoffの欠落がCIで検出される。
+      secondary:
+        - 役割間の暗黙の仮説変更が減る。
+      tertiary:
+        - 異なるプロジェクト間でResidualを保持した協働が可能になる。
+    opportunities:
+      - プロバイダー非依存の意味監査パイプライン
+  evaluation:
+    falsifiers:
+      - 静的スコアが実質的な採択条件となり、未知の仮説を一貫して排除する。
+    evidence:
+      supporting: []
+      contradicting: []
+      unknown:
+        - 複数モデルでの実運用結果
+    tests_completed: []
+    tests_remaining:
+      - 異なるLLMアダプターで同じ監査入力を比較する。
+  decision:
+    status: not_evaluated
+    rationale: Auditorによる意味的監査の前である。
+    preserved_dimensions:
+      - 静的検証器へ意味上の主権を与えない。
+    rejected_claims: []
+    revisions: []
+  pivot:
+    trigger: ""
+    learned_structure: []
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 人間が感じる違和感を静的ルールでは意味を保ったまま分類できない。
+        schema_limit: 文字列パターンは違和感の身体的・文脈的由来を表現できない。
+        provenance: 静的Sharpness検査とNoise Vetoの責務を比較して発見した。
+        review_when: 身体的ノイズを由来付きで入力できる監査インターフェースが得られたとき。
+    dissent: []
+  next_step:
+    objective: SDKが生成する監査プロンプトをDual-Stress Auditへ晒す。
+    constraints:
+      - 現在のデータ不足だけで仮説を棄却しない。
+    expected_output:
+      - audit-report.schema.jsonに適合する監査結果
+    unresolved_questions:
+      - Noise Vetoを複数主体からどう入力するか。

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unflatten.dev/schema/audit-report.schema.json",
+  "title": "Unflatten Metasystemic Audit Report",
+  "type": "object",
+  "required": ["audit_target", "steelman_setup", "dual_stress", "evidence_and_noise", "findings", "final_verdict", "handoff"],
+  "properties": {
+    "audit_target": {
+      "type": "object",
+      "required": ["hypothesis", "core_premises", "mechanism", "distinct_dimensions"],
+      "properties": {
+        "hypothesis": { "type": "string", "minLength": 1 },
+        "core_premises": { "$ref": "#/$defs/nonEmptyStrings" },
+        "mechanism": { "type": "string", "minLength": 1 },
+        "distinct_dimensions": { "$ref": "#/$defs/nonEmptyStrings" }
+      }
+    },
+    "steelman_setup": { "$ref": "#/$defs/nonEmptyStrings" },
+    "dual_stress": {
+      "type": "object",
+      "required": ["logical_systemic", "cognitive_physical"],
+      "properties": {
+        "logical_systemic": { "$ref": "#/$defs/testResults" },
+        "cognitive_physical": { "$ref": "#/$defs/testResults" }
+      }
+    },
+    "evidence_and_noise": {
+      "type": "object",
+      "required": ["supporting", "contradicting", "unknown", "noise_signals"],
+      "properties": {
+        "supporting": { "type": "array", "items": { "type": "string" } },
+        "contradicting": { "type": "array", "items": { "type": "string" } },
+        "unknown": { "type": "array", "items": { "type": "string" } },
+        "noise_signals": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["classification", "finding", "rationale"],
+        "properties": {
+          "classification": { "enum": ["fatal_contradiction", "revisable_defect", "unresolved_uncertainty", "noise_veto"] },
+          "finding": { "type": "string", "minLength": 1 },
+          "rationale": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "repair_boundary": { "type": "array", "items": { "type": "string" } },
+    "pivot_seeds": { "type": "array", "items": { "type": "string" } },
+    "final_verdict": { "enum": ["advance", "revise", "replace", "hold"] },
+    "handoff": { "type": "object" }
+  },
+  "$defs": {
+    "nonEmptyStrings": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "testResults": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["test", "result", "falsifier"],
+        "properties": {
+          "test": { "type": "string", "minLength": 1 },
+          "result": { "type": "string", "minLength": 1 },
+          "falsifier": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

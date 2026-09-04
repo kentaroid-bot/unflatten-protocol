@@ -1,0 +1,1 @@
+../prompt-templates/extensions/entropy-harvester.md
