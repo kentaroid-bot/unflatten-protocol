@@ -1,0 +1,112 @@
+handoff:
+  protocol_version: "0.1.0"
+  from_role: integrator
+  to_role: engineer
+  reason: Limited Connectionとして採択したWorkflow層の修復だけを実装するため。
+  inquiry:
+    problem_tension: 個別ロールは可搬だが、役割遷移、権限分離、仮説系譜を一つのrunとして再生できない。
+    current_question: 意味的主権を持たない薄いWorkflow層として、自己記述フローをどう実装するか。
+    distinct_dimensions:
+      - dimension: 自動化と非Captureを同時に成立させる。
+        significance: Workflow engineが新しい中央審判になるのを防ぐため。
+      - dimension: 未指定フィールドを保持しつつ、Handoffの手入力負荷を下げる。
+        significance: 記録が官僚化して役割切り替え自体が省略されるのを防ぐため。
+    flattening_risks:
+      - 一般的な有限状態機械として未知の遷移を禁止する。
+      - convenienceのために履歴やResidualを上書きする。
+  hypothesis:
+    statement: advisory route、明示的patch、digest付き履歴、権限種別を持つ薄いWorkflow APIなら、Unflattenの役割フローを非Captureのまま実行可能にできる。
+    core_claims:
+      - Workflow層は意味的Verdictを生成しない。
+      - 既定外遷移は理由付きで記録でき、禁止されない。
+      - patchで指定されないDistinct Dimensions、Residual、Dissentは保存される。
+      - AuditorとIntegratorの判断種別が機械可読に異なる。
+    mechanism: 前Handoffへ明示patchを適用し、遷移profileを検証し、各入力のdigestを付けて履歴を追記し、次ロールpromptを合成する。
+    assumptions:
+      - assumption: JSON/YAMLで表現できるHandoffの範囲ではdeep mergeと配列置換が暗黙損失を避けられる。
+        status: unknown
+    scope:
+      applies_to:
+        - core roleと登録済みextension roleの状態遷移
+      does_not_apply_to:
+        - 意味的監査の代行
+        - LLMプロバイダーの選択
+        - ライセンスの選択
+  hypothetical_world:
+    description: 外部プロジェクトがrunを開始し、各成果物とHandoffをdigest付きで記録しながら、次ロールをロードして自己監査を一巡できる。
+    consequences:
+      primary:
+        - 役割遷移とprompt生成が一操作になる。
+      secondary:
+        - 権限迂回とロード資産の変化を検出できる。
+      tertiary:
+        - 異なるプロジェクト間で仮説の系譜を再生できる。
+    opportunities:
+      - CIでの継続的self-audit
+  evaluation:
+    falsifiers:
+      - Workflow層が意味的な採否を自動決定する。
+      - 未指定の重要な次元がpatch時に消える。
+      - 既定外遷移が理由を示しても不可能になる。
+      - 同じ記録からロード資産を再特定できない。
+    evidence:
+      supporting:
+        - 既存のmanifest、validator、prompt composer、Schemaを再利用できる。
+      contradicting: []
+      unknown:
+        - 実利用でのpatch粒度
+    tests_completed:
+      - Auditorによる現状のDual-Stress Audit
+      - IntegratorによるLimited Connectionの選択
+    tests_remaining:
+      - Workflow一巡の統合テスト
+      - 不正なauthority kindの検出
+      - 既定外遷移の理由記録
+      - patch後のDistinct Dimensions保持
+  decision:
+    status: revise
+    authority: operational_decision
+    decided_by: integrator
+    rationale: Integratorによるoperational decisionとして、今回の自己適用サイクルに限定してWorkflow層の修復を採択した。
+    preserved_dimensions:
+      - 自動化と非Captureの両立
+      - 問い、Residual、Dissent、反証の系譜
+    rejected_claims:
+      - 固定遷移だけを正規フローとする。
+      - 静的検証で意味的採否を決定する。
+    revisions:
+      - advisory routeと理由付き逸脱を実装する。
+      - digest付きWorkflow履歴を実装する。
+      - authority kindを分離する。
+      - Handoff patchから完全Snapshotを生成する。
+  pivot:
+    trigger: ""
+    learned_structure:
+      - ロールの可搬性とフローの可搬性は異なる。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 身体的Noise Signalは現在のテキストSDKだけでは真正性を確認できない。
+        schema_limit: 自動処理は身体状態とholderの経験を直接観測しない。
+        provenance: AuditorのCognitive & Physical Friction監査。
+        review_when: 実利用者の由来付き入力経路を設計するとき。
+    dissent:
+      - position: advisoryであっても既定routeが事実上の標準となり、未知の経路を弱める可能性がある。
+        holder: self-audit Auditor
+        unresolved_because: 実プロジェクトで既定routeと逸脱routeの利用差をまだ観測していない。
+  next_step:
+    objective: 採択範囲内のWorkflow API、Schema、CLI、文書および統合テストを実装する。
+    constraints:
+      - 意味的Verdictをコードで生成しない。
+      - 既定外遷移を禁止しない。
+      - 未指定のDistinct Dimensions、Residual、Dissentを保持する。
+      - ライセンスを変更しない。
+    expected_output:
+      - Workflow run APIとCLI
+      - workflow-run schema
+      - authority分離と遷移profile
+      - 自己適用一巡テスト
+      - EngineerからAuditorへのHandoff
+    unresolved_questions:
+      - 身体的Noise Signalの入力面は次サイクルへ保留する。

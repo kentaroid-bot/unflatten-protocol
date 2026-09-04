@@ -94,7 +94,7 @@
 6. **Repair Boundary or Pivot Seeds:**
    - `revise` の場合：デュアル・トポロジーなどの修復案と、4つの問いへの回答。
    - `replace` の場合：元の問いから回収した残余と、次に進むためのPivot Seed。
-7. **Final Verdict:** `advance | revise | replace | hold`
+7. **Final Verdict:** `advance | revise | replace | hold`。これは `epistemic_recommendation` であり、実装・接続・展開を許可する運用判断ではない。運用判断はIntegratorへ渡す。
 8. **Handoff Contract:** `docs/handoff.md` に準拠したYAMLデータ。
 
 ## Invalid Moves（絶対禁止事項）

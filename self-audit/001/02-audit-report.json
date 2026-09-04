@@ -1,0 +1,273 @@
+{
+  "audit_target": {
+    "hypothesis": "ロールローダー、Handoff Schema、状態履歴、静的検証器、意味監査プロンプトを一つのSDKとして接続すれば、外部プロジェクトはUnflattenフローを再現し成果物を自動検証できる。",
+    "core_premises": [
+      "役割切り替え時にプロトコル、対象ロール、Handoffが実際にロードされる。",
+      "仮説、Distinct Dimensions、反証、Residual、Dissentの変遷を機械可読に保持する。",
+      "静的検証へ意味的な最終決定権を与えない。",
+      "Auditorの発見とIntegratorの運用判断を分離する。"
+    ],
+    "mechanism": "manifestで役割を解決し、Handoffで状態を運び、Schemaとルールで構造を検証し、役割プロンプトを外部LLMへ渡して意味的処理を行う。",
+    "distinct_dimensions": [
+      "自動化しながら、単一の検証器による認識上のCaptureを防ぐ。",
+      "役割やプロジェクトの境界を越えても問いの変形履歴を失わない。"
+    ]
+  },
+  "steelman_setup": [
+    "すべての外部プロジェクトがNode.jsまたはCLIを利用できる。",
+    "任意の高性能LLMアダプターが利用でき、各ロール定義を忠実に実行する。",
+    "Handoffは各フェーズで欠落なく生成される。",
+    "利用者は静的警告を意味的な棄却として誤用しない。",
+    "manifest、Schema、プロンプトは同じpackage versionから読み込まれる。"
+  ],
+  "dual_stress": {
+    "logical_systemic": [
+      {
+        "test": "Role-transition executability",
+        "result": "現在のAPIは単一ロールのロードとプロンプト合成を行えるが、遷移の許可、Handoff更新、履歴追記、次ロールのロードを一つの操作として実行できない。SDKの中核仮説を支える接続機序が欠けている。",
+        "falsifier": "外部プロジェクトがSDK APIだけでInnovatorからAuditor、Integrator、Engineer、再監査までを追跡可能に一巡できない。"
+      },
+      {
+        "test": "Contract/schema consistency",
+        "result": "handoff.mdは遷移ごとに最低条件が異なり全フィールド必須ではないとする一方、JSON Schemaはpivotとepistemic_remainderを含む全セクションを常時要求する。文章上有効なHandoffがSchemaで拒否されうる。",
+        "falsifier": "同じHandoffが正本の文章規則では有効、Schemaでは無効になる。"
+      },
+      {
+        "test": "Authority separation",
+        "result": "AGENTS.mdはIntegratorを意思決定役とするが、Auditor v3はFinal Verdictとしてadvance/revise/replace/holdを決定すると記す。評価結果なのか運用決定なのかをSchemaも区別していない。",
+        "falsifier": "Auditorのfinal_verdictだけで実装・棄却が起動し、Integratorの判断面が迂回される。"
+      },
+      {
+        "test": "Reproducible loading",
+        "result": "package versionは記録されるが、実行Handoffに使用したrole templateやprotocolのdigestがない。同じ0.1.0作業中またはGit参照の変化後に、何をロードした監査かを再現できない。",
+        "falsifier": "同じHandoffを再生して異なる役割文書がロードされても、その差異を履歴から検出できない。"
+      }
+    ],
+    "cognitive_physical": [
+      {
+        "test": "Handoff cognitive bandwidth",
+        "result": "人間またはエージェントが毎回大きな完全Snapshotを手作業で生成する設計は、短い反復ほど記録コストが本体作業を上回り、空文字や形式的文言で欄を埋める誘因になる。",
+        "falsifier": "Handoff維持の負担により役割切り替えが省略されるか、形式だけ満たした低情報の記録が常態化する。"
+      },
+      {
+        "test": "Noise input channel",
+        "result": "AuditorはNoise Vetoを要求するが、SDKには身体的違和感のholder、由来、scope、review conditionを入力する専用経路がない。自動実行ではnoise_signalsが常に空になる可能性が高い。",
+        "falsifier": "自動監査が人間入力なしにNoise Vetoを実行したと称するか、実際の違和感を匿名の文字列へ潰す。"
+      },
+      {
+        "test": "Sterile workflow adoption",
+        "result": "役割文書とSchemaは豊富だが、実行コマンドがrole、prompt、validate、inspect、audit-promptに分散している。利用者が一連の流れを組み立てる必要があり、日常利用では単発promptだけが使われる可能性がある。",
+        "falsifier": "外部プロジェクトがロールを一つだけ読み、HandoffとIntegratorを省略してもSDK利用済みと扱える。"
+      }
+    ]
+  },
+  "evidence_and_noise": {
+    "supporting": [
+      "10件のテストがロール解決、YAML/JSON Schema、監査プロンプト、外部package loadを通過している。",
+      "静的inspectは警告へ意味的拒否権を与えず、semantic auditとの境界を明示している。",
+      "protocol.md、Handoff、core roles、extensions、manifestがpackageへ同梱される。"
+    ],
+    "contradicting": [
+      "状態履歴Schemaは存在するが、履歴を作成または更新するSDK APIとCLIがない。",
+      "Handoffの文章上の遷移別最低条件と単一Schemaの必須条件が一致しない。",
+      "AuditorのFinal VerdictとIntegratorの意思決定権の境界が機械可読でない。"
+    ],
+    "unknown": [
+      "Aperture Meshなど実プロジェクトでの反復利用時の認知負荷。",
+      "複数LLMでのrole adherenceと監査結果の再現性。",
+      "公開リポジトリがUNLICENSEDである状態で第三者が実際にインポートするか。"
+    ],
+    "noise_signals": [
+      "完全な文書群は存在するのに、利用者が手で次のロールを選び直さなければフローが進まない点に、SDKという名称との身体的な不一致がある。",
+      "すべてのHandoff欄を常時埋める構造には、問いを守る記録が官僚的な記入作業へ反転する息苦しさがある。"
+    ]
+  },
+  "findings": [
+    {
+      "classification": "revisable_defect",
+      "finding": "ロール資産はロード可能だが、ロール間フローはまだ実行可能なSDK機構になっていない。",
+      "rationale": "中核仮説を捨てず、遷移API、履歴、次ロールprompt生成を追加すれば修復できる。"
+    },
+    {
+      "classification": "revisable_defect",
+      "finding": "Handoff文章仕様とSchemaの必須条件が衝突している。",
+      "rationale": "完全Snapshotと遷移ごとの必須差分を分離し、transition profileで検証すれば修復できる。"
+    },
+    {
+      "classification": "revisable_defect",
+      "finding": "Auditorの監査VerdictとIntegratorの運用Decisionが同じ状態語彙で表される。",
+      "rationale": "AuditorのVerdictをepistemic routing recommendationとしてscopeし、Integratorだけがoperational connection stateを確定することで権限分離できる。"
+    },
+    {
+      "classification": "revisable_defect",
+      "finding": "実行時にロードしたprotocol、role、handoffのdigestが記録されない。",
+      "rationale": "標準暗号学的digestとpackage versionを履歴へ付加すれば再現可能性を回復できる。"
+    },
+    {
+      "classification": "noise_veto",
+      "finding": "完全Handoffの手入力を毎回要求する設計は、認知帯域を枯渇させ自己適用を形骸化させる可能性がある。",
+      "rationale": "フローの自動化が完成するまで、SDKが自己適用フローを完全に自動化済みと主張することを一時停止する。"
+    },
+    {
+      "classification": "unresolved_uncertainty",
+      "finding": "PublicかつUNLICENSEDなSDKの第三者利用可能性は未決定である。",
+      "rationale": "ライセンス選択は技術監査では決定できず、所有者の明示判断が必要である。"
+    }
+  ],
+  "repair_boundary": [
+    "個別ロール、Counter-Factual Audit、Residual、静的検証と意味監査の分離は維持する。",
+    "Workflow APIは意味的Verdictを生成せず、状態遷移、provenance、次ロールのロードだけを担う。",
+    "Auditorの判断はepistemic recommendation、Integratorの判断はoperational decisionとして別フィールドにする。",
+    "完全Snapshotを内部状態として保持しつつ、利用者には遷移差分から生成できるインターフェースを提供する。",
+    "Noise Signalにはholder、scope、provenance、review conditionを保持し、自動生成で代替しない。"
+  ],
+  "pivot_seeds": [],
+  "final_verdict": "revise",
+  "handoff": {
+    "protocol_version": "0.1.0",
+    "from_role": "auditor",
+    "to_role": "integrator",
+    "reason": "自己監査で発見した修正可能な欠陥について、実装順序と権限範囲を決定するため。",
+    "inquiry": {
+      "problem_tension": "ロード可能な役割群と、実行可能で追跡可能な役割フローの間に未実装の断絶がある。",
+      "current_question": "中核を維持したまま、どの修復を現在の自己適用サイクルで採択するか。",
+      "distinct_dimensions": [
+        {
+          "dimension": "自動化しながら単一検証器によるCaptureを防ぐ。",
+          "significance": "SDKがUnflattenの認識論を自ら破壊しないため。"
+        },
+        {
+          "dimension": "反証、Residual、Dissentとロード資産の由来を再生可能にする。",
+          "significance": "別プロジェクトと将来versionで仮説の変形を追跡するため。"
+        }
+      ],
+      "flattening_risks": [
+        "一般的なworkflow engineを追加して意味判断までコードへ集中させる。",
+        "全問題を一度に解消しようとして、日常利用できない巨大なSDKへする。"
+      ]
+    },
+    "hypothesis": {
+      "statement": "状態遷移、provenance、遷移別検証、次ロールprompt生成を薄いWorkflow層として追加すれば、SDKは権限分離を保ったまま自己記述フローを実行できる。",
+      "core_claims": [
+        "Workflow層は意味的Verdictを決定しない。",
+        "Auditor recommendationとIntegrator decisionを分離する。",
+        "ロードされたprotocol、role、handoffのversionとdigestを履歴へ残す。",
+        "Handoffの認知負荷を差分入力と自動Snapshot生成で下げる。"
+      ],
+      "mechanism": "manifestに既定遷移を定義し、Workflow APIがHandoffと遷移を検証してdigest付き履歴を追記し、次ロールのpromptを生成する。",
+      "assumptions": [
+        {
+          "assumption": "固定された既定遷移は、明示理由付きの拡張経路を残せば未知のロールを排除しない。",
+          "status": "unknown"
+        }
+      ],
+      "scope": {
+        "applies_to": [
+          "現在のcore roleによる自己適用フロー"
+        ],
+        "does_not_apply_to": [
+          "LLMプロバイダー固有の実行管理",
+          "ライセンスの選択"
+        ]
+      }
+    },
+    "hypothetical_world": {
+      "description": "外部プロジェクトが一つのrunを開始し、各ロールの成果とHandoffを追跡しながら、異なるLLMでも同じ認知フローを再生できる。",
+      "consequences": {
+        "primary": [
+          "役割切り替えと履歴更新が一操作になる。"
+        ],
+        "secondary": [
+          "Auditorを迂回した実装やIntegratorを迂回した運用判断を検出できる。"
+        ],
+        "tertiary": [
+          "プロジェクト間で仮説の系譜とResidualを交換できる。"
+        ]
+      },
+      "opportunities": [
+        "CIで再生できるself-audit run"
+      ]
+    },
+    "evaluation": {
+      "falsifiers": [
+        "Workflow層が意味的なadvance/rejectを自動決定する。",
+        "遷移の固定により新しい役割やForkが記録不能になる。",
+        "差分入力によってDistinct DimensionsまたはResidualが暗黙に失われる。"
+      ],
+      "evidence": {
+        "supporting": [
+          "既存のmanifest、role loader、Schema、prompt composerを再利用できる。"
+        ],
+        "contradicting": [],
+        "unknown": [
+          "差分Handoffの最小安全単位"
+        ]
+      },
+      "tests_completed": [
+        "現在実装のDual-Stress Audit"
+      ],
+      "tests_remaining": [
+        "Workflow一巡の統合テスト",
+        "不正遷移とprovenance改変の検出"
+      ]
+    },
+    "decision": {
+      "status": "revise",
+      "authority": "epistemic_recommendation",
+      "decided_by": "auditor",
+      "rationale": "中核仮説は維持できるが、Workflow機序と権限境界の修復が必要であるというAuditorのepistemic recommendation。",
+      "preserved_dimensions": [
+        "自動化と非Captureの両立",
+        "問いとResidualの系譜保存"
+      ],
+      "rejected_claims": [
+        "現在のSDKだけで役割フロー全体を実行できる。"
+      ],
+      "revisions": [
+        "薄いWorkflow層を追加する。",
+        "Auditor recommendationとIntegrator decisionを分離する。",
+        "digest付き状態履歴を追加する。"
+      ]
+    },
+    "pivot": {
+      "trigger": "",
+      "learned_structure": [
+        "ロールの可搬性とフローの可搬性は異なる。"
+      ],
+      "pivot_seeds": [],
+      "next_hypothesis": ""
+    },
+    "epistemic_remainder": {
+      "residuals": [
+        {
+          "observation": "身体的なNoise Vetoはテキスト履歴だけでは代理生成できない。",
+          "schema_limit": "現在の自動監査は人間の身体状態と由来付き違和感を直接観測しない。",
+          "provenance": "Auditor v3の認知・身体経路とSDK APIの比較。",
+          "review_when": "実利用者からholder付きNoise Signalを入力できる設計を検証するとき。"
+        }
+      ],
+      "dissent": [
+        {
+          "position": "既定遷移の導入自体が、未知の役割経路を平坦化する可能性がある。",
+          "holder": "self-audit Auditor",
+          "unresolved_because": "自由遷移と検証可能性の最適境界を実利用でまだ比較していない。"
+        }
+      ]
+    },
+    "next_step": {
+      "objective": "Integratorが今回採択する修復、保留するResidual、権限と停止条件を決定する。",
+      "constraints": [
+        "Auditor recommendationを自動的な実装命令にしない。",
+        "ライセンスを所有者に代わって決定しない。"
+      ],
+      "expected_output": [
+        "範囲、期限、停止条件付きの統合判断",
+        "EngineerへのHandoff"
+      ],
+      "unresolved_questions": [
+        "既定遷移をどこまで強制するか。",
+        "Noise Signalを今回の実装範囲へ含めるか。"
+      ]
+    }
+  }
+}

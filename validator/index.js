@@ -8,6 +8,7 @@ const YAML = require('yaml');
 const { detectFlattening } = require('./rules/detect-flattening');
 const { measureSharpness } = require('./rules/measure-sharpness');
 const { checkInvariants } = require('./rules/check-invariants');
+const { createWorkflowTools } = require('./workflow');
 
 const ROOT = path.resolve(__dirname, '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest.json'), 'utf8'));
@@ -146,6 +147,16 @@ async function auditArtifact(artifact, run, options = {}) {
   };
 }
 
+const workflow = createWorkflowTools({
+  manifest,
+  loadProtocol,
+  loadRole,
+  resolveRole,
+  validate,
+  composeRolePrompt,
+  parseInput
+});
+
 module.exports = {
   manifest,
   listRoles,
@@ -157,5 +168,12 @@ module.exports = {
   validate,
   inspectArtifact,
   createAuditPrompt,
-  auditArtifact
+  auditArtifact,
+  digest: workflow.digest,
+  mergeHandoff: workflow.mergeHandoff,
+  validateTransitionHandoff: workflow.validateTransitionHandoff,
+  createWorkflowRun: workflow.createWorkflowRun,
+  transitionWorkflow: workflow.transitionWorkflow,
+  verifyWorkflowRun: workflow.verifyWorkflowRun,
+  composeWorkflowPrompt: workflow.composeWorkflowPrompt
 };

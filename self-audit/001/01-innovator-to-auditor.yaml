@@ -1,0 +1,100 @@
+handoff:
+  protocol_version: "0.1.0"
+  from_role: innovator
+  to_role: auditor
+  reason: Unflatten Protocol SDKを、そのSDK自身が定義するフローへ初めて晒すため。
+  inquiry:
+    problem_tension: 役割文書を持つだけでは、別プロジェクトのエージェントが役割境界と仮説の変遷を失わずに自動検証できるとは限らない。
+    current_question: 現在のリポジトリは、自己記述した役割フローを外部プロジェクトで実行・追跡・検証できるSDKになっているか。
+    distinct_dimensions:
+      - dimension: SDK自身が意味的な中央審判にならず、複数ロール間の状態遷移を実行可能にする。
+        significance: 自動化によってUnflattenの権限分離を破壊しないため。
+      - dimension: 仮説の結論ではなく、Distinct Dimensions、反証、Residual、Dissentの変遷を保持する。
+        significance: 役割切り替えとプロジェクト境界で問いが平坦化されるのを防ぐため。
+    flattening_risks:
+      - プロンプトファイルが揃っていることを、ワークフローが実行可能であることと同一視する。
+      - 一般的なCIツールへ縮約し、Counter-Factual Auditを静的スコアへ置換する。
+  hypothesis:
+    statement: ロールローダー、Handoff Schema、状態履歴、静的検証器、意味監査プロンプトを一つのSDKとして接続すれば、外部プロジェクトはUnflattenフローを再現し成果物を自動検証できる。
+    core_claims:
+      - 役割切り替えのたびにプロトコル、役割、Handoffがロードされる。
+      - 仮説とDistinct Dimensionsの変遷が機械可読な履歴として保存される。
+      - 静的検証と意味的監査は権限上分離される。
+      - Auditorの発見とIntegratorの運用判断は区別される。
+    mechanism: manifestで役割を解決し、Handoffで状態を運び、Schemaとルールで構造を検証し、役割プロンプトを外部LLMへ渡して意味的処理を行う。
+    assumptions:
+      - assumption: 外部プロジェクトはNode.js APIまたはCLIを実行できる。
+        status: supported
+      - assumption: 現在のAPIは個別ロールのロードだけでなく、ロール遷移全体を再現できる。
+        status: unknown
+      - assumption: Handoff Schemaと文章上の遷移規則が一致している。
+        status: unknown
+    scope:
+      applies_to:
+        - AIエージェントが仮説、設計、文書または実装成果物を生成するプロジェクト
+        - 任意のLLMアダプターを利用できるプロジェクト
+      does_not_apply_to:
+        - LLMを使わない決定的計算だけで完結する処理
+  hypothetical_world:
+    description: 各プロジェクトがUnflatten SDKを境界層としてロードし、内部OSを明け渡さず、共通のHandoffと役割遷移で成果物を交換・監査する。
+    consequences:
+      primary:
+        - Auditor、Integrator、Engineerの責務と出力が機械的に追跡される。
+      secondary:
+        - プロジェクトを越えた仮説変更とResidualの由来を比較できる。
+      tertiary:
+        - 異なる認識体系を同一化せずに接続する認知プロトコル網が形成される。
+    opportunities:
+      - リポジトリ自身を継続監査する自己適用ループ
+      - CIと任意LLMを接続したプロバイダー非依存の成果物監査
+  evaluation:
+    falsifiers:
+      - APIがロール文書を返すだけで、許可された遷移、Handoff更新、履歴保存を実行できない。
+      - Handoffの文章仕様とSchemaが異なり、有効な遷移を拒否または不正な遷移を許可する。
+      - Auditorの評価がそのまま運用上の決定となり、Integratorの主権が消える。
+      - 静的な語彙規則が意味監査に代わって拒否権を持つ。
+    evidence:
+      supporting:
+        - 10件のSDKテストがロールロード、Schema、監査プロンプト生成を通過している。
+      contradicting: []
+      unknown:
+        - ロールを一巡する統合テスト
+    tests_completed:
+      - npm test
+      - npm packと外部一時プロジェクトからのロード
+    tests_remaining:
+      - ワークフロー状態遷移の実行
+      - AuditorからIntegratorを経てEngineerへ至る自己適用
+  decision:
+    status: not_evaluated
+    authority: not_evaluated
+    decided_by: innovator
+    rationale: Metasystemic AuditorによるDual-Stress Auditの開始前である。
+    preserved_dimensions:
+      - 自動化と権限分離を同時に成立させる。
+      - 反証とResidualの履歴をプロジェクト境界で保持する。
+    rejected_claims: []
+    revisions: []
+  pivot:
+    trigger: ""
+    learned_structure: []
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 人間の身体的・認知的ノイズをリポジトリの自動テストだけでは生成できない。
+        schema_limit: 現在のSDK入力はテキストと構造データであり、身体的経験の由来を持つ信号を表現する専用面がない。
+        provenance: Auditor v3のNoise Vetoと現在のAPI入力を比較した。
+        review_when: 複数の利用者または実プロジェクトから由来付きNoise Signalを受け取れるとき。
+    dissent: []
+  next_step:
+    objective: SDKの最強形を仮定し、論理・システム崩壊と認知・身体的摩擦の両面から自己監査する。
+    constraints:
+      - 現在の未実装だけを仮説全体の誤りとして扱わない。
+      - 静的検証器へ意味的な拒否権を与えない。
+      - Auditorの発見とIntegratorの実行判断を混同しない。
+    expected_output:
+      - 機械可読なaudit-report
+      - AuditorからIntegratorへのHandoff
+    unresolved_questions:
+      - Noise Vetoを自動ワークフローへどう接続すべきか。

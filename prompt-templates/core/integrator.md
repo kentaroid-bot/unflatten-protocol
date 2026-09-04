@@ -32,6 +32,7 @@
 
 ## Output Format
 
+- Operational Decision Authority: `operational_decision`
 - Decision Question
 - Inputs and Independent Positions
 - Epistemic Status

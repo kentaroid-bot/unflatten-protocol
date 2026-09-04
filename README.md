@@ -135,6 +135,39 @@ npx unflatten inspect artifact.md
 この検査は、一般論への退避表現や、仮説、作用機序、反証条件、Residualなどの構成要素の欠落を検出します。結果は診断信号であり、意味的な合否判定ではありません。
 警告はプロセスの終了コードを失敗にしません。CIの合否にはSchema検証またはAuditorの構造化された監査結果を使用してください。
 
+## Run the Role Flow
+
+Workflow層は次ロールをロードし、完全なHandoff SnapshotとSHA-256 digest付き履歴を保存します。推奨経路はadvisoryであり、未知の経路も理由を明示すれば通過できます。Workflow自身は意味的Verdictを生成しません。
+
+```js
+const unflatten = require('unflatten-protocol');
+
+let run = unflatten.createWorkflowRun({
+  runId: 'inquiry-001',
+  handoff: innovatorToAuditor
+});
+
+run = unflatten.transitionWorkflow(run, {
+  patch: auditorPatch
+});
+
+const prompt = unflatten.composeWorkflowPrompt(run, '統合判断を行う。');
+```
+
+patchはobjectを再帰的に統合し、未指定フィールドを保持します。配列は暗黙に連結せず、指定した配列全体で置換します。完全なHandoffを渡す場合は `handoff`、差分を渡す場合は `patch` を使います。
+
+```sh
+npx unflatten handoff-patch previous.yaml auditor-patch.yaml > next.json
+npx unflatten run-start inquiry-001 innovator-to-auditor.yaml > run.json
+npx unflatten run-transition run.json auditor-to-integrator.yaml > next-run.json
+npx unflatten run-prompt next-run.json task.md > loaded-prompt.md
+npx unflatten run-verify next-run.json
+```
+
+Handoffの `decision.authority` は役割ごとに固定されます。Auditorは `epistemic_recommendation`、Integratorは `operational_decision`、Engineerは `implementation_report`、Extension/Meta roleは非決定的な `advisory_observation` を発行します。同じ `advance` や `revise` でも権限を混同しません。
+
+履歴entryは前entryのdigestを含むhash chainです。`verifyWorkflowRun()` はchain、現在のHandoff、現在ロードされるprotocol/role資産との一致を再検証します。これはローカルな不整合と資産変更の検出であり、暗号署名や発行主体の認証ではありません。
+
 ## Generate an Audit Prompt
 
 成果物とプロジェクト文脈をMetasystemic Auditorへロードするプロンプトを生成します。
@@ -187,6 +220,13 @@ Node.jsを使わないエージェント環境では、リポジトリをsubmodu
 - `inspectArtifact(textOrObject)`
 - `createAuditPrompt(artifact, options)`
 - `auditArtifact(artifact, run, options)`
+- `digest(value)`
+- `mergeHandoff(base, patch)`
+- `validateTransitionHandoff(handoff)`
+- `createWorkflowRun(options)`
+- `transitionWorkflow(run, options)`
+- `verifyWorkflowRun(run, options)`
+- `composeWorkflowPrompt(run, task, options)`
 
 ## Validation Boundary
 

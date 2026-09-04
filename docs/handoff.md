@@ -4,7 +4,7 @@
 
 Handoff Contractは、役割または担当が変わるときに、問いの重要な次元が失われたり、仮説の変更が暗黙に行われたりすることを防ぐための受け渡し仕様です。
 
-Handoffは結論の要約ではありません。次の担当が、同じ問いを同じ解像度で受け取り、何を維持し、何を疑い、何を検証し、どの条件で転換できるかを判断するための状態記録です。
+Handoffは結論の要約ではありません。次の担当が、同じ問いを同じ解像度で受け取り、何を維持し、何を疑い、何を検証し、どの条件で転換できるかを判断するための状態記録です。Canonical Handoffは常に完全なSnapshotです。SDKのpatch入力は、直前のSnapshotへ明示差分を適用して次の完全なSnapshotを生成します。
 
 Unflattenの概念、反証およびPivotの意味は `docs/protocol.md` に従います。このファイルはHandoffの構造と運用だけを定義します。
 
@@ -35,7 +35,7 @@ Unflattenの概念、反証およびPivotの意味は `docs/protocol.md` に従�
 
 ```yaml
 handoff:
-  protocol_version: "0.1.0"
+  protocol_version: "0.2.0"
   from_role: "innovator | auditor | engineer | integrator | other"
   to_role: "innovator | auditor | engineer | integrator | other"
   reason: "役割または担当を切り替える理由"
@@ -81,6 +81,8 @@ handoff:
 
   decision:
     status: "advance | revise | replace | hold | not_evaluated"
+    authority: "not_evaluated | epistemic_recommendation | operational_decision | implementation_report | advisory_observation"
+    decided_by: "この記録を発行した役割"
     rationale: "判断と証拠を結びつける説明"
     preserved_dimensions: []
     rejected_claims: []
@@ -164,6 +166,16 @@ handoff:
 
 `rationale`には、判断を証拠または未検証状態と結びつけて記述します。「妥当そうである」のような印象だけでは不十分です。
 
+`decision.authority`は同じstatus語を誰がどの権限で記録したかを分離します。
+
+- Innovator: `not_evaluated`。評価判断を行わない。
+- Auditor: `epistemic_recommendation`。反証に基づく認識上の推奨であり、実装許可ではない。
+- Integrator: `operational_decision`。接続範囲、次工程、停止条件を拘束する運用判断。
+- Engineer: `implementation_report`。実装状態の報告であり、仮説の最終採否ではない。
+- Extension / Meta role: `advisory_observation`。固有視点からの観測であり、評価または運用判断ではない。
+
+`decided_by`は`from_role`と一致させます。後続役割の権限を先取りしてはいけません。
+
 ### Pivot
 
 `pivot`は、`replace`の場合に必須です。
@@ -193,7 +205,7 @@ handoff:
 
 ## Completeness by Transition
 
-すべてのフィールドが、すべての切り替えで必須なのではありません。遷移ごとの最低条件は次のとおりです。
+Schema上は、Canonical Handoffの構造を保つため全セクションが必要です。以下は各遷移で新たに確定または更新しなければならない意味上の最低条件です。変更しないフィールドは削除せず、SDKのpatchで直前Snapshotから継承できます。配列を変更する場合は配列全体を明示的に置換します。
 
 ### Innovator to Auditor
 
@@ -202,29 +214,39 @@ handoff:
 - `hypothetical_world`の全項目
 - `evaluation.falsifiers`
 - `decision.status: not_evaluated`
+- `decision.authority: not_evaluated`
 - `next_step`
 
-### Auditor to Engineer
+### Auditor to Integrator
 
 - Innovatorから受け取った内容
 - `evaluation`の全項目
-- `decision.status: advance`または`revise`
+- `decision.authority: epistemic_recommendation`
+- `decision.status: advance | revise | replace | hold`
 - 修正がある場合は`decision.revisions`
-- 実験または実装へ変換する`next_step`
+- Integratorが接続判断できる`next_step`
 
 ### Auditor to Innovator
 
 - `evaluation`の全項目
+- `decision.authority: epistemic_recommendation`
 - `decision.status: replace`または`hold`
 - `replace`の場合は`pivot`の全項目
 - 再探索のための`next_step`
 
-### Engineer to Integrator
+### Integrator to Engineer
+
+- 採用、保留または棄却した内容
+- `decision.authority: operational_decision`
+- 適用範囲、停止条件、再評価条件
+- Engineerが実装できる具体的な`next_step`
+
+### Engineer to Auditor or Integrator
 
 - 実装または実験によって得た`evaluation.evidence`
 - 完了した検証と残る検証
 - 実装時に発見した制約
-- 現在の`decision`
+- `decision.authority: implementation_report`
 - 判断に必要な`next_step`
 
 ### Integrator to Any Role
@@ -233,6 +255,7 @@ handoff:
 - 判断の根拠
 - 維持する重要な次元
 - 再評価条件
+- `decision.authority: operational_decision`
 - 次の役割と具体的な目的
 
 ## Unknown and Not Applicable

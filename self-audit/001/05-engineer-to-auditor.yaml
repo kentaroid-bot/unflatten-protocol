@@ -1,0 +1,110 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: engineer
+  to_role: auditor
+  reason: Integratorが採択したWorkflow層の実装を、同じ反証条件へ再び晒すため。
+  inquiry:
+    problem_tension: ロール資産の可搬性だけでは、役割遷移、権限分離、仮説系譜を外部プロジェクトで再生できなかった。
+    current_question: 新しいWorkflow実装は、意味的主権を集中させずに自己記述フローを実行可能にしたか。
+    distinct_dimensions:
+      - dimension: 自動化と非Captureを同時に成立させる。
+        significance: Workflow engineが意味的な中央審判になるのを防ぐため。
+      - dimension: 未指定フィールドを保持しつつHandoff入力負荷を下げる。
+        significance: 記録の官僚化で役割切り替えが省略されるのを防ぐため。
+    flattening_risks:
+      - テスト通過を、意味的な仮説妥当性の証明と取り違える。
+      - advisory routeを唯一の正規経路へ変える。
+  hypothesis:
+    statement: advisory route、明示的patch、digest付き履歴、権限種別を持つ薄いWorkflow APIなら、Unflattenの役割フローを非Captureのまま実行可能にできる。
+    core_claims:
+      - Workflow層は意味的Verdictを生成しない。
+      - 既定外遷移は理由付きで記録でき、禁止されない。
+      - patchで指定されないDistinct Dimensions、Residual、Dissentは保存される。
+      - AuditorとIntegratorの判断権限が機械可読に異なる。
+    mechanism: 完全Handoff Snapshotへ明示patchを適用し、発行ロールのauthorityを構造検証し、各入力のdigestを履歴へ追記して次ロールpromptを合成する。
+    assumptions:
+      - assumption: JSON/YAMLで表現できるHandoffでは、objectのdeep mergeと明示的な配列置換が暗黙損失を抑える。
+        status: supported
+    scope:
+      applies_to:
+        - manifestへ登録されたロールの状態遷移
+        - Node.js APIまたはCLIを利用できる外部プロジェクト
+      does_not_apply_to:
+        - 意味的監査の代行
+        - 身体的Noise Signalの代理生成
+        - LLMプロバイダーまたはライセンスの選択
+  hypothetical_world:
+    description: 外部プロジェクトがrunを開始し、各成果物とHandoffをdigest付きで記録しながら次ロールをロードし、自己監査を一巡できる。
+    consequences:
+      primary:
+        - 役割遷移、完全Snapshot、prompt生成がSDK操作として接続される。
+      secondary:
+        - 権限迂回、既定外遷移、ロード資産の変化を履歴から検出できる。
+      tertiary:
+        - プロジェクト間で仮説とResidualの系譜を再生できる。
+    opportunities:
+      - CIでの継続的self-audit
+  evaluation:
+    falsifiers:
+      - Workflow層が意味的な採否を自動決定する。
+      - 未指定のDistinct Dimensions、ResidualまたはDissentがpatch時に消える。
+      - 既定外遷移が理由を示しても不可能になる。
+      - 履歴からロードしたprotocol、role、handoffを識別できない。
+    evidence:
+      supporting:
+        - createWorkflowRunとtransitionWorkflowはHandoffに記録済みの判断を運搬するだけで、新しいstatusを生成しない。
+        - mergeHandoffは未指定objectを保持し、指定配列を全置換するテストを通過した。
+        - 既定外遷移は理由なしでは拒否され、理由付きではdeviationとして記録された。
+        - protocol、次role、handoffのSHA-256 digestが各履歴entryへ保存された。
+        - Auditor、Integrator、Engineerのauthority不一致を構造検証で拒否する。
+      contradicting: []
+      unknown:
+        - Aperture Meshなど実プロジェクトでの認知負荷とpatch粒度
+        - role文書のdigestだけで依存する外部文脈まで十分に再現できるか
+    tests_completed:
+      - npm test（15件成功）
+      - canonical fixture、audit report、Integrator HandoffのSchema検証
+      - 自己監査のInnovator→Auditor→Integrator→Engineer統合テスト
+    tests_remaining:
+      - 実プロジェクトでの一巡運用
+      - holder由来付きNoise Signal入力面の設計
+  decision:
+    status: advance
+    authority: implementation_report
+    decided_by: engineer
+    rationale: Integratorの採択範囲に含まれるWorkflow API、Schema、CLI、文書、権限分離、patch保持、digest履歴および統合テストを実装したという報告。仮説の意味的採択を決定するものではない。
+    preserved_dimensions:
+      - 自動化と非Captureの両立
+      - 問い、反証、Residual、Dissentの系譜
+    rejected_claims: []
+    revisions:
+      - Workflow run APIとCLIを追加した。
+      - Handoffを完全Snapshotと明示patch入力に分離した。
+      - role別authorityとdigest付き履歴を追加した。
+  pivot:
+    trigger: ""
+    learned_structure:
+      - 機械的なauthority検証と意味的判断の生成は分離できる。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 身体的Noise Signalは現在のテキストSDKだけでは真正性を確認できない。
+        schema_limit: 自動処理は身体状態とholderの経験を直接観測しない。
+        provenance: 初回AuditorのCognitive & Physical Friction監査。
+        review_when: 実利用者の由来付き入力経路を設計するとき。
+    dissent:
+      - position: advisoryであっても既定routeが事実上の標準となり未知の経路を弱める可能性がある。
+        holder: self-audit Auditor
+        unresolved_because: 実プロジェクトで既定routeとdeviationの利用差をまだ観測していない。
+  next_step:
+    objective: 実装をDual-Stress Auditへ再投入し、修復が中核仮説と停止条件を満たすか評価する。
+    constraints:
+      - テスト通過を意味的妥当性の証明にしない。
+      - 身体的Noise Signalの欠如を隠さない。
+      - ライセンスを技術監査で決定しない。
+    expected_output:
+      - 再監査audit-report
+      - advance、revise、replace、holdのepistemic recommendation
+    unresolved_questions:
+      - 実利用前に残る致命的な内部矛盾はあるか。

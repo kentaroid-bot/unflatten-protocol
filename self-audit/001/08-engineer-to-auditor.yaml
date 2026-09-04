@@ -1,0 +1,106 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: engineer
+  to_role: auditor
+  reason: 第二修復後のWorkflowを最終Dual-Stress Auditへ渡すため。
+  inquiry:
+    problem_tension: 自動化が意味的主権を奪わず、かつ権限と履歴の不整合を検出できなければならない。
+    current_question: authority profileとhash chain検証を含むWorkflowは採択範囲を満たしたか。
+    distinct_dimensions:
+      - dimension: 構造的権限検査と意味的判断を分離する。
+        significance: WorkflowによるCaptureを防ぐため。
+      - dimension: provenanceを再検証可能な系譜にする。
+        significance: digestを装飾的メタデータにしないため。
+    flattening_risks:
+      - hash chainを暗号署名と同一視する。
+      - テスト成功を意味的妥当性の証明にする。
+  hypothesis:
+    statement: authority/status profile、extensionのadvisory authority、digest連鎖検証により、意味判断を行わず権限と由来を検証できる。
+    core_claims:
+      - Workflowは意味的statusを生成しない。
+      - core roleの権限越境を拒否する。
+      - extension/meta roleはadvisory observationだけを発行する。
+      - 履歴と現在資産の変化を検出する。
+    mechanism: manifestのrole authority、許可status profile、previous entry digestを含むhash chain、current Snapshotとassetの再計算を組み合わせる。
+    assumptions:
+      - assumption: ローカルの偶発改変検出には署名なしSHA-256 chainで十分である。
+        status: supported
+    scope:
+      applies_to:
+        - ローカルrunの完全性と登録ロールの権限境界
+      does_not_apply_to:
+        - 発行主体の暗号学的認証
+        - 意味的Verdictの真偽証明
+  hypothetical_world:
+    description: 外部プロジェクトがrunを再検証し、資産変更、履歴破損、権限越境を意味判断と分離して検知できる。
+    consequences:
+      primary:
+        - provenanceが検証可能になる。
+      secondary:
+        - extension追加時に運用権限が暗黙に増えない。
+      tertiary:
+        - プロジェクト間で信頼境界付きの監査系譜を比較できる。
+    opportunities:
+      - CI向けrun-verify
+  evaluation:
+    falsifiers:
+      - verifierがstatusを生成または変更する。
+      - historyまたはcurrent Snapshotの変更を検出できない。
+      - extension roleがoperational_decisionを発行できる。
+    evidence:
+      supporting:
+        - Innovatorのadvance、extensionのoperational_decisionを拒否する。
+        - hash chain、current Handoff、現在protocol/role assetの不一致をverifyWorkflowRunが報告する。
+        - run-verify CLIは検証失敗を終了コードへ反映する。
+        - advisory deviationとpatch保持の既存テストが継続して通過した。
+      contradicting: []
+      unknown:
+        - 悪意ある全履歴再生成を防ぐ署名の必要性
+        - 実プロジェクトでの認知負荷
+    tests_completed:
+      - npm test（18件成功）
+      - npm pack --dry-run（28ファイル同梱確認）
+      - manifest、Handoff、audit-reportのSchema検証
+    tests_remaining:
+      - Aperture Meshなど外部プロジェクトでの一巡
+  decision:
+    status: advance
+    authority: implementation_report
+    decided_by: engineer
+    rationale: Integratorが限定採択したauthority profile、hash chain、verify API/CLIと反証テストを実装したという報告であり、運用採択そのものではない。
+    preserved_dimensions:
+      - 自動化と非Capture
+      - 再検証可能な仮説系譜
+    rejected_claims:
+      - hash chainが主体認証を提供する。
+    revisions:
+      - 全登録roleのauthorityをmanifestへ宣言した。
+      - authority/status profileを検証する。
+      - hash chainとverifyWorkflowRun、run-verifyを追加した。
+      - Handoff patchのprototype mutation keyを拒否した。
+  pivot:
+    trigger: ""
+    learned_structure:
+      - ローカル完全性と主体認証は異なる信頼境界である。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 身体的Noise Signalの真正性はテキストSDK内では判定できない。
+        schema_limit: holderの身体状態を直接観測できない。
+        provenance: 初回監査から継続するNoise Veto。
+        review_when: 実利用者入力面を設計するとき。
+    dissent:
+      - position: hash chainは悪意ある主体による全履歴再生成を防がない。
+        holder: re-audit Auditor
+        unresolved_because: 今回の採択範囲はローカル完全性であり、主体認証は保留された。
+  next_step:
+    objective: 第二修復が中核仮説とIntegratorの停止条件を守るか最終再監査する。
+    constraints:
+      - 実利用の未知を実装失敗と同一視しない。
+      - hash chainの限界を消去しない。
+    expected_output:
+      - 最終audit-report
+      - epistemic recommendation
+    unresolved_questions:
+      - 現在のscope内に致命的または修正可能な内部欠陥が残るか。

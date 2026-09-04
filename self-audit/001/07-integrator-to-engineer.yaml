@@ -1,0 +1,103 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: engineer
+  reason: 再監査で発見した3つの構造欠陥をLimited Connectionとして修復するため。
+  inquiry:
+    problem_tension: Workflowは実行可能になったが、provenanceの検証とauthority境界が未完了である。
+    current_question: 意味的主権を増やさず、ローカル完全性と権限越境だけをどう検証するか。
+    distinct_dimensions:
+      - dimension: 構造的な権限検査と意味的な採否判断を分離する。
+        significance: 検証器によるCaptureを防ぐため。
+      - dimension: provenanceを記録だけでなく再検証可能にする。
+        significance: digestを装飾的メタデータにしないため。
+    flattening_risks:
+      - 暗号署名や中央認証まで一度に導入する。
+      - extension roleへ便宜的にIntegrator権限を与える。
+  hypothesis:
+    statement: authority/status profile、extensionのadvisory authority、digest連鎖検証を追加すれば、意味判断を行わずに権限と由来を検証できる。
+    core_claims:
+      - Workflowは意味的statusを生成しない。
+      - core roleの権限越境を拒否する。
+      - extension/meta roleはadvisory observationだけを発行する。
+      - 履歴と現在資産の変化を検出する。
+    mechanism: manifestに全ロールのauthorityを宣言し、role別status profileを検証し、前entry digestを含むhash chainとverify APIを提供する。
+    assumptions:
+      - assumption: ローカルの偶発改変検出には署名なしSHA-256 chainで十分である。
+        status: supported
+    scope:
+      applies_to:
+        - 今回のWorkflow runのローカル完全性
+        - 登録済みcore、extension、meta role
+      does_not_apply_to:
+        - 悪意ある主体が全履歴を再生成する脅威
+        - 意味的Verdictの真偽証明
+  hypothetical_world:
+    description: 保存runをCIまたは利用者が再検証し、資産変更、履歴破損、権限越境を意味判断と分離して検知できる。
+    consequences:
+      primary:
+        - provenanceが実行可能な検証契約になる。
+      secondary:
+        - 新しいextensionを追加しても暗黙の運用権限が生じない。
+      tertiary:
+        - プロジェクト間の監査系譜を信頼境界付きで比較できる。
+    opportunities:
+      - CI向けrun-verify
+  evaluation:
+    falsifiers:
+      - verifierがstatusを生成または変更する。
+      - history中間entryの変更を検出できない。
+      - extension roleがoperational_decisionを発行できる。
+    evidence:
+      supporting:
+        - 既存Workflow境界の内部で追加できる。
+      contradicting: []
+      unknown:
+        - 将来必要になる主体認証の境界
+    tests_completed:
+      - 第一修復の再監査
+    tests_remaining:
+      - authority/status不整合、extension越境、履歴改変、現在資産変更のテスト
+  decision:
+    status: revise
+    authority: operational_decision
+    decided_by: integrator
+    rationale: 3欠陥は中核仮説を保つ局所修復であり、今回のrunの完全性を成立させるため追加実装を採択する。
+    preserved_dimensions:
+      - 自動化と非Capture
+      - 再検証可能な仮説系譜
+    rejected_claims:
+      - digest保存だけで改変耐性が成立する。
+      - extension roleが既存core authorityを借用する。
+    revisions:
+      - hash chainとverifyWorkflowRunを実装する。
+      - role authorityと許可statusのprofileを実装する。
+      - extension/metaにadvisory_observationを導入する。
+  pivot:
+    trigger: ""
+    learned_structure:
+      - provenance記録とprovenance検証は別の責務である。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 身体的Noise Signalの真正性はテキストSDK内では判定できない。
+        schema_limit: holderの身体状態を直接観測できない。
+        provenance: 初回監査から継続するNoise Veto。
+        review_when: 実利用者入力面を設計するとき。
+    dissent:
+      - position: hash chainは署名ではなく、悪意ある全履歴再生成を防がない。
+        holder: re-audit Auditor
+        unresolved_because: 今回はローカル完全性だけを採択し主体認証は保留した。
+  next_step:
+    objective: authority profile、hash chain、verify API/CLIと対応テストだけを実装する。
+    constraints:
+      - verifierは意味的判断を生成しない。
+      - 暗号署名や中央認証へ拡張しない。
+      - advisory deviationとpatch保持を壊さない。
+    expected_output:
+      - verifyWorkflowRun APIとrun-verify CLI
+      - 改変・資産差分・権限越境テスト
+      - 最終Auditor Handoff
+    unresolved_questions:
+      - 主体認証は実プロジェクトの信頼境界が判明するまで保留する。

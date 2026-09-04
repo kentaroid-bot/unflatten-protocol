@@ -1,6 +1,6 @@
 {
   "name": "unflatten-protocol",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Loadable agent roles and validation primitives for preserving sharp hypotheses across AI workflows.",
   "license": "UNLICENSED",
   "main": "validator/index.js",

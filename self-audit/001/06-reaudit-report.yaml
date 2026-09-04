@@ -1,0 +1,166 @@
+audit_target:
+  hypothesis: 薄いWorkflow APIは、意味的主権を集中させずUnflattenの役割フローを実行可能にする。
+  core_premises:
+    - Workflowは意味的Verdictを生成しない。
+    - 既定外遷移を禁止しない。
+    - 重要な次元とResidualを暗黙に消去しない。
+    - 発行ロールごとの判断権限を分離する。
+  mechanism: 完全Handoff Snapshotへ明示patchを適用し、authorityを検証し、digest付き履歴を追記して次ロールpromptを合成する。
+  distinct_dimensions:
+    - 自動化と非Captureの同時成立
+    - 問い、反証、Residual、Dissentの再生可能な系譜
+steelman_setup:
+  - 呼び出し側は正しいHandoffを供給し、run JSONを永続化する。
+  - 登録ロールは役割定義へ忠実に従う。
+  - SHA-256とstable serializationは期待どおり動作する。
+dual_stress:
+  logical_systemic:
+    - test: Authority/status coherence
+      result: authorityは発行ロール別に検査されるが、statusとの組合せは検査されない。Innovatorがnot_evaluated authorityのままadvanceを記録できる。
+      falsifier: 評価前のロールが構造上有効なadvanceを発行できる。
+    - test: Provenance verification
+      result: digestは履歴へ保存されるが、現在の資産と履歴を再計算・比較するAPIがない。改変された履歴自体もSchemaを通る。
+      falsifier: role文書またはcurrent_handoffが変わっても検証結果が有効のままになる。
+    - test: Extension authority
+      result: core以外の登録ロールはauthority mappingを持たず、任意のauthority値を使用できる。拡張ロールがoperational_decisionを名乗れる。
+      falsifier: extension role発行のHandoffがIntegrator権限を機械的に取得できる。
+    - test: Advisory deviation
+      result: 推奨外経路は理由付きdeviationとして通過し、未知の経路を禁止しない。
+      falsifier: 理由付きの登録ロール間遷移が拒否される。
+  cognitive_physical:
+    - test: Handoff cognitive bandwidth
+      result: patchは未指定項目を保持して入力負担を下げる。一方、配列全置換の理解とrunファイル永続化は利用者へ残る。
+      falsifier: 実利用者がpatch規則を誤解し重要配列を空配列で消去する。
+    - test: Noise input channel
+      result: 身体的Noise Signalの真正な入力面は意図的に未実装で、SDKも実行済みとは主張していない。
+      falsifier: 自動生成したnoiseを人間由来のVetoとして扱う。
+evidence_and_noise:
+  supporting:
+    - 15件のテストがrole flow、authority、patch保持、deviation、prompt再ロードを通過した。
+    - Workflowは入力済みstatusを運搬し、新しい意味的statusを計算しない。
+    - 文書はCanonical Snapshotとpatch入力を区別した。
+  contradicting:
+    - digestに検証経路がないため、改変検出という主張は未完成である。
+    - core roleのauthorityとstatusの整合、およびextension authorityが閉じていない。
+  unknown:
+    - 実プロジェクトでのpatch認知負荷
+  noise_signals:
+    - provenanceを掲げながら検証操作がない状態には、封印のない監査ログのような不一致がある。
+findings:
+  - classification: revisable_defect
+    finding: digestは記録されるだけで検証されない。
+    rationale: 履歴連鎖と現在資産の再計算を行うverify APIで中核を保ったまま修復できる。
+  - classification: revisable_defect
+    finding: authorityとstatusの組合せが検証されない。
+    rationale: Innovatorのnot_evaluated制約など、意味判断ではなく発行権限の構造規則として修復できる。
+  - classification: revisable_defect
+    finding: extension roleのauthorityが未定義である。
+    rationale: extensionを権限非保有として明示し、Integrator権限の詐称を拒否できる。
+  - classification: unresolved_uncertainty
+    finding: 身体的Noise Signalと実利用の認知負荷は未検証である。
+    rationale: 自動生成せず、実利用者入力までResidualとして保持する。
+repair_boundary:
+  - Workflowは意味的なstatusを生成しない。
+  - authority/status profile、extensionの非決定権、digest chain検証だけを追加する。
+  - advisory deviationとpatchによるResidual保持を維持する。
+pivot_seeds: []
+final_verdict: revise
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: 再監査で残ったprovenanceとauthorityの構造欠陥について、追加修復の範囲を判断するため。
+  inquiry:
+    problem_tension: 第一修復はフローを実行可能にしたが、記録された由来と権限境界を後から検証し切れない。
+    current_question: 中核を変えずに、どの最小修復でprovenanceとauthorityの穴を閉じるか。
+    distinct_dimensions:
+      - dimension: 自動化と非Captureを同時に成立させる。
+        significance: 検証器へ意味的主権を渡さず、権限詐称だけを拒否するため。
+      - dimension: 履歴を保存するだけでなく、変化を検出できる系譜にする。
+        significance: provenanceが装飾的メタデータへ退行するのを防ぐため。
+    flattening_risks:
+      - すべてのロールへ既存四権限のどれかを便宜的に割り当てる。
+      - digestの存在を改変耐性そのものと誤認する。
+  hypothesis:
+    statement: authority/status profile、extensionの権限非保有、digest連鎖検証を追加すれば、Workflowは意味判断を行わずに権限と由来を検証できる。
+    core_claims:
+      - 意味的Verdictはロールだけが生成する。
+      - core roleの発行権限は越境できない。
+      - extension roleは明示的な委任なしにoperational decisionを発行できない。
+      - 履歴改変と現在資産の変化を検出できる。
+    mechanism: role別に許可statusとauthorityを検査し、権限非保有ロールを明示し、各entryを前entry digestへ連結して再計算する。
+    assumptions:
+      - assumption: SHA-256連鎖は偶発的変更と単純な履歴書換えの検出に十分である。
+        status: supported
+    scope:
+      applies_to:
+        - ローカルrunの完全性検査
+      does_not_apply_to:
+        - 暗号署名による主体認証
+        - 意味的監査の正しさの証明
+  hypothetical_world:
+    description: 外部プロジェクトが保存runを再検証し、資産変更、Snapshot改変、権限越境を意味判定と分離して検知できる。
+    consequences:
+      primary:
+        - provenanceが再検証可能になる。
+      secondary:
+        - extension roleを追加しても運用権限が暗黙に増えない。
+      tertiary:
+        - 複数プロジェクトで監査系譜の完全性を比較できる。
+    opportunities:
+      - CIでのworkflow verify
+  evaluation:
+    falsifiers:
+      - verifierが意味的statusを自動決定する。
+      - historyの中間entryを書き換えても検知されない。
+      - extension roleがoperational_decisionを発行できる。
+    evidence:
+      supporting:
+        - 第一修復のAPI境界を維持して追加できる。
+      contradicting: []
+      unknown:
+        - 署名が必要になる信頼境界
+    tests_completed:
+      - 第一修復のDual-Stress re-audit
+    tests_remaining:
+      - 履歴改変、資産変更、権限越境のテスト
+  decision:
+    status: revise
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: 中核仮説は維持されるが、provenance検証とauthority profileに修正可能な欠陥が残る。
+    preserved_dimensions:
+      - 自動化と非Capture
+      - 再生可能な仮説系譜
+    rejected_claims:
+      - digestを保存するだけで改変を検出できる。
+    revisions:
+      - digest連鎖とverify APIを追加する。
+      - authorityとstatusの組合せを検証する。
+      - extension roleを権限非保有として扱う。
+  pivot:
+    trigger: ""
+    learned_structure:
+      - provenanceの記録と検証は別の機能である。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 身体的Noise Signalの真正性はテキストSDK内では判定できない。
+        schema_limit: holderの身体状態を直接観測できない。
+        provenance: 初回監査から継続するNoise Veto。
+        review_when: 実利用者入力面を設計するとき。
+    dissent:
+      - position: hash chainは改変検出を強く見せるが、署名なしでは悪意ある全履歴再生成を防げない。
+        holder: re-audit Auditor
+        unresolved_because: 今回の信頼境界はローカル完全性で、主体認証は範囲外である。
+  next_step:
+    objective: 追加修復を採択するか、範囲、停止条件、保留事項とともに決定する。
+    constraints:
+      - 暗号署名や中央認証へ範囲を拡大しない。
+      - extension roleへ暗黙の運用権限を与えない。
+    expected_output:
+      - operational decision
+      - 必要ならEngineerへの限定Handoff
+    unresolved_questions:
+      - ローカル完全性検証を今回の完了条件に含めるか。

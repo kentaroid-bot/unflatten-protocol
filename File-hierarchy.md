@@ -38,11 +38,13 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │   ├── protocol-manifest.schema.json
 │   ├── handoff-contract.schema.json
 │   ├── state-history.schema.json
-│   └── audit-report.schema.json
+│   ├── audit-report.schema.json
+│   └── workflow-run.schema.json         # 実行中ロール、digest、遷移履歴
 │
 ├── validator/
 │   ├── cli.js                          # `unflatten` CLI
 │   ├── index.js                        # Node.js APIとLLMアダプター境界
+│   ├── workflow.js                     # advisory遷移、Snapshot patch、digest chain検証
 │   └── rules/
 │       ├── check-invariants.js         # Handoff状態遷移の決定的検査
 │       ├── detect-flattening.js        # 一般論への退避兆候を検出
@@ -50,6 +52,8 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │
 ├── fixtures/
 │   └── handoff.valid.yaml              # 検証可能な最小Handoff例
+├── self-audit/                         # このリポジトリ自身を通した役割別記録
+│   └── 001/
 └── test/
     └── sdk.test.js                     # ローダー、schema、監査境界のテスト
 ```

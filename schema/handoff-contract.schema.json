@@ -115,9 +115,11 @@
     },
     "decision": {
       "type": "object",
-      "required": ["status", "rationale", "preserved_dimensions", "rejected_claims", "revisions"],
+      "required": ["status", "authority", "decided_by", "rationale", "preserved_dimensions", "rejected_claims", "revisions"],
       "properties": {
         "status": { "enum": ["advance", "revise", "replace", "hold", "not_evaluated"] },
+        "authority": { "enum": ["not_evaluated", "epistemic_recommendation", "operational_decision", "implementation_report", "advisory_observation"] },
+        "decided_by": { "$ref": "#/$defs/nonEmptyString" },
         "rationale": { "$ref": "#/$defs/nonEmptyString" },
         "preserved_dimensions": { "$ref": "#/$defs/nonEmptyStringArray" },
         "rejected_claims": { "$ref": "#/$defs/stringArray" },

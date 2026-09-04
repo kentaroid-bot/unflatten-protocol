@@ -1,64 +1,83 @@
 {
   "$schema": "./schema/protocol-manifest.schema.json",
   "id": "unflatten-protocol",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "protocol": "docs/protocol.md",
   "handoff": "docs/handoff.md",
   "roles": {
     "innovator": {
       "alias": "@ino",
       "template": "prompt-templates/core/innovator.md",
-      "kind": "core"
+      "kind": "core",
+      "authority": "not_evaluated"
     },
     "auditor": {
       "alias": "@aud",
       "template": "prompt-templates/core/auditor.md",
-      "kind": "core"
+      "kind": "core",
+      "authority": "epistemic_recommendation"
     },
     "engineer": {
       "alias": "@eng",
       "template": "prompt-templates/core/engineer.md",
-      "kind": "core"
+      "kind": "core",
+      "authority": "implementation_report"
     },
     "integrator": {
       "alias": "@int",
       "template": "prompt-templates/core/integrator.md",
-      "kind": "core"
+      "kind": "core",
+      "authority": "operational_decision"
     },
     "exit-designer": {
       "alias": "@ext",
       "aliases": ["@out"],
       "template": "prompt-templates/extensions/exit-designer.md",
-      "kind": "extension"
+      "kind": "extension",
+      "authority": "advisory_observation"
     },
     "entropy-harvester": {
       "alias": "@ent",
       "template": "prompt-templates/extensions/entropy-harvester.md",
-      "kind": "extension"
+      "kind": "extension",
+      "authority": "advisory_observation"
     },
     "alien-proxy": {
       "alias": "@aln",
       "template": "prompt-templates/extensions/alien-proxy.md",
-      "kind": "extension"
+      "kind": "extension",
+      "authority": "advisory_observation"
     },
     "mesh-scaler": {
       "alias": "@scl",
       "template": "prompt-templates/extensions/mesh-scaler.md",
-      "kind": "extension"
+      "kind": "extension",
+      "authority": "advisory_observation"
     },
     "meta-protocol-designer": {
       "alias": "@met",
       "template": "prompt-templates/meta/meta-protocol-designer.md",
-      "kind": "meta"
+      "kind": "meta",
+      "authority": "advisory_observation"
     }
   },
   "engines": {
     "role-invention": "prompt-templates/meta/protocol-invention-engine.md"
   },
+  "workflow": {
+    "mode": "advisory",
+    "routes": {
+      "innovator": ["auditor"],
+      "auditor": ["integrator", "innovator"],
+      "integrator": ["engineer", "auditor", "innovator"],
+      "engineer": ["auditor", "integrator"]
+    }
+  },
   "schemas": {
     "protocol-manifest": "schema/protocol-manifest.schema.json",
     "handoff": "schema/handoff-contract.schema.json",
     "state-history": "schema/state-history.schema.json",
-    "audit-report": "schema/audit-report.schema.json"
+    "audit-report": "schema/audit-report.schema.json",
+    "workflow-run": "schema/workflow-run.schema.json"
   }
 }

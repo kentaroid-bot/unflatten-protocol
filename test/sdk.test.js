@@ -112,3 +112,138 @@ test('static flattening signals request review without becoming a veto', () => {
   assert.equal(result.status, 'review');
   assert.ok(result.flattening.length > 0);
 });
+
+test('validates role-specific handoff authority without making a semantic verdict', () => {
+  const source = fs.readFileSync(path.join(ROOT, 'fixtures/handoff.valid.yaml'), 'utf8');
+  assert.equal(sdk.validateTransitionHandoff(source).valid, true);
+
+  const handoff = YAML.parse(source);
+  handoff.handoff.decision.authority = 'operational_decision';
+  const result = sdk.validateTransitionHandoff(handoff);
+  assert.equal(result.valid, false);
+  assert.match(result.errors[0].message, /not_evaluated/u);
+
+  handoff.handoff.decision.authority = 'not_evaluated';
+  handoff.handoff.decision.status = 'advance';
+  const statusResult = sdk.validateTransitionHandoff(handoff);
+  assert.equal(statusResult.valid, false);
+  assert.match(statusResult.errors[0].message, /cannot emit/u);
+});
+
+test('runs the self-audit route with provenance digests', () => {
+  const first = fs.readFileSync(path.join(ROOT, 'self-audit/001/01-innovator-to-auditor.yaml'), 'utf8');
+  const audit = JSON.parse(fs.readFileSync(path.join(ROOT, 'self-audit/001/02-audit-report.json'), 'utf8'));
+  const integration = fs.readFileSync(path.join(ROOT, 'self-audit/001/04-integrator-to-engineer.yaml'), 'utf8');
+
+  let run = sdk.createWorkflowRun({ runId: 'self-audit-001', handoff: first, at: '2026-09-04T00:00:00.000Z' });
+  assert.equal(run.current_role, 'auditor');
+  run = sdk.transitionWorkflow(run, { handoff: { handoff: audit.handoff }, at: '2026-09-04T00:01:00.000Z' });
+  assert.equal(run.current_role, 'integrator');
+  run = sdk.transitionWorkflow(run, { handoff: integration, at: '2026-09-04T00:02:00.000Z' });
+  assert.equal(run.current_role, 'engineer');
+  assert.equal(run.history.length, 3);
+  assert.ok(run.history.every((entry) => /^sha256:[a-f0-9]{64}$/u.test(entry.protocol_digest)));
+  assert.deepEqual(run.history.map((entry) => entry.authority), [
+    'not_evaluated',
+    'epistemic_recommendation',
+    'operational_decision'
+  ]);
+  assert.equal(sdk.validate('workflow-run', run).valid, true);
+});
+
+test('handoff patch preserves omitted epistemic remainder and replaces explicit arrays', () => {
+  const base = fs.readFileSync(path.join(ROOT, 'self-audit/001/04-integrator-to-engineer.yaml'), 'utf8');
+  const next = sdk.mergeHandoff(base, {
+    from_role: 'engineer',
+    to_role: 'auditor',
+    reason: '実装結果を再監査するため。',
+    decision: {
+      status: 'advance',
+      authority: 'implementation_report',
+      decided_by: 'engineer',
+      rationale: '実装と自動テストが完了した。',
+      revisions: ['Workflow APIを実装した。']
+    },
+    evaluation: {
+      tests_completed: ['npm test'],
+      tests_remaining: ['実プロジェクトでの検証']
+    },
+    next_step: {
+      objective: '実装が採択範囲と停止条件を守るか再監査する。'
+    }
+  });
+
+  assert.deepEqual(
+    next.handoff.epistemic_remainder,
+    YAML.parse(base).handoff.epistemic_remainder
+  );
+  assert.deepEqual(next.handoff.evaluation.tests_completed, ['npm test']);
+  assert.equal(sdk.validateTransitionHandoff(next).valid, true);
+});
+
+test('handoff patch rejects prototype mutation keys', () => {
+  const base = fs.readFileSync(path.join(ROOT, 'fixtures/handoff.valid.yaml'), 'utf8');
+  const hostile = JSON.parse('{"__proto__":{"polluted":true}}');
+  assert.throws(() => sdk.mergeHandoff(base, hostile), /Unsafe handoff patch key/u);
+  assert.equal({}.polluted, undefined);
+});
+
+test('off-route transitions require and record an explicit deviation reason', () => {
+  const first = fs.readFileSync(path.join(ROOT, 'fixtures/handoff.valid.yaml'), 'utf8');
+  const parsed = YAML.parse(first);
+  parsed.handoff.to_role = 'engineer';
+  assert.throws(
+    () => sdk.createWorkflowRun({ runId: 'deviation', handoff: parsed }),
+    /deviationReason/u
+  );
+  const run = sdk.createWorkflowRun({
+    runId: 'deviation',
+    handoff: parsed,
+    deviationReason: '観測装置を先に構築する必要がある。'
+  });
+  assert.equal(run.history[0].route, 'deviation');
+  assert.equal(run.history[0].reason, '観測装置を先に構築する必要がある。');
+});
+
+test('workflow prompt reloads protocol, current role, and current handoff', () => {
+  const first = fs.readFileSync(path.join(ROOT, 'fixtures/handoff.valid.yaml'), 'utf8');
+  const run = sdk.createWorkflowRun({ runId: 'prompt', handoff: first });
+  const prompt = sdk.composeWorkflowPrompt(run, '再監査する。');
+  assert.match(prompt, /# Loaded Protocol/u);
+  assert.match(prompt, /Metasystemic Auditor/u);
+  assert.match(prompt, /# Handoff/u);
+  assert.match(prompt, /再監査する。/u);
+});
+
+test('extension roles have advisory authority and cannot claim operational decisions', () => {
+  const source = YAML.parse(fs.readFileSync(path.join(ROOT, 'fixtures/handoff.valid.yaml'), 'utf8'));
+  source.handoff.from_role = 'exit-designer';
+  source.handoff.decision.authority = 'advisory_observation';
+  source.handoff.decision.decided_by = 'exit-designer';
+  assert.equal(sdk.validateTransitionHandoff(source).valid, true);
+
+  source.handoff.decision.authority = 'operational_decision';
+  const result = sdk.validateTransitionHandoff(source);
+  assert.equal(result.valid, false);
+  assert.match(result.errors[0].message, /advisory_observation/u);
+});
+
+test('verifies the run hash chain, current snapshot, and current assets', () => {
+  const first = fs.readFileSync(path.join(ROOT, 'fixtures/handoff.valid.yaml'), 'utf8');
+  const run = sdk.createWorkflowRun({ runId: 'verify', handoff: first, at: '2026-09-04T00:00:00.000Z' });
+  assert.equal(sdk.verifyWorkflowRun(run).valid, true);
+
+  const tampered = structuredClone(run);
+  tampered.history[0].reason = 'rewritten';
+  assert.ok(sdk.verifyWorkflowRun(tampered).errors.some((error) => error.code === 'entry-digest'));
+
+  const staleAsset = structuredClone(run);
+  staleAsset.history[0].protocol_digest = sdk.digest('different protocol');
+  const { entry_digest, ...unsigned } = staleAsset.history[0];
+  staleAsset.history[0].entry_digest = sdk.digest(unsigned);
+  assert.ok(sdk.verifyWorkflowRun(staleAsset).errors.some((error) => error.code === 'protocol-digest'));
+
+  const snapshot = structuredClone(run);
+  snapshot.current_handoff.reason = 'changed after transition';
+  assert.ok(sdk.verifyWorkflowRun(snapshot).errors.some((error) => error.code === 'current-handoff'));
+});

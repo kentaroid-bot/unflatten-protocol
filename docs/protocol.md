@@ -170,6 +170,8 @@ Steelmanされた仮説を、論理、証拠、実験または実装へ晒しま
 
 判断不能を一般論で埋めてはいけません。未検証であることを明示したまま保持できます。
 
+同じ判断語でも権限は同一ではありません。Auditorの出力は反証に基づく `epistemic_recommendation`、Integratorの出力だけが次の接続や実装範囲を拘束する `operational_decision`、Engineerの出力は実装状態を伝える `implementation_report` です。Innovatorは評価を先取りせず `not_evaluated` とします。ExtensionおよびMeta roleは `advisory_observation` として固有視点を渡し、既存core roleの権限を借用しません。Workflowや静的検証器はこれらを記録・検証できますが、意味的判断を生成してはいけません。
+
 **Output**
 
 - 判断

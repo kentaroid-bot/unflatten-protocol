@@ -15,17 +15,34 @@
       "minProperties": 4,
       "additionalProperties": {
         "type": "object",
-        "required": ["alias", "template", "kind"],
+        "required": ["alias", "template", "kind", "authority"],
         "properties": {
           "alias": { "type": "string", "pattern": "^@[a-z]+$" },
           "aliases": { "type": "array", "items": { "type": "string", "pattern": "^@[a-z]+$" }, "uniqueItems": true },
           "template": { "type": "string", "minLength": 1 },
-          "kind": { "enum": ["core", "extension", "meta"] }
+          "kind": { "enum": ["core", "extension", "meta"] },
+          "authority": { "enum": ["not_evaluated", "epistemic_recommendation", "operational_decision", "implementation_report", "advisory_observation"] }
         },
         "additionalProperties": false
       }
     },
     "engines": { "type": "object", "additionalProperties": { "type": "string" } },
+    "workflow": {
+      "type": "object",
+      "required": ["mode", "routes"],
+      "properties": {
+        "mode": { "const": "advisory" },
+        "routes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "uniqueItems": true
+          }
+        }
+      },
+      "additionalProperties": false
+    },
     "schemas": {
       "type": "object",
       "required": ["handoff", "state-history", "audit-report"],

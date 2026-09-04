@@ -1,5 +1,5 @@
 handoff:
-  protocol_version: "0.1.0"
+  protocol_version: "0.2.0"
   from_role: innovator
   to_role: auditor
   reason: 尖った仮説を最強形のまま二重ストレス監査へ渡すため。
@@ -49,6 +49,8 @@ handoff:
       - 異なるLLMアダプターで同じ監査入力を比較する。
   decision:
     status: not_evaluated
+    authority: not_evaluated
+    decided_by: innovator
     rationale: Auditorによる意味的監査の前である。
     preserved_dimensions:
       - 静的検証器へ意味上の主権を与えない。

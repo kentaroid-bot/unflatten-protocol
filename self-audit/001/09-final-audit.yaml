@@ -1,0 +1,151 @@
+audit_target:
+  hypothesis: 薄いWorkflow APIは、意味的主権を集中させずUnflattenの役割フローとその由来を実行・検証可能にする。
+  core_premises:
+    - Workflowは意味的Verdictを生成しない。
+    - 推奨外遷移を禁止しない。
+    - 重要な次元とResidualを暗黙に消去しない。
+    - role別authorityを越境させない。
+  mechanism: 完全Snapshot、明示patch、advisory route、role authority profile、digest chain、asset再検証を接続する。
+  distinct_dimensions:
+    - 自動化と非Captureの同時成立
+    - 問い、反証、Residual、Dissentの再検証可能な系譜
+steelman_setup:
+  - Node.jsまたはCLIが利用できる。
+  - run JSONは呼び出し側が永続化する。
+  - 発行主体の認証ではなくローカル完全性を対象とする。
+dual_stress:
+  logical_systemic:
+    - test: Semantic capture
+      result: Workflowは入力済みdecisionを構造検証して運搬するだけで、statusを生成・変更しない。
+      falsifier: コードが証拠からadvance等を自動選択する。
+    - test: Authority escalation
+      result: core roleはmanifest authorityとstatus profileへ拘束され、extension/metaはadvisory_observationだけを発行できる。
+      falsifier: Innovatorまたはextensionがoperational_decisionを通過させる。
+    - test: Provenance integrity
+      result: entry chain、current Snapshot、現在protocol/role assetの不一致をverifyWorkflowRunが検出する。
+      falsifier: 中間entryまたはcurrent Handoffを書き換えてもvalidになる。
+    - test: Route capture
+      result: 推奨外遷移は明示理由付きdeviationとして保存され、禁止されない。
+      falsifier: 登録ロール間の未知経路が理由付きでも拒否される。
+  cognitive_physical:
+    - test: Handoff bandwidth
+      result: patchは未指定の重要情報を継承し、完全Snapshotの再入力を不要にする。配列置換規則はREADMEへ明示された。
+      falsifier: 実運用で記録負担によりHandoffが常態的に省略される。
+    - test: Noise authenticity
+      result: 身体的Noise Signalは自動生成せずResidualとして保持され、SDKの達成範囲にも含めていない。
+      falsifier: テキスト生成noiseを人間由来Vetoとして認定する。
+evidence_and_noise:
+  supporting:
+    - 18件のテストがrole flow、authority/status、extension権限、patch保持、deviation、hash chain、asset差分を通過した。
+    - npm pack dry-runで実行に必要な28ファイルの同梱を確認した。
+    - manifest、Handoff、audit-reportはSchema検証を通過した。
+  contradicting: []
+  unknown:
+    - Aperture Meshなど実プロジェクトでの認知負荷
+    - 発行主体の署名が必要になる将来の信頼境界
+  noise_signals:
+    - 完全Handoffは依然大きいが、patchとSnapshotの分離により記録自体を省略する圧力は低下した。
+findings:
+  - classification: unresolved_uncertainty
+    finding: 身体的Noise Signalと実利用時の認知負荷はリポジトリ内テストでは確定できない。
+    rationale: 現在の評価器の限界として由来と再評価条件を保持しており、採択範囲内の内部矛盾ではない。
+repair_boundary: []
+pivot_seeds: []
+final_verdict: advance
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: 最終再監査のepistemic recommendationを運用上の受入判断へ渡すため。
+  inquiry:
+    problem_tension: 自動化が意味的主権を奪わず、権限と由来の不整合を検出できなければならない。
+    current_question: version 0.2.0の自己改善を受け入れ、実プロジェクト検証へ進めるか。
+    distinct_dimensions:
+      - dimension: 構造検証と意味的判断の権限分離。
+        significance: SDK自身によるCaptureを防ぐため。
+      - dimension: 仮説とResidualの再検証可能な系譜。
+        significance: プロジェクト境界で問いの変形を追跡するため。
+    flattening_risks:
+      - テスト成功を外部実用性の証明とする。
+      - 未解決Noiseを単なる証拠不足として消す。
+  hypothesis:
+    statement: 現在のWorkflow層は、採択したローカル完全性の範囲で非Captureな自己記述フローを実行・検証できる。
+    core_claims:
+      - Workflowは意味的Verdictを生成しない。
+      - role authorityを越境させない。
+      - advisory deviationと重要情報の保持を両立する。
+      - 履歴と現在資産の不整合を検出する。
+    mechanism: role profile、Snapshot patch、advisory route、hash chain、verify API/CLIを組み合わせる。
+    assumptions:
+      - assumption: ローカル完全性と主体認証を別scopeとして扱う。
+        status: supported
+    scope:
+      applies_to:
+        - Node.js APIまたはCLIによるローカルWorkflow run
+      does_not_apply_to:
+        - 発行主体の暗号学的認証
+        - 身体的Noise Signalの代理生成
+  hypothetical_world:
+    description: 外部プロジェクトが同じ役割フローをロードし、仮説系譜と権限境界を検証しながら成果物を監査する。
+    consequences:
+      primary:
+        - 役割遷移が追跡可能になる。
+      secondary:
+        - 権限越境と資産変更を検出できる。
+      tertiary:
+        - 異なるプロジェクトが内部OSを同一化せず監査記録を交換できる。
+    opportunities:
+      - Aperture Meshでの実利用検証
+  evaluation:
+    falsifiers:
+      - コードが意味的statusを自動決定する。
+      - 権限越境または履歴改変が検出されない。
+      - patchが未指定のResidualを消去する。
+    evidence:
+      supporting:
+        - 18件の自動テストとpackage dry-runが採択範囲を確認した。
+      contradicting: []
+      unknown:
+        - 実プロジェクトでの反復利用結果
+    tests_completed:
+      - 二回のDual-Stress Auditと二回の限定修復
+      - SDK、Schema、CLI、package検証
+    tests_remaining:
+      - 外部プロジェクトでの一巡
+  decision:
+    status: advance
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: 採択scope内の反証条件はテストで否定され、致命的矛盾または修正可能な内部欠陥は確認されなかった。外部実用性は未検証として残す。
+    preserved_dimensions:
+      - 自動化と非Capture
+      - 再検証可能な仮説系譜
+    rejected_claims:
+      - hash chainが主体認証を提供する。
+    revisions: []
+  pivot:
+    trigger: ""
+    learned_structure:
+      - 記録、完全性検証、主体認証は異なる層である。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 身体的Noise Signalの真正性はテキストSDK内では判定できない。
+        schema_limit: holderの身体状態を直接観測できない。
+        provenance: 初回Auditorから最終監査まで継続したNoise Veto。
+        review_when: 実利用者からholder付きNoise Signalを収集できるとき。
+    dissent:
+      - position: hash chainは悪意ある全履歴再生成を防がない。
+        holder: self-audit Auditor
+        unresolved_because: 主体認証は今回のローカル完全性scope外である。
+  next_step:
+    objective: version 0.2.0を受け入れるか判断し、次サイクルを実プロジェクト検証へ限定する。
+    constraints:
+      - 外部実用性を既に証明済みと表現しない。
+      - Noiseと署名のResidualを維持する。
+    expected_output:
+      - operational acceptanceまたはhold
+      - 外部検証のscopeと停止条件
+    unresolved_questions:
+      - 最初の外部適用先と評価期間をどう定めるか。
