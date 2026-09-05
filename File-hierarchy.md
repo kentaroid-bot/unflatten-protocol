@@ -10,7 +10,6 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │
 ├── docs/
 │   ├── protocol.md                     # Unflattenの定義と不変条件の正本
-│   ├── ingress.md                      # role選択前のGreenfield Ingress Contract
 │   ├── handoff.md                      # Handoff Contractの正本
 │   ├── worldlines.md                   # No Gray Stones、孵化、分散育成、種分化
 │   ├── agent-roles/                    # 既存エージェント向け互換パス（正本へのリンク）
@@ -38,7 +37,6 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │
 ├── schema/
 │   ├── protocol-manifest.schema.json
-│   ├── ingress-record.schema.json      # Motive RecordとOutcome Envelopeの入口状態
 │   ├── handoff-contract.schema.json
 │   ├── state-history.schema.json
 │   ├── audit-report.schema.json
@@ -57,13 +55,22 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │       └── measure-sharpness.js        # 意味監査前の構成要素チェック
 │
 ├── fixtures/
-│   ├── ingress.valid.yaml              # 検証可能なGreenfield Ingress例
 │   └── handoff.valid.yaml              # 検証可能な最小Handoff例
 ├── worldlines/                         # Stable Hostから隔離した候補プロトコル
 │   ├── registry.json                   # Guest manifestレジストリ
-│   └── epistemic-lineage-v2/
-│       ├── manifest.json               # 第1世代の状態、親commit、内部評価文法
-│       └── epistemic-lineage-steward.md # Guest role（@lin）
+│   ├── epistemic-lineage-v2/
+│   │   ├── manifest.json               # 第1世代の状態、親commit、内部評価文法
+│   │   └── epistemic-lineage-steward.md # Guest role（@lin）
+│   └── unflatten-v2-greenfield/        # 内部Stable／上流gestatingの第2世代Capsule
+│       ├── manifest.json               # 二重状態、固定base、digest、世代証拠
+│       ├── emulator.md                 # 権限投影とロード境界（@emu）
+│       ├── protocol-overlay.md         # Capsule内部のPhase 0正本
+│       ├── innovator-overlay.md        # Greenfield時のInnovator入力境界
+│       ├── ingress.md                  # Greenfield Ingress Contract
+│       ├── schema/
+│       │   └── ingress-record.schema.json
+│       └── fixtures/
+│           └── ingress.valid.yaml
 ├── self-audit/                         # このリポジトリ自身を通した役割別記録
 │   ├── 001/
 │   ├── 002/

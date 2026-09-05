@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://unflatten.dev/schema/ingress-record.schema.json",
+  "$id": "https://unflatten.dev/worldlines/unflatten-v2-greenfield/schema/ingress-record.schema.json",
   "title": "Unflatten Greenfield Ingress Record",
   "type": "object",
   "required": ["ingress"],

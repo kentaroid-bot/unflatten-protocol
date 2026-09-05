@@ -1,0 +1,133 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: engineer
+  reason: "Emulator Auditのreviseを採用し、PR #3をStable昇格案からgeneration 2のInternal-Stable Capsule登録案へ組み替える。"
+  inquiry:
+    problem_tension: "候補を本気で暫定運用するには内部正本が必要だが、親mainへ直結すると三世代育成を失う。"
+    current_question: "rootにはcandidate非依存のincubatorだけを追加し、Greenfield固有変更を再現可能なCapsuleへ隔離できるか。"
+    distinct_dimensions:
+      - dimension: "Internal Stable / Upstream Gestating"
+        significance: "v2の自己一貫運用とv1の未昇格状態を同時に維持する。"
+      - dimension: "provisional latest with resolved pin"
+        significance: "発見の容易さと実行の再現性を分離する。"
+      - dimension: "dual authority projection"
+        significance: "v2内部判断がv1を自己Captureしない。"
+      - dimension: "experience-bearing generations"
+        significance: "世代を文書反復で洗浄しない。"
+    flattening_risks:
+      - "emulatorをread-only previewへ弱める。"
+      - "generic incubatorへGreenfield固有規則を残す。"
+  hypothesis:
+    statement: "minimal overlay、resolved capsule digest、二重status/authority、experience identityを持つEmulator Capsuleなら、v2を暫定最新版として運用しながらv1内で三世代育成できる。"
+    core_claims:
+      - "root protocol、root Innovator、root manifestからGreenfield規則を除く。"
+      - "Greenfield docs/schema/role overlayをworldlines/unflatten-v2-greenfieldへ置く。"
+      - "rootへ追加するのはgeneric emulation loader、schema、docs、testsだけである。"
+      - "実行promptはworldline、generation、internal/upstream status、channel、base commit、capsule digestを表示する。"
+      - "candidate artifactをcandidate schemaで検証できる。"
+      - "Emulator世代はexperience_idとcandidate_digestを持ち、重複experience/evidenceを拒否する。"
+    mechanism: "optional emulation manifestを既存Worldlineへ後方互換追加し、asset digest検証、emulated composer、candidate validatorを実装する。"
+    assumptions:
+      - assumption: "root generic capabilityは候補内容を採択せずに導入できる。"
+        status: supported
+      - assumption: "現在のHuman Steward反証を含むcycleはgeneration 1と異なる新規経験である。"
+        status: supported
+      - assumption: "第三世代には外部project runを含められる。"
+        status: unknown
+    scope:
+      applies_to:
+        - "schema/worldline.schema.json"
+        - "validator/worldlines.jsとexports"
+        - "docs/worldlines.md、README、File-hierarchy"
+        - "worldlines/unflatten-v2-greenfield capsule"
+        - "PR #3のroot Greenfield変更の隔離"
+      does_not_apply_to:
+        - "candidate promotion、third generation、version release"
+        - "既存epistemic-lineage-v2 semantics変更"
+  hypothetical_world:
+    description: "mainは複数candidateを安全に宿す母体であり、明示pinした利用者だけが内部Stable Capsuleを暫定最新版として実行する。"
+    consequences:
+      primary:
+        - "root StableはGreenfield Ingressをまだ正本化しない。"
+        - "v2はGreenfield Ingressを内部正本として実行できる。"
+      secondary:
+        - "第一・第二世代の異なる経験とcandidate digestを追跡できる。"
+      tertiary:
+        - "第三世代後にpromote、spin-out、archive、terminateを判断できる。"
+    opportunities:
+      - "同じincubatorで他のfull-protocol candidateを育成する。"
+  evaluation:
+    falsifiers:
+      - "root protocolまたはroot roleにGreenfield規則が残る。"
+      - "asset改変後もmanifest digest検証が通る。"
+      - "emulated promptが二重status/pinを表示しない。"
+      - "candidate schema validationがroot schemaを誤使用する。"
+      - "同じexperience_idまたはevidenceを複数世代で使える。"
+      - "既存Worldline testsが退行する。"
+    evidence:
+      supporting:
+        - "現行safeResolve、registry、role composer、generation state machineを再利用できる。"
+      contradicting:
+        - "現PR rootにはGreenfield固有変更が存在する。"
+      unknown:
+        - "外部利用時のmode confusion"
+    tests_completed:
+      - "Innovator discovery and Emulator Dual-Stress Audit"
+    tests_remaining:
+      - "Engineer isolation and emulator tests"
+      - "Auditor implementation re-audit"
+      - "third-generation external run"
+  decision:
+    status: revise
+    authority: operational_decision
+    decided_by: integrator
+    rationale: "Internal-Stable/Upstream-Gestatingの区別はHuman Stewardの意図を正確に実装する。PR #3のStable直結判断を撤回し、generic incubator＋generation 2 Capsuleへ変更する。"
+    preserved_dimensions:
+      - "Greenfield Ingress as v2 internal Stable"
+      - "provisional latest operation"
+      - "three-generation gestation"
+      - "nested coexistence"
+      - "reopenability"
+    rejected_claims:
+      - "PR #3をGreenfield root Stable変更としてmergeする。"
+      - "現在の監査回数を第三世代と数える。"
+      - "mutable branchだけを実行pinとする。"
+    revisions:
+      - "candidate固有変更をCapsule overlayへ移す。"
+      - "root変更をgeneric incubator capabilityへ限定する。"
+      - "generation 1と2へ異なるexperience_id、evidence、digestを記録する。"
+      - "third generationを外部運用まで開始しない。"
+  pivot:
+    trigger: "Stable直結案が三世代育成を維持していないというHuman Stewardの指摘。"
+    learned_structure:
+      - "内部Stableとupstream Stableは別の状態軸である。"
+      - "promotion前にもcandidateは本気で運用されなければ経験を得られない。"
+    pivot_seeds:
+      - "nutrition log"
+      - "nested gestation"
+    next_hypothesis: "Emulator Capsuleをgeneration 2の暫定最新版として運用し、第三世代を外部経験から形成する。"
+  epistemic_remainder:
+    residuals:
+      - observation: "parent updateをcandidateへ取り込む栄養交換の形式は未設計である。"
+        schema_limit: "今回のemulationはbase pinとoverlayを扱い、rebase lineageを扱わない。"
+        provenance: "Emulator Audit"
+        review_when: "第三世代前にparent側変更を取り込む必要が生じたとき。"
+    dissent:
+      - position: "full snapshotの方が外部利用者には単純である。"
+        holder: "Auditor counter-position"
+        unresolved_because: "overlay利用の実負荷を第三世代で観測する。"
+  next_step:
+    objective: "PR #3をgeneric emulator host＋generation 2 Greenfield Capsuleへ再構成し、実行・digest・schema・重複世代境界を検証する。"
+    constraints:
+      - "Greenfield Ingressをroot Stableへ残さない。"
+      - "candidate内部ではGreenfield Ingressを正式規則として完全にロードする。"
+      - "既存Worldlineを後方互換に保つ。"
+      - "第三世代またはpromotion decisionを生成しない。"
+    expected_output:
+      - "registered unflatten-v2-greenfield Emulator Capsule at generation 2"
+      - "generic emulator SDK APIs and tests"
+      - "root/candidate boundary documentation"
+      - "Engineer-to-Auditor Handoff"
+    unresolved_questions:
+      - "third-generation external trialの対象project"

@@ -1,0 +1,132 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: innovator
+  to_role: auditor
+  reason: "Human Stewardが、Greenfield Ingressを内部Stableとするunflatten-protocol v2を、v1母体内のエミュレーター的な暫定最新版として三世代育成する構造を明示した。"
+  inquiry:
+    problem_tension: "StableかGuestかの二者択一では、候補を本気で運用して経験を得ることと、親正本を早期上書きしないことを同時に満たせない。"
+    current_question: "Guest Worldlineが内部ではStable Hostとして完結稼働し、外部ではprovisional latestとしてpin可能なEmulator Capsuleをどう定義するか。"
+    distinct_dimensions:
+      - dimension: "relative stability"
+        significance: "同じcandidateが内部には正本、親には未昇格であり得る。"
+      - dimension: "dual authority projection"
+        significance: "v2内部のrole権限を有効にしつつ、v1正本を直接拘束させない。"
+      - dimension: "serious provisional operation"
+        significance: "prototypeのふりではなく、暫定最新版として実際に使って経験を得る。"
+      - dimension: "three-generation gestation"
+        significance: "修正回数でなく完全role cycleと証拠を三世代蓄積して出生判断する。"
+    flattening_risks:
+      - "暫定版を単なるfeature branchまたはpreviewへ縮約する。"
+      - "内部Stableという語で親mainへの即時mergeを正当化する。"
+      - "v2内部判断をv1のoperational decisionとして自動投影する。"
+  hypothesis:
+    statement: "Stable Host v1がInternal-Stable Emulator Capsule v2をGuest Worldlineとして保持し、明示的にpinした利用者だけがv2を暫定最新版として実行すれば、親を上書きせず三世代の本気の運用経験を蓄積できる。"
+    core_claims:
+      - "stabilityはworldline相対である。"
+      - "v2は自身のprotocol overlay、entrypoint、schema、role overrideを正本として持つ。"
+      - "v2内部roleは内部権限を持つが、v1境界を越える出力はadvisory candidate evidenceへ投影される。"
+      - "provisional latest利用はworldline idとcommit pinを明示する。"
+      - "第一〜第三世代は完全なInnovator/Auditor/Integrator cycleとevidenceを持つ。"
+      - "第三世代までv1 mainのcanonical protocolを置換しない。"
+    mechanism: "Worldline manifestにemulation capsuleを宣言し、base Stable Host、candidate overlay、内部entrypoint、candidate schema、internal/upstream authority、pin情報を境界としてロードする。"
+    assumptions:
+      - assumption: "Stable Hostとcandidate overlayを決定的順序で合成できる。"
+        status: supported
+      - assumption: "internal authorityとupstream authorityを利用者が混同せず運用できる。"
+        status: unknown
+      - assumption: "三世代の各cycleが実際の異なる経験を含む。"
+        status: unknown
+    scope:
+      applies_to:
+        - "unflatten-protocol v2 Greenfield Ingress candidate"
+        - "protocol-levelまたは評価文法-levelのGuest Worldline"
+      does_not_apply_to:
+        - "単純なbug fixや既存Stable仕様どおりの実装"
+        - "pinなしで全利用者をv2へ送ること"
+  hypothetical_world:
+    description: "v1のrepository内に複数の内部Stable Capsuleが入れ子で生存する。利用者は明示的に一つを暫定最新版としてpinし、その世界線の規則で最後まで作業する。親は結果を証拠として受け取るが、三世代review前に正本化しない。"
+    consequences:
+      primary:
+        - "v2はGreenfield Ingressを正式規則として自己適用できる。"
+        - "v1 mainは従来規則を維持する。"
+      secondary:
+        - "同じ親から異なる内部Stable候補を並行運用できる。"
+        - "candidate内部の判断とupstream昇格判断を分離できる。"
+      tertiary:
+        - "三世代後に一つへ昇格できなくてもspin-outや複数出生が可能になる。"
+    opportunities:
+      - "暫定最新版をcommit-pinned SDK entrypointとして外部projectへ提供する。"
+      - "candidate自身の規則で次世代candidateを身籠る再帰構造を作る。"
+  evaluation:
+    falsifiers:
+      - "candidate assetがroot Stable正本を暗黙に変更する。"
+      - "v2内部判断だけでv1へpromoteできる。"
+      - "pinなし利用者がcandidateへ自動移行する。"
+      - "同一の文書修正を三回数えるだけで第三世代に達する。"
+      - "candidateを実行する標準経路がなく、観賞用prototypeに留まる。"
+    evidence:
+      supporting:
+        - "現行Worldlineは親commit、最大三世代、role cycle、review outcomeを既に検証する。"
+        - "PR #3にはv2 candidateの実装と第一世代相当の完全cycleが存在する。"
+      contradicting:
+        - "現行Worldline manifestはGuest roleだけを表し、protocol overlayやinternal stabilityを表現しない。"
+        - "PR #3はroot Stableファイルを直接変更しており、現在のままではCapsule隔離にならない。"
+      unknown:
+        - "Emulator promptだけで十分か、candidate固有validator APIまで必要か。"
+        - "外部projectがcommit pinと二重権限面を正しく扱えるか。"
+    tests_completed:
+      - "現行Worldline schema、loader、PR #3境界のinspection"
+    tests_remaining:
+      - "Auditorによるnested authority、schema drift、cognitive overhead監査"
+      - "Integratorによるbootstrap scope決定"
+  decision:
+    status: not_evaluated
+    authority: not_evaluated
+    decided_by: innovator
+    rationale: "Internal-Stable Emulator Capsuleと二重権限面を発見したが、採否・実装境界は評価していない。"
+    preserved_dimensions:
+      - "pregnant Stable Host"
+      - "Internal Stability"
+      - "provisional latest"
+      - "three-generation gestation"
+      - "No Gray Stones coexistence"
+    rejected_claims:
+      - "StableとGuestは相互排他的である。"
+      - "内部Stableなら親mainへ即時mergeすべきである。"
+      - "暫定版は本気で運用してはいけない。"
+    revisions: []
+  pivot:
+    trigger: "Stable/Guest二者択一がHuman Stewardの妊娠・エミュレーター像を表現できなかった。"
+    learned_structure:
+      - "stabilityとauthorityはworldline境界に相対化できる。"
+      - "育成には隔離だけでなく、内部で正本として稼働する強さが必要である。"
+    pivot_seeds:
+      - "Internal-Stable Emulator Capsule"
+      - "Dual Authority Projection"
+      - "Provisional Latest Pin"
+    next_hypothesis: "protocol-level Guestを内部Stableとして実行し、upstreamにはadvisory evidenceとして投影すれば、三世代育成と本気の暫定運用を両立できる。"
+  epistemic_remainder:
+    residuals:
+      - observation: "母体と胎児の比喩には、保護だけでなく栄養交換、自己循環、出生時の不可逆な分離が含まれる。"
+        schema_limit: "現行Worldline schemaは世代数と親関係を表すが、双方向の経験交換を表さない。"
+        provenance: "Human Steward pregnancy/emulator model"
+        review_when: "第二・第三世代でparent feedbackとcandidate adaptationを記録するとき。"
+    dissent:
+      - position: "full protocol snapshotは重複とdriftを増やすため、overlayだけにすべきである。"
+        holder: "Innovator adversarial projection"
+        unresolved_because: "snapshotの自己完結性とoverlayの追跡容易性をまだ比較していない。"
+  next_step:
+    objective: "Internal-Stable Emulator Capsuleを最強形にし、親Capture、権限漏洩、version drift、三世代の形骸化、人間の選択負荷から監査する。"
+    constraints:
+      - "PR #3をmain直結案のままmergeしない。"
+      - "v2内部ではGreenfield Ingressを弱い実験機能へ格下げしない。"
+      - "三世代を単なるcommit数にしない。"
+      - "既存Worldlineを壊さない。"
+    expected_output:
+      - "Dual-Stress Emulator Audit"
+      - "snapshot対overlay判断材料"
+      - "Auditor-to-Integrator Handoff"
+    unresolved_questions:
+      - "Internal-Stableの最小asset集合は何か。"
+      - "v2内部authorityをv1へどう投影するか。"
+      - "暫定最新版をbranch、commit、worldline idのどれでpinするか。"

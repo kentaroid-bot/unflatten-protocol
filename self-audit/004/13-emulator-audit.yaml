@@ -1,0 +1,215 @@
+audit_target:
+  hypothesis: "Stable Host v1内のGuest Worldline v2を内部StableなEmulator Capsuleとして明示的にpin・実行すれば、親mainを上書きせず三世代の本気の運用経験を蓄積できる。"
+  core_premises:
+    - "stabilityとauthorityはworldline境界に相対的である。"
+    - "v2内部ではGreenfield Ingressを正式規則として使う。"
+    - "v1から見ればv2は第三世代reviewまで未昇格である。"
+    - "各世代は新しい完全role cycleと経験証拠を持つ。"
+  mechanism: "parent protocolへcandidate overlayを決定的に合成し、resolved digestを記録し、内部権限をupstream advisoryへ投影する。"
+  distinct_dimensions:
+    - "Internal Stability"
+    - "Upstream Gestation"
+    - "Dual Authority Projection"
+    - "Provisional Latest Pin"
+    - "Three-generation experiential growth"
+
+steelman_setup:
+  - "Emulatorはparentとcandidate overlayの合成順、asset境界、digestを完全に固定する。"
+  - "内部roleはv2内で通常どおり機能し、外部へ出る時だけ権限を投影する。"
+  - "各世代は異なるrunまたは反証経験を含み、同じ文書の再提出を数えない。"
+  - "利用者はprovisional latest locatorを使えても、実行記録には解決済みcommitとdigestを残す。"
+  - "第三世代で自動昇格せず、parent側Integratorが出生判断する。"
+
+dual_stress:
+  logical_systemic:
+    - test: "full snapshot drift"
+      result: "v1全体をv2へ複製するとsecurity fix、role修正、schema変更の取り込み先が二重化し、どちらが親由来かcandidate固有か判別しにくい。最小overlayと明示base pinが必要である。"
+      falsifier: "candidate差異がfull copy内へ埋没し、親更新との差分由来を再構築できない。"
+    - test: "mutable latest capture"
+      result: "branch名またはprovisional latest pointerだけでは実行中に意味が変わる。locatorと再現用pinを分離し、resolved host commitとcapsule digestを記録すべきである。"
+      falsifier: "同じ実行記録を後日再構成したとき別candidate内容がロードされる。"
+    - test: "authority leakage"
+      result: "v2内部Integratorのoperational decisionをそのままv1へ適用すると、Guestが自己昇格できる。内部権限はcapsule内だけで有効、upstream投影はadvisory_observationに固定し、第三世代のparent Integratorだけが出生を決める必要がある。"
+      falsifier: "Guest内部decisionだけでroot manifest、mainまたはreview outcomeを変更できる。"
+    - test: "generation laundering"
+      result: "現行schemaはevidence文字列の世代間再利用を禁止せず、同じ結果を三回記載できる。Emulator世代には新規experience evidenceとcandidate digestを要求し、重複をinvariantで拒否すべきである。"
+      falsifier: "同一evidence集合または同一runを複数世代として数えられる。"
+  cognitive_physical:
+    - test: "mode confusion"
+      result: "Stable Host、Internal Stable、provisional latestという三語は人間に負荷を生む。実行promptとCLI/API出力でhost status、capsule status、generation、resolved pinを常に同時表示する必要がある。"
+      falsifier: "利用者が自分をv1とv2のどちらで動かしているか一目で確認できない。"
+    - test: "choice overload"
+      result: "複数capsuleを毎回選ばせると開始負荷が高い。provisional latestは発見用locatorとして一つ示せるが、選択を真理認定にしてはならず明示opt-inを維持する。"
+      falsifier: "候補数増加に比例して毎taskで選択を要求する。"
+    - test: "sterile prototype"
+      result: "外部projectが標準APIでcandidate promptとschemaをロードできなければ観賞用になる。少なくともasset loader、emulated prompt composer、candidate schema validationが必要である。"
+      falsifier: "READMEを手作業で追う以外にv2を一貫実行できない。"
+
+evidence_and_noise:
+  supporting:
+    - "現行Worldlineはparent commit、三世代上限、完全role cycle、第三世代reviewを持つ。"
+    - "PR #3のGreenfield Ingressはcandidate overlayとして分離可能である。"
+  contradicting:
+    - "現行manifestはprotocol-level emulator、asset registry、二重権限、resolved digestを表現しない。"
+    - "現PRはroot Stableを直接変更するため、現在のままでは妊娠ではなく早期置換である。"
+    - "現行世代invariantは同じexperience evidenceの再利用を拒否しない。"
+  unknown:
+    - "外部利用者がrelative stabilityを誤認する率"
+    - "overlay方式の運用負荷"
+  noise_signals:
+    - "『最新版』という語が暗黙の優越・自動選択を生むため、locatorであって真理順位ではないと明示しなければならない。"
+
+findings:
+  - classification: revisable_defect
+    finding: "full snapshotは親由来とcandidate差異を混ぜ、driftを不可視化する。"
+    rationale: "base commitへ最小overlayを合成し、candidate固有assetだけをCapsuleに置けば修復できる。"
+  - classification: revisable_defect
+    finding: "branch/latestだけのpinは再現不能である。"
+    rationale: "発見用channelと実行記録用resolved commit/capsule digestを分離する。"
+  - classification: revisable_defect
+    finding: "内部operational authorityがupstreamへ漏れるとGuestが自己昇格できる。"
+    rationale: "internal authorityとupstream projectionをmanifestへ別々に宣言する。"
+  - classification: revisable_defect
+    finding: "同じ証拠を三世代として洗浄できる。"
+    rationale: "Emulator generation recordへcandidate digestと新規experience evidenceを要求し、世代間重複を拒否する。"
+  - classification: unresolved_uncertainty
+    finding: "relative stabilityの人間可読性は実利用で未検証である。"
+    rationale: "prompt headerとinspect APIを実装してから第三世代で観測する。"
+
+repair_boundary:
+  - "full snapshotではなくbase Stable Host＋最小overlayを正本とする。"
+  - "Worldline schemaへoptional Emulator Capsule metadataを追加し、既存Guest role Worldlineを壊さない。"
+  - "internal_status: stable、upstream_status: gestating、channel: provisional_latestを別fieldで表す。"
+  - "実行promptへworldline id、generation、internal/upstream status、resolved host commit、capsule digestを表示する。"
+  - "candidate asset loader、prompt composer、candidate schema validatorを提供する。"
+  - "internal authorityはcapsule内、upstream projectionはadvisory_observationとする。"
+  - "Emulator世代はcandidate digestと新規experience evidenceを持ち、重複証拠を拒否する。"
+  - "PR #3のroot Greenfield変更をcandidate directoryへ移し、rootにはgeneric incubator capabilityだけを残す。"
+
+pivot_seeds:
+  - "Capsule nutrition log for parent-to-guest updates"
+  - "multiple provisional locators without a single winner"
+
+final_verdict: revise
+
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: "Internal-Stable Emulatorの中核は成立するが、overlay、reproducible pin、authority projection、experience-bearing generationsへ限定修復が必要である。"
+  inquiry:
+    problem_tension: "v2を本気で暫定運用しながら、v1を早期上書きせず、三世代を形骸化させない実装境界が必要である。"
+    current_question: "root Stableにはgeneric incubator機能だけを追加し、Greenfield Ingress変更をgeneration 1のEmulator Capsuleへ隔離するか。"
+    distinct_dimensions:
+      - dimension: "relative stability"
+        significance: "内部正本とupstream未昇格を同時に表す。"
+      - dimension: "reproducible provisional operation"
+        significance: "暫定最新版を本気で使いつつ後日再現できる。"
+      - dimension: "non-self-promoting authority"
+        significance: "Guest内部判断が親をCaptureしない。"
+      - dimension: "experience-bearing gestation"
+        significance: "三世代を同じ証拠の反復にしない。"
+    flattening_risks:
+      - "emulatorを単なるpreview promptにする。"
+      - "generic incubator変更へGreenfield固有意味を混入させる。"
+  hypothesis:
+    statement: "generic Emulator Capsule機能をv1へ追加し、Greenfield Ingress v2を最小overlayとしてgeneration 1へ隔離すれば、暫定最新版運用と三世代育成を両立できる。"
+    core_claims:
+      - "root変更はcandidate非依存のincubator capabilityに限る。"
+      - "Greenfield固有docs/schema/role overrideはGuest directoryに置く。"
+      - "candidateは内部Stable、upstream gestatingである。"
+      - "実行はresolved pinとdigestを表示する。"
+      - "世代には新規experience evidenceが必要である。"
+    mechanism: "worldline manifest/schema/loaderへoptional emulationを追加し、Greenfield capsuleをregistryへ登録する。"
+    assumptions:
+      - assumption: "generic incubator capabilityは既存Worldline意味論を変更せず拡張できる。"
+        status: supported
+      - assumption: "generation 1を既存03/04/05 evidenceから再構成できる。"
+        status: supported
+    scope:
+      applies_to:
+        - "worldline schema、loader、docs、tests"
+        - "Greenfield candidate assetsとmanifest"
+        - "PR #3 root変更の隔離"
+      does_not_apply_to:
+        - "v2のpromotion、generation 3 decision、package release"
+  hypothetical_world:
+    description: "v1は候補を安全に実行する母体だけを持ち、v2固有規則はCapsule内で内部Stableとして動く。"
+    consequences:
+      primary:
+        - "PR #3はmain置換案からgeneration 1候補登録案になる。"
+      secondary:
+        - "外部projectは明示pinで暫定最新版を使える。"
+      tertiary:
+        - "第三世代後にpromote、spin-out、archive、terminateを選べる。"
+    opportunities:
+      - "他のprotocol-level candidateも同じ母体で育てる。"
+  evaluation:
+    falsifiers:
+      - "root protocolにGreenfield規則が残る。"
+      - "candidate固有assetをロード・検証できない。"
+      - "promptが二重statusとdigestを表示しない。"
+      - "重複experienceで世代を進められる。"
+    evidence:
+      supporting:
+        - "既存Worldline APIとschemaは拡張基盤として利用できる。"
+      contradicting:
+        - "現PRはrootへcandidate内容を直接置く。"
+      unknown:
+        - "外部実runの認知負荷"
+    tests_completed:
+      - "Dual-Stress Emulator Audit"
+    tests_remaining:
+      - "Integrator scope decision"
+      - "Engineer implementation and regression"
+      - "Generation 2以降の実run"
+  decision:
+    status: revise
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: "相対Stableの中核は維持できる。4つの境界修復は場当たりでなく、任意のprotocol-level Guestに必要な一般的incubator条件である。"
+    preserved_dimensions:
+      - "Internal-Stable Emulator"
+      - "provisional latest operation"
+      - "three-generation gestation"
+      - "nested coexistence"
+    rejected_claims:
+      - "full snapshotが最適である。"
+      - "branch名だけで再現可能である。"
+      - "内部Integratorがupstream promotionを決められる。"
+      - "同じ証拠を再記載すれば新世代になる。"
+    revisions:
+      - "minimal overlayとbase pinへ変更する。"
+      - "resolved digestを実行記録へ追加する。"
+      - "dual authority projectionを明示する。"
+      - "experience evidenceの世代間重複を拒否する。"
+  pivot:
+    trigger: "not_applicable: 中核を維持したreviseである。"
+    learned_structure:
+      - "暫定最新版locatorと再現用pinは別物である。"
+      - "Internal Stableはupstream authorityを意味しない。"
+    pivot_seeds:
+      - "nutrition log"
+      - "plural provisional channels"
+    next_hypothesis: "not_applicable: 修復済み仮説を記録した。"
+  epistemic_remainder:
+    residuals:
+      - observation: "母体とcandidate間の継続的な栄養交換はoverlay rebaseだけでは十分に表現できない。"
+        schema_limit: "現scopeはbaseとoverlayの静的関係を扱う。"
+        provenance: "Emulator Dual-Stress Audit"
+        review_when: "parent更新をcandidateへ取り込む第二世代。"
+    dissent:
+      - position: "self-contained full snapshotの方が外部実行は容易である。"
+        holder: "Auditor counter-position"
+        unresolved_because: "今回は由来追跡を優先しoverlayを選ぶが、外部負荷が高ければ再検討する。"
+  next_step:
+    objective: "Integratorがbootstrap変更、candidate隔離、generation記録、provisional運用範囲を決定する。"
+    constraints:
+      - "PR #3をmain直結のGreenfield Stable変更としてmergeしない。"
+      - "candidateをgeneration 3扱いしない。"
+      - "既存epistemic-lineage-v2を壊さない。"
+    expected_output:
+      - "Integrator-to-Engineer Handoff"
+      - "generic host変更とcandidate assetの境界"
+    unresolved_questions:
+      - "現在サイクルをgeneration 2へ数えるか。"

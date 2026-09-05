@@ -2,9 +2,11 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const os = require('node:os');
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const sdk = require('../validator');
+const { calculateCapsuleDigest } = require('../validator/worldlines');
 const YAML = require('yaml');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -26,7 +28,7 @@ test('resolves canonical and alternate aliases', () => {
 
 test('loads lineage steward only through its guest worldline', () => {
   const worldlines = sdk.listWorldlines();
-  assert.deepEqual(worldlines.map((entry) => entry.id), ['epistemic-lineage-v2']);
+  assert.deepEqual(worldlines.map((entry) => entry.id).sort(), ['epistemic-lineage-v2', 'unflatten-v2-greenfield']);
   const role = sdk.resolveWorldlineRole('epistemic-lineage-v2', '@lin');
   assert.equal(role.authority, 'advisory_observation');
   const prompt = sdk.loadWorldlineRole('epistemic-lineage-v2', '@lin');
@@ -201,98 +203,102 @@ test('validates the canonical YAML handoff fixture', () => {
   assert.deepEqual(result.findings, []);
 });
 
-test('loads and composes the pre-role Greenfield Ingress contract', () => {
-  const contract = sdk.loadIngressContract();
-  assert.match(contract, /Greenfield Ingress/u);
-  assert.match(contract, /role選択前/u);
+test('runs Greenfield Ingress as an internally stable, upstream-gestating emulator', () => {
+  const description = sdk.describeWorldlineEmulation('unflatten-v2-greenfield');
+  assert.equal(description.generation, 2);
+  assert.equal(description.generation_limit, 3);
+  assert.equal(description.internal_status, 'stable');
+  assert.equal(description.upstream_status, 'gestating');
+  assert.equal(description.channel, 'provisional_latest');
+  assert.match(description.base_commit, /^[a-f0-9]{40}$/u);
+  assert.match(description.host_digest, /^[a-f0-9]{64}$/u);
+  assert.match(description.capsule_digest, /^[a-f0-9]{64}$/u);
 
-  const prompt = sdk.composeIngressPrompt('入口状態を判定する。', {
-    context: '既知のproject context',
-    record: { ingress: { state: 'query_required' } }
-  });
-  assert.match(prompt, /# Loaded Protocol/u);
-  assert.match(prompt, /# Greenfield Ingress Contract/u);
-  assert.match(prompt, /# Machine-readable Ingress Schema/u);
-  assert.match(prompt, /ingress-record\.schema/u);
-  assert.match(prompt, /# Existing Ingress Record/u);
-  assert.match(prompt, /# Known Context/u);
-  assert.match(prompt, /# Current Task/u);
-  assert.doesNotMatch(prompt, /# Loaded Role/u);
-  assert.ok(prompt.indexOf('# Greenfield Ingress Contract') < prompt.indexOf('# Machine-readable Ingress Schema'));
-  assert.ok(prompt.indexOf('# Machine-readable Ingress Schema') < prompt.indexOf('# Known Context'));
+  const prompt = sdk.composeWorldlineEmulationPrompt(
+    'unflatten-v2-greenfield',
+    'ingress',
+    '入口状態を判定する。',
+    { context: '既知のproject context', record: { ingress: { state: 'query_required' } } }
+  );
+  assert.match(prompt, /# Stable Host Protocol/u);
+  assert.match(prompt, /Internal status: stable/u);
+  assert.match(prompt, /Upstream status: gestating/u);
+  assert.match(prompt, /Channel: provisional_latest/u);
+  assert.match(prompt, /Generation: 2\/3/u);
+  assert.match(prompt, /Resolved base commit: [a-f0-9]{40}/u);
+  assert.match(prompt, /Host asset digest \(sha256\): [a-f0-9]{64}/u);
+  assert.match(prompt, /Capsule digest \(sha256\): [a-f0-9]{64}/u);
+  assert.match(prompt, /# Candidate Protocol Overlay/u);
+  assert.match(prompt, /# Candidate Entrypoint: ingress/u);
+  assert.match(prompt, /# Machine-readable Candidate Schema: ingress-record/u);
+  assert.doesNotMatch(prompt, /# Stable Host Role/u);
 });
 
-test('validates Greenfield Ingress states without claiming motive authenticity', () => {
-  const source = fs.readFileSync(path.join(ROOT, 'fixtures/ingress.valid.yaml'), 'utf8');
-  const valid = sdk.validate('ingress-record', source);
+test('overlays a candidate role without mutating the stable role', () => {
+  const prompt = sdk.composeWorldlineEmulationPrompt('unflatten-v2-greenfield', '@ino', '仮説を形成する。');
+  assert.match(prompt, /# Stable Host Role: innovator/u);
+  assert.match(prompt, /# Candidate Role Overlay: innovator/u);
+  assert.match(prompt, /query_required.*hold/u);
+  assert.match(prompt, /Internal decisions do not promote or mutate the Stable Host/u);
+  assert.doesNotMatch(sdk.loadRole('@ino'), /Greenfield Ingress/u);
+});
+
+test('validates a Capsule-local artifact without adding its schema to Stable Host', () => {
+  const source = fs.readFileSync(path.join(ROOT, 'worldlines/unflatten-v2-greenfield/fixtures/ingress.valid.yaml'), 'utf8');
+  const valid = sdk.validateWorldlineArtifact('unflatten-v2-greenfield', 'ingress-record', source);
   assert.equal(valid.valid, true, JSON.stringify(valid.errors));
+  assert.equal(sdk.manifest.schemas['ingress-record'], undefined);
 
-  const readyWithoutMotive = structuredClone(valid.value);
-  readyWithoutMotive.ingress.motive_record.status = 'unknown';
-  readyWithoutMotive.ingress.motive_record.claims = [];
-  assert.equal(sdk.validate('ingress-record', readyWithoutMotive).valid, false);
+  const invalid = structuredClone(valid.value);
+  invalid.ingress.motive_record.status = 'unknown';
+  invalid.ingress.motive_record.claims = [];
+  assert.equal(sdk.validateWorldlineArtifact('unflatten-v2-greenfield', 'ingress-record', invalid).valid, false);
+});
 
-  const readyWithUnknownBasis = structuredClone(valid.value);
-  readyWithUnknownBasis.ingress.motive_record.claims[0].basis = 'unknown';
-  delete readyWithUnknownBasis.ingress.motive_record.claims[0].confirmed_by;
-  delete readyWithUnknownBasis.ingress.motive_record.claims[0].confirmed_at;
-  assert.equal(sdk.validate('ingress-record', readyWithUnknownBasis).valid, false);
+test('rejects generation laundering in emulator manifests', () => {
+  const candidate = sdk.resolveWorldline('unflatten-v2-greenfield');
+  delete candidate.manifest;
+  delete candidate.root;
+  candidate.generation_records[1].experience_id = candidate.generation_records[0].experience_id;
+  assert.equal(sdk.validate('worldline', candidate).valid, false);
+  assert.ok(sdk.validate('worldline', candidate).findings.some((finding) => finding.rule === 'worldline-distinct-generation-experience'));
 
-  const deferredOutcome = structuredClone(valid.value);
-  deferredOutcome.ingress.outcome_envelope = { status: 'deferred' };
-  assert.equal(sdk.validate('ingress-record', deferredOutcome).valid, true);
+  candidate.generation_records[1].experience_id = 'distinct-experience';
+  candidate.generation_records[1].candidate_digest = 'f'.repeat(64);
+  assert.equal(sdk.validate('worldline', candidate).valid, false);
+  assert.ok(sdk.validate('worldline', candidate).findings.some((finding) => finding.rule === 'worldline-latest-capsule-digest'));
+});
 
-  const emptyPartialOutcome = structuredClone(valid.value);
-  emptyPartialOutcome.ingress.outcome_envelope = { status: 'partial' };
-  assert.equal(sdk.validate('ingress-record', emptyPartialOutcome).valid, false);
-  emptyPartialOutcome.ingress.outcome_envelope.purpose = '観測済みの目的だけを保持する。';
-  assert.equal(sdk.validate('ingress-record', emptyPartialOutcome).valid, true);
+test('advances an emulator only with a distinct experience and current Capsule digest', () => {
+  const candidate = sdk.resolveWorldline('unflatten-v2-greenfield');
+  delete candidate.manifest;
+  delete candidate.root;
+  assert.throws(() => sdk.advanceWorldline(candidate, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    evidence: ['external-run-1']
+  }), /distinct experience_id/u);
 
-  const incompleteSpecifiedOutcome = structuredClone(valid.value);
-  incompleteSpecifiedOutcome.ingress.outcome_envelope = { status: 'specified' };
-  assert.equal(sdk.validate('ingress-record', incompleteSpecifiedOutcome).valid, false);
-
-  const incompleteQuery = structuredClone(valid.value);
-  incompleteQuery.ingress.state = 'query_required';
-  incompleteQuery.ingress.motive_record.status = 'unknown';
-  incompleteQuery.ingress.motive_record.claims = [];
-  incompleteQuery.ingress.query = { status: 'pending', missing_fields: [] };
-  assert.equal(sdk.validate('ingress-record', incompleteQuery).valid, false);
-
-  const incompleteException = structuredClone(valid.value);
-  incompleteException.ingress.state = 'safety_exception_logged';
-  incompleteException.ingress.motive_record.status = 'unknown';
-  incompleteException.ingress.motive_record.claims = [];
-  incompleteException.ingress.query = { status: 'unavailable', missing_fields: ['generative_tension'] };
-  assert.equal(sdk.validate('ingress-record', incompleteException).valid, false);
-
-  const unsafeNoFollowUp = structuredClone(incompleteException);
-  unsafeNoFollowUp.ingress.exception = {
-    reason: '緊急の危害停止を優先する。',
-    recorded_at: '2026-09-06T00:00:00Z',
-    follow_up_required: false
-  };
-  assert.equal(sdk.validate('ingress-record', unsafeNoFollowUp).valid, false);
-  unsafeNoFollowUp.ingress.exception.follow_up_required = true;
-  assert.equal(sdk.validate('ingress-record', unsafeNoFollowUp).valid, true);
-
-  const pluralRecord = structuredClone(valid.value);
-  pluralRecord.ingress.motive_record.status = 'redacted';
-  pluralRecord.ingress.motive_record.claims.push({
-    id: 'restricted-origin',
-    original_question: '非公開資料にある別の生成起点をどう保持するか。',
-    generative_tension: '公開可能性と系譜保存が衝突する。',
-    source_fragments: [{
-      reference: 'restricted://motive/second-origin',
-      disclosure: 'restricted_reference',
-      provenance: 'private archive index'
-    }],
-    desired_difference: '異なる動機を平均化せず、非公開のまま並置する。',
-    basis: 'direct_record',
-    disclosure: 'restricted_reference',
-    provenance: 'private archive index'
+  const third = sdk.advanceWorldline(candidate, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    experience_id: 'external-provisional-run-1',
+    candidate_digest: candidate.emulation.capsule.digest.value,
+    evidence: ['external-run-1']
   });
-  assert.equal(sdk.validate('ingress-record', pluralRecord).valid, true);
+  assert.equal(third.lineage_generation, 3);
+  assert.equal(third.status, 'review_required');
+});
+
+test('binds emulator identity to Host asset content, not only a commit label', () => {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'unflatten-host-digest-'));
+  const asset = path.join(tempRoot, 'protocol.md');
+  fs.writeFileSync(asset, 'host-v1');
+  const before = calculateCapsuleDigest(tempRoot, ['protocol.md']);
+  fs.writeFileSync(asset, 'host-v2');
+  const after = calculateCapsuleDigest(tempRoot, ['protocol.md']);
+  assert.notEqual(before, after);
+
+  const description = sdk.describeWorldlineEmulation('unflatten-v2-greenfield');
+  assert.equal(description.host_digest, 'dc299161c4835bc697d08ef9ab38fcc7738c786c47a3cefa8e8a354d95b5fe50');
 });
 
 test('validates the protocol manifest and every registered path exists', () => {
@@ -300,7 +306,6 @@ test('validates the protocol manifest and every registered path exists', () => {
   assert.equal(result.valid, true, JSON.stringify(result.errors));
   const paths = [
     sdk.manifest.protocol,
-    sdk.manifest.ingress,
     sdk.manifest.handoff,
     ...Object.values(sdk.manifest.roles).map((role) => role.template),
     ...Object.values(sdk.manifest.engines),

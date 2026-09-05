@@ -71,27 +71,6 @@ GitHubから直接導入できます。
 npm install github:kentaroid-bot/unflatten-protocol
 ```
 
-## Greenfield Ingress
-
-新しいcanonical hypothesisまたはWorldlineを完全に新しく始め、現在の依頼や既存artifactに十分な動機記録がない場合は、roleを選ぶ前にGreenfield Ingressを実行します。これは一律の質問票ではありません。既知情報を先に使い、欠けている生成起点だけを一度に一問ずつ確認します。
-
-```js
-const unflatten = require('unflatten-protocol');
-
-const prompt = unflatten.composeIngressPrompt(
-  'この新しいprojectの入口状態を判定し、必要ならMotive Queryを一つだけ返す。',
-  { context: knownProjectContext }
-);
-```
-
-得られたrecordは汎用validatorで検証できます。
-
-```sh
-npx unflatten validate ingress-record ingress.yaml
-```
-
-Greenfield Ingressはopt-inのpre-role primitiveです。既存利用者の `composeRolePrompt()` を自動停止せず、動機の真実性や十分性を静的スコアで認定しません。適用境界、Motive RecordとOutcome Envelopeの分離、`query_required | hold | safety_exception_logged`の扱いは[`docs/ingress.md`](docs/ingress.md)を参照してください。
-
 ## Load a Role
 
 ```js
@@ -148,6 +127,32 @@ npx unflatten worldline-role epistemic-lineage-v2 @lin
 `@lin`（Epistemic Lineage Steward）は現在第1世代のGuestです。rootの`listRoles()`には表示されず、仮説の採否やParallel Runの開始・終了を決定しません。
 
 三世代後の`decideWorldline()`は、`authority: operational_decision`、`decided_by: integrator`、判断理由、証拠参照を必須とします。`extend_once`を選んだ場合も判断は上書きされず、最終判断と並ぶ最大2件の`review.decisions`として保存されます。静的検証はこの宣言構造を検査しますが、判断者の本人性や証拠の意味的品質までは証明しません。
+
+### Internal-Stable Emulator Capsule
+
+候補Worldlineは、Stable Hostの中で自己完結した局所世界として起動できます。たとえば `unflatten-v2-greenfield` は、内部ではGreenfield IngressをStableとして運用しつつ、Hostからはgestatingな第二世代として扱われます。これはStable Hostの規則を書き換えるfeature flagではありません。
+
+```js
+const unflatten = require('unflatten-protocol');
+
+const identity = unflatten.describeWorldlineEmulation('unflatten-v2-greenfield');
+// internal_status: stable, upstream_status: gestating, generation: 2
+
+const prompt = unflatten.composeWorldlineEmulationPrompt(
+  'unflatten-v2-greenfield',
+  'ingress',
+  '入口状態を判定し、必要ならMotive Queryを一つだけ返す。',
+  { context: knownProjectContext }
+);
+
+const result = unflatten.validateWorldlineArtifact(
+  'unflatten-v2-greenfield',
+  'ingress-record',
+  ingressYaml
+);
+```
+
+`provisional_latest` は名前だけの可変参照です。各実行では、composerが示すHost commit、Host asset digest、Capsule digestを記録してください。候補内部のrole判断は、Hostへ投影すると `advisory_observation` になります。第三世代の外部経験とHost Integratorの判断なしに、rootのStable規則へ昇格しません。
 
 ## Validate a Handoff
 
@@ -249,8 +254,10 @@ SDKは特定のLLMプロバイダー、モデルまたはエージェントフ�
 
 探索、監査、実装または統合を行う前に、インストール済みの
 `unflatten-protocol` が提供する `docs/protocol.md` をロードする。
-新しい生成系譜で動機記録が不足する場合は、役割選択前に `docs/ingress.md` を適用する。
 その後、選択した役割をロードする。
+
+gestating Worldlineを試す場合だけ、対象IDを明示してEmulator Capsuleをロードし、
+resolved Host commit、Host asset digest、Capsule digestを実行記録へ残す。候補内部のStableをHost Stableとみなさない。
 
 成果物の自動検証では、静的検証とMetasystemic Auditorによる意味的監査を
 区別し、静的スコアだけで仮説の真偽または価値を判定しない。
@@ -264,9 +271,7 @@ Node.jsを使わないエージェント環境では、リポジトリをsubmodu
 - `resolveRole(nameOrAlias)`
 - `loadRole(nameOrAlias)`
 - `loadProtocol()`
-- `loadIngressContract()`
 - `loadHandoffContract()`
-- `composeIngressPrompt(task, options)`
 - `composeRolePrompt(role, task, options)`
 - `validate(schemaName, objectOrYaml)`
 - `inspectArtifact(textOrObject)`
@@ -279,6 +284,12 @@ Node.jsを使わないエージェント環境では、リポジトリをsubmodu
 - `transitionWorkflow(run, options)`
 - `verifyWorkflowRun(run, options)`
 - `composeWorkflowPrompt(run, task, options)`
+- `listWorldlines()`
+- `resolveWorldline(id)`
+- `describeWorldlineEmulation(id)`
+- `loadWorldlineAsset(id, relativePath)`
+- `composeWorldlineEmulationPrompt(id, entrypointOrRole, task, options)`
+- `validateWorldlineArtifact(id, schemaName, objectOrYaml)`
 
 ## Validation Boundary
 

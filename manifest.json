@@ -3,7 +3,6 @@
   "id": "unflatten-protocol",
   "version": "0.2.0",
   "protocol": "docs/protocol.md",
-  "ingress": "docs/ingress.md",
   "handoff": "docs/handoff.md",
   "roles": {
     "innovator": {
@@ -77,7 +76,6 @@
   "worldlines": "worldlines/registry.json",
   "schemas": {
     "protocol-manifest": "schema/protocol-manifest.schema.json",
-    "ingress-record": "schema/ingress-record.schema.json",
     "handoff": "schema/handoff-contract.schema.json",
     "state-history": "schema/state-history.schema.json",
     "audit-report": "schema/audit-report.schema.json",

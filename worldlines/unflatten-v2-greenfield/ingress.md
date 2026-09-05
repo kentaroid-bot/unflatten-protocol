@@ -6,7 +6,7 @@ Greenfield Ingressは、AIが完全に新しい生成作業の問題設定、勝
 
 これは一般的なproject intake formではありません。既存のMotive Record、Handoffまたは十分な依頼文がないまま、**新しいcanonical hypothesisまたはWorldlineを開始する場合**だけ適用します。既知の情報を再質問せず、動機が不足している場合は、もっともらしい仮説で穴を埋める代わりにMotive Queryを正規の一手として返します。
 
-Unflattenの不変条件、反証およびPivotは[`protocol.md`](protocol.md)に従います。Greenfield Ingressはroleではなく、roleを選ぶ前の状態機械です。`@lin`を含むGuest roleの存在に依存しません。
+Unflattenの不変条件、反証およびPivotはStable Hostの `docs/protocol.md` と、このCapsuleの `protocol-overlay.md` に従います。Greenfield Ingressはroleではなく、roleを選ぶ前の状態機械です。Guest roleの存在に依存しません。
 
 ## Activation Boundary
 

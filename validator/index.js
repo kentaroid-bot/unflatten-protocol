@@ -43,29 +43,8 @@ function loadProtocol() {
   return read(manifest.protocol);
 }
 
-function loadIngressContract() {
-  return read(manifest.ingress);
-}
-
 function loadHandoffContract() {
   return read(manifest.handoff);
-}
-
-function composeIngressPrompt(task, options = {}) {
-  const parts = [
-    '# Loaded Protocol',
-    loadProtocol(),
-    '# Greenfield Ingress Contract',
-    loadIngressContract(),
-    '# Machine-readable Ingress Schema',
-    read(manifest.schemas['ingress-record']),
-    '# Output Requirement',
-    '必要な対話を行う場合を除き、最終的なIngress Recordは上記schemaに適合するJSONまたはYAMLだけで返してください。動機の真正性や十分性をschema検証済みと主張してはいけません。'
-  ];
-  if (options.record) parts.push('# Existing Ingress Record', stringifyInput(options.record));
-  if (options.context) parts.push('# Known Context', stringifyInput(options.context));
-  parts.push('# Current Task', String(task || ''));
-  return parts.join('\n\n');
 }
 
 function composeRolePrompt(nameOrAlias, task, options = {}) {
@@ -188,7 +167,9 @@ const worldlines = createWorldlineTools({
   manifest,
   validate,
   parseInput,
-  loadProtocol
+  loadProtocol,
+  loadRole,
+  resolveRole
 });
 
 module.exports = {
@@ -197,9 +178,7 @@ module.exports = {
   resolveRole,
   loadRole,
   loadProtocol,
-  loadIngressContract,
   loadHandoffContract,
-  composeIngressPrompt,
   composeRolePrompt,
   validate,
   inspectArtifact,
@@ -210,6 +189,10 @@ module.exports = {
   resolveWorldlineRole: worldlines.resolveWorldlineRole,
   loadWorldlineRole: worldlines.loadWorldlineRole,
   composeWorldlineRolePrompt: worldlines.composeWorldlineRolePrompt,
+  loadWorldlineAsset: worldlines.loadWorldlineAsset,
+  describeWorldlineEmulation: worldlines.describeWorldlineEmulation,
+  composeWorldlineEmulationPrompt: worldlines.composeWorldlineEmulationPrompt,
+  validateWorldlineArtifact: worldlines.validateWorldlineArtifact,
   advanceWorldline: worldlines.advanceWorldline,
   decideWorldline: worldlines.decideWorldline,
   completeWorldlineExtension: worldlines.completeWorldlineExtension,

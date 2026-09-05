@@ -3,13 +3,12 @@
   "$id": "https://unflatten.dev/schema/protocol-manifest.schema.json",
   "title": "Unflatten Protocol Manifest",
   "type": "object",
-  "required": ["id", "version", "protocol", "ingress", "handoff", "roles", "schemas"],
+  "required": ["id", "version", "protocol", "handoff", "roles", "schemas"],
   "properties": {
     "$schema": { "type": "string", "minLength": 1 },
     "id": { "const": "unflatten-protocol" },
     "version": { "type": "string", "minLength": 1 },
     "protocol": { "type": "string", "minLength": 1 },
-    "ingress": { "type": "string", "minLength": 1 },
     "handoff": { "type": "string", "minLength": 1 },
     "roles": {
       "type": "object",

@@ -8,6 +8,9 @@
   "worldlines": {
     "epistemic-lineage-v2": {
       "manifest": "worldlines/epistemic-lineage-v2/manifest.json"
+    },
+    "unflatten-v2-greenfield": {
+      "manifest": "worldlines/unflatten-v2-greenfield/manifest.json"
     }
   }
 }

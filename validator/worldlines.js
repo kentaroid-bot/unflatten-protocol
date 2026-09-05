@@ -2,6 +2,9 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const crypto = require('node:crypto');
+const Ajv2020 = require('ajv/dist/2020');
+const addFormats = require('ajv-formats');
 
 const REQUIRED_GENERATION_ROLES = ['innovator', 'auditor', 'integrator'];
 const TERMINAL_OUTCOMES = ['promote', 'spin_out', 'archive', 'terminate'];
@@ -29,6 +32,17 @@ function sameMembers(left, right) {
   const sortedRight = [...right].sort();
   return sortedLeft.length === sortedRight.length
     && sortedLeft.every((value, index) => value === sortedRight[index]);
+}
+
+function calculateCapsuleDigest(base, assets) {
+  const hash = crypto.createHash('sha256');
+  for (const relativePath of [...assets].sort()) {
+    hash.update(relativePath);
+    hash.update('\0');
+    hash.update(fs.readFileSync(safeResolve(base, relativePath)));
+    hash.update('\0');
+  }
+  return hash.digest('hex');
 }
 
 function checkWorldlineInvariants(value) {
@@ -60,6 +74,40 @@ function checkWorldlineInvariants(value) {
       });
     }
   });
+
+  if (value?.emulation) {
+    const experiences = records.map((record) => record.experience_id);
+    if (new Set(experiences).size !== experiences.length) {
+      findings.push({
+        severity: 'error',
+        rule: 'worldline-distinct-generation-experience',
+        message: 'emulated generations require distinct experience_id values'
+      });
+    }
+    const evidence = records.flatMap((record) => record.evidence || []);
+    if (new Set(evidence).size !== evidence.length) {
+      findings.push({
+        severity: 'error',
+        rule: 'worldline-generation-evidence-reuse',
+        message: 'emulated generations must not reuse the same evidence locator'
+      });
+    }
+    if (value.emulation.base.commit !== value?.parent?.commit) {
+      findings.push({
+        severity: 'error',
+        rule: 'worldline-emulator-base-pin',
+        message: 'emulation base commit must match the immutable parent commit'
+      });
+    }
+    const latest = records.at(-1);
+    if (latest?.candidate_digest !== value.emulation.capsule.digest.value) {
+      findings.push({
+        severity: 'error',
+        rule: 'worldline-latest-capsule-digest',
+        message: 'latest generation candidate_digest must match the current capsule digest'
+      });
+    }
+  }
 
   const extensionPending = Boolean(value?.review?.extension_pending);
   const decisions = Array.isArray(value?.review?.decisions) ? value.review.decisions : [];
@@ -159,7 +207,21 @@ function createIntegratorDecision(outcome, details) {
 }
 
 function createWorldlineTools(dependencies) {
-  const { root, manifest, validate, parseInput, loadProtocol } = dependencies;
+  const { root, manifest, validate, parseInput, loadProtocol, loadRole, resolveRole } = dependencies;
+
+  function assertEmulationIntegrity(worldline, guestRoot) {
+    if (!worldline.emulation) return;
+    const actualHost = calculateCapsuleDigest(root, worldline.emulation.base.assets);
+    const expectedHost = worldline.emulation.base.digest.value;
+    if (actualHost !== expectedHost) {
+      throw new Error('Worldline host asset digest mismatch: expected ' + expectedHost + ', got ' + actualHost);
+    }
+    const actual = calculateCapsuleDigest(guestRoot, worldline.emulation.capsule.assets);
+    const expected = worldline.emulation.capsule.digest.value;
+    if (actual !== expected) {
+      throw new Error('Worldline capsule digest mismatch: expected ' + expected + ', got ' + actual);
+    }
+  }
 
   function loadRegistry() {
     if (!manifest.worldlines) throw new Error('This host has no worldline registry');
@@ -195,6 +257,7 @@ function createWorldlineTools(dependencies) {
       throw error;
     }
     if (guest.id !== normalized) throw new Error('Worldline id mismatch: ' + normalized);
+    assertEmulationIntegrity(guest, guestRoot);
     return { ...guest, manifest: entry.manifest, root: path.relative(root, guestRoot) };
   }
 
@@ -254,6 +317,98 @@ function createWorldlineTools(dependencies) {
     return parts.join('\n\n');
   }
 
+  function declaredEmulationAssets(worldline) {
+    return new Set(worldline.emulation?.capsule?.assets || []);
+  }
+
+  function loadWorldlineAsset(worldlineId, relativePath) {
+    const worldline = resolveWorldline(worldlineId);
+    if (!worldline.emulation) throw new Error('Worldline has no emulator capsule: ' + worldlineId);
+    if (!declaredEmulationAssets(worldline).has(relativePath)) {
+      throw new Error('Asset is not declared by the emulator capsule: ' + relativePath);
+    }
+    const guestRoot = safeResolve(root, worldline.root);
+    return fs.readFileSync(safeResolve(guestRoot, relativePath), 'utf8');
+  }
+
+  function describeWorldlineEmulation(worldlineId) {
+    const worldline = resolveWorldline(worldlineId);
+    if (!worldline.emulation) throw new Error('Worldline has no emulator capsule: ' + worldlineId);
+    return {
+      id: worldline.id,
+      generation: worldline.lineage_generation,
+      generation_limit: worldline.generation_limit,
+      internal_status: worldline.emulation.internal_status,
+      upstream_status: worldline.emulation.upstream_status,
+      channel: worldline.emulation.channel,
+      base_commit: worldline.emulation.base.commit,
+      host_digest: worldline.emulation.base.digest.value,
+      capsule_digest: worldline.emulation.capsule.digest.value
+    };
+  }
+
+  function composeWorldlineEmulationPrompt(worldlineId, entrypointOrRole, task, options = {}) {
+    const worldline = resolveWorldline(worldlineId);
+    const emulation = worldline.emulation;
+    if (!emulation) throw new Error('Worldline has no emulator capsule: ' + worldlineId);
+    const normalized = String(entrypointOrRole || '').trim();
+    const guestRoot = safeResolve(root, worldline.root);
+    const boundary = [
+      'Worldline: ' + worldline.id,
+      'Internal status: ' + emulation.internal_status,
+      'Upstream status: ' + emulation.upstream_status,
+      'Channel: ' + emulation.channel,
+      'Generation: ' + worldline.lineage_generation + '/' + worldline.generation_limit,
+      'Resolved base commit: ' + emulation.base.commit,
+      'Host asset digest (sha256): ' + emulation.base.digest.value,
+      'Capsule digest (sha256): ' + emulation.capsule.digest.value,
+      'Internal authority: ' + emulation.authority_projection.internal,
+      'Upstream projection: ' + emulation.authority_projection.upstream,
+      'Internal decisions do not promote or mutate the Stable Host.'
+    ].join('\n');
+    const parts = [
+      '# Stable Host Protocol',
+      loadProtocol(),
+      '# Internal-Stable Emulator Boundary',
+      boundary,
+      '# Candidate Protocol Overlay',
+      loadWorldlineAsset(worldlineId, emulation.protocol_overlay)
+    ];
+
+    const entrypoint = emulation.entrypoints[normalized];
+    if (entrypoint) {
+      parts.push('# Candidate Entrypoint: ' + normalized, loadWorldlineAsset(worldlineId, entrypoint.document));
+      parts.push('# Machine-readable Candidate Schema: ' + entrypoint.schema, loadWorldlineAsset(worldlineId, emulation.schemas[entrypoint.schema]));
+    } else {
+      const role = resolveRole(normalized);
+      parts.push('# Stable Host Role: ' + role.name, loadRole(role.name));
+      const overlay = emulation.role_overlays[role.name];
+      if (overlay) parts.push('# Candidate Role Overlay: ' + role.name, loadWorldlineAsset(worldlineId, overlay));
+    }
+    if (options.record) parts.push('# Existing Candidate Record', typeof options.record === 'string' ? options.record : JSON.stringify(options.record, null, 2));
+    if (options.handoff) parts.push('# Handoff', typeof options.handoff === 'string' ? options.handoff : JSON.stringify(options.handoff, null, 2));
+    if (options.context) parts.push('# Project Context', String(options.context));
+    parts.push('# Current Task', String(task || ''));
+    return parts.join('\n\n');
+  }
+
+  function validateWorldlineArtifact(worldlineId, schemaName, input) {
+    const worldline = resolveWorldline(worldlineId);
+    const schemaPath = worldline.emulation?.schemas?.[schemaName];
+    if (!schemaPath) throw new Error('Unknown schema in worldline ' + worldlineId + ': ' + schemaName);
+    let value;
+    try {
+      value = parseInput(input);
+    } catch (error) {
+      return { valid: false, errors: [{ message: error.message }], value: null };
+    }
+    const schema = JSON.parse(loadWorldlineAsset(worldlineId, schemaPath));
+    const ajv = new Ajv2020({ allErrors: true, strict: false });
+    addFormats(ajv);
+    const validator = ajv.compile(schema);
+    return { valid: Boolean(validator(value)), errors: validator.errors || [], value };
+  }
+
   function assertValidWorldline(input) {
     const value = parseInput(input);
     const result = validate('worldline', value);
@@ -280,15 +435,26 @@ function createWorldlineTools(dependencies) {
     if (!Array.isArray(cycle?.evidence) || cycle.evidence.length === 0) {
       throw new Error('A generation requires evidence');
     }
+    if (worldline.emulation && (typeof cycle?.experience_id !== 'string' || cycle.experience_id.trim() === '')) {
+      throw new Error('An emulated generation requires a distinct experience_id');
+    }
+    if (worldline.emulation && cycle?.candidate_digest !== worldline.emulation.capsule.digest.value) {
+      throw new Error('An emulated generation requires the current capsule digest');
+    }
 
     const generation = worldline.lineage_generation + 1;
     worldline.lineage_generation = generation;
-    worldline.generation_records.push({
+    const record = {
       generation,
       status: 'completed',
       roles_completed: REQUIRED_GENERATION_ROLES,
       evidence: [...cycle.evidence]
-    });
+    };
+    if (worldline.emulation) {
+      record.experience_id = cycle.experience_id;
+      record.candidate_digest = cycle.candidate_digest;
+    }
+    worldline.generation_records.push(record);
     worldline.status = generation === worldline.generation_limit ? 'review_required' : 'active';
     return assertValidWorldline(worldline);
   }
@@ -355,6 +521,10 @@ function createWorldlineTools(dependencies) {
     resolveWorldlineRole,
     loadWorldlineRole,
     composeWorldlineRolePrompt,
+    loadWorldlineAsset,
+    describeWorldlineEmulation,
+    composeWorldlineEmulationPrompt,
+    validateWorldlineArtifact,
     advanceWorldline,
     decideWorldline,
     completeWorldlineExtension
@@ -364,6 +534,7 @@ function createWorldlineTools(dependencies) {
 module.exports = {
   REQUIRED_GENERATION_ROLES,
   safeResolve,
+  calculateCapsuleDigest,
   checkWorldlineInvariants,
   createWorldlineTools
 };
