@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unflatten.dev/schema/semantic-mount.schema.json",
+  "title": "Unflatten Semantic Mount Table",
+  "type": "object",
+  "required": ["version", "routes"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "version": { "const": "1.0" },
+    "routes": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "$ref": "#/$defs/resourcePath" },
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["kind", "asset"],
+            "properties": {
+              "kind": { "const": "asset" },
+              "asset": { "$ref": "#/$defs/resourcePath" }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": ["kind", "base", "overlays"],
+            "properties": {
+              "kind": { "const": "compose" },
+              "base": { "$ref": "#/$defs/resourcePath" },
+              "overlays": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/resourcePath" }
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "resourcePath": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9._/-]+$"
+    }
+  },
+  "additionalProperties": false
+}

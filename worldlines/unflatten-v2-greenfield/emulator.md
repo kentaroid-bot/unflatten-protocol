@@ -25,6 +25,12 @@
 5. 対応するrole overlayがあれば重ねる。
 6. Capsule digestとresolved pinを実行記録へ残す。
 
+## Versioned Semantic Mount
+
+v1母体のrouterはこのWorldlineを`~/v2/`へmountします。`~/v2/docs/protocol.md`はHost Protocolと`protocol-overlay.md`をcomposeし、`~/v2/docs/ingress.md`はcandidate assetを返します。exact routeがない場合も、Host digestへ含まれるassetだけを継承します。
+
+`~/`はlogical prefixでありOS homeではありません。解決にはSDK/CLI resolverだけを使用し、返されたWorldline、generation、Host digest、Capsule digestをrunへ保存してください。
+
 ## Generation Boundary
 
 一世代は異なる経験に晒されたInnovator、Auditor、Integratorの完全な一巡です。commit数、文章修正回数、同じ証拠の再包装を世代として数えてはいけません。第三世代の観測後にのみHost Integratorへ判断を返します。

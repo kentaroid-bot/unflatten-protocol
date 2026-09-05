@@ -298,7 +298,50 @@ test('binds emulator identity to Host asset content, not only a commit label', (
   assert.notEqual(before, after);
 
   const description = sdk.describeWorldlineEmulation('unflatten-v2-greenfield');
-  assert.equal(description.host_digest, 'dc299161c4835bc697d08ef9ab38fcc7738c786c47a3cefa8e8a354d95b5fe50');
+  assert.equal(description.host_digest, 'b5bc8a0e620f619ddd035eac04b05373287f12f53e991d53500d7ff0b78e606f');
+});
+
+test('resolves v1 and v2 through Versioned Semantic Mounts', () => {
+  const stable = sdk.resolveProtocolPath('~/docs/protocol.md');
+  assert.equal(stable.target, 'host');
+  assert.equal(stable.mount, '~/');
+  assert.equal(stable.logical_only, true);
+  assert.match(stable.content, /# Unflatten Protocol/u);
+
+  const explicitV1 = sdk.resolveProtocolPath('~/v1/docs/protocol.md');
+  assert.equal(explicitV1.target, 'host');
+  assert.equal(explicitV1.mount, '~/v1/');
+  assert.equal(explicitV1.content, stable.content);
+
+  const v2 = sdk.resolveProtocolPath('~/v2/docs/protocol.md');
+  assert.equal(v2.target, 'worldline');
+  assert.equal(v2.worldline, 'unflatten-v2-greenfield');
+  assert.equal(v2.generation, 2);
+  assert.equal(v2.source, 'composed');
+  assert.match(v2.content, /# Host Resource: docs\/protocol\.md/u);
+  assert.match(v2.content, /# Worldline Overlay: protocol-overlay\.md/u);
+  assert.match(v2.content, /Greenfield Ingress/u);
+  assert.match(v2.host_digest, /^[a-f0-9]{64}$/u);
+  assert.match(v2.capsule_digest, /^[a-f0-9]{64}$/u);
+
+  const inherited = sdk.resolveProtocolPath('~/v2/docs/handoff.md');
+  assert.equal(inherited.source, 'inherited_host');
+  assert.match(inherited.content, /# Unflatten Handoff Contract/u);
+
+  const ingress = sdk.loadProtocolPath('~/v2/docs/ingress.md');
+  assert.match(ingress, /# Greenfield Ingress Contract/u);
+});
+
+test('Semantic Mount rejects traversal, unknown fallback, and namespace capture', () => {
+  assert.throws(() => sdk.resolveProtocolPath('~/v2/../docs/protocol.md'), /traversal|Invalid/u);
+  assert.throws(() => sdk.resolveProtocolPath('~/v2/README.md'), /Unknown or unpinned/u);
+  assert.throws(() => sdk.resolveProtocolPath('/v2/docs/protocol.md'), /must start/u);
+
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, 'worldlines/registry.json'), 'utf8'));
+  registry.mounts.push({ prefix: '~/v2/', target: 'worldline', worldline: 'epistemic-lineage-v2' });
+  const duplicate = sdk.validate('worldline-registry', registry);
+  assert.equal(duplicate.valid, false);
+  assert.ok(duplicate.findings.some((finding) => finding.rule === 'worldline-mount-prefix-unique'));
 });
 
 test('validates the protocol manifest and every registered path exists', () => {

@@ -45,6 +45,26 @@ function calculateCapsuleDigest(base, assets) {
   return hash.digest('hex');
 }
 
+function checkWorldlineRegistryInvariants(value) {
+  const findings = [];
+  const mounts = value?.mounts;
+  if (!Array.isArray(mounts)) return findings;
+  const prefixes = mounts.map((mount) => mount.prefix);
+  if (new Set(prefixes).size !== prefixes.length) {
+    findings.push({ severity: 'error', rule: 'worldline-mount-prefix-unique', message: 'mount prefixes must be unique' });
+  }
+  const rootMounts = mounts.filter((mount) => mount.prefix === '~/');
+  if (rootMounts.length !== 1 || rootMounts[0].target !== 'host') {
+    findings.push({ severity: 'error', rule: 'worldline-host-root-mount', message: '~/ must be owned by exactly one Host mount' });
+  }
+  for (const mount of mounts) {
+    if (mount.target === 'worldline' && !value?.worldlines?.[mount.worldline]) {
+      findings.push({ severity: 'error', rule: 'worldline-mount-target-exists', message: 'mount references an unknown worldline: ' + mount.worldline });
+    }
+  }
+  return findings;
+}
+
 function checkWorldlineInvariants(value) {
   const findings = [];
   const records = value?.generation_records;
@@ -239,7 +259,125 @@ function createWorldlineTools(dependencies) {
     ) {
       throw new Error('Worldline registry host does not match the loaded stable protocol');
     }
+    const findings = checkWorldlineRegistryInvariants(registry);
+    if (findings.some((finding) => finding.severity === 'error')) {
+      const error = new Error('Invalid worldline mount registry');
+      error.findings = findings;
+      throw error;
+    }
     return registry;
+  }
+
+  function hostResourcePaths() {
+    return new Set([
+      'manifest.json',
+      manifest.protocol,
+      manifest.handoff,
+      ...Object.values(manifest.roles).map((role) => role.template),
+      ...Object.values(manifest.engines || {}),
+      ...Object.values(manifest.schemas || {})
+    ]);
+  }
+
+  function normalizeLogicalPath(input) {
+    const logicalPath = String(input || '').trim();
+    if (!logicalPath.startsWith('~/')) throw new Error('Protocol path must start with ~/');
+    if (!/^~\/[A-Za-z0-9._/-]+$/u.test(logicalPath) || logicalPath.includes('//')) {
+      throw new Error('Invalid logical protocol path: ' + logicalPath);
+    }
+    const segments = logicalPath.slice(2).split('/');
+    if (segments.some((segment) => segment === '' || segment === '.' || segment === '..')) {
+      throw new Error('Logical protocol path traversal is not allowed: ' + logicalPath);
+    }
+    return logicalPath;
+  }
+
+  function loadSemanticMount(worldline, guestRoot) {
+    const mountPath = worldline.emulation?.virtual_mount;
+    if (!mountPath || !declaredEmulationAssets(worldline).has(mountPath)) {
+      throw new Error('Worldline virtual mount must be a declared Capsule asset');
+    }
+    const table = JSON.parse(fs.readFileSync(safeResolve(guestRoot, mountPath), 'utf8'));
+    const result = validate('semantic-mount', table);
+    if (!result.valid) {
+      const error = new Error('Invalid semantic mount table for ' + worldline.id);
+      error.validation = result;
+      throw error;
+    }
+    return table;
+  }
+
+  function resolveProtocolPath(input) {
+    const logicalPath = normalizeLogicalPath(input);
+    const registry = loadRegistry();
+    const mount = [...registry.mounts]
+      .sort((left, right) => right.prefix.length - left.prefix.length)
+      .find((candidate) => logicalPath.startsWith(candidate.prefix));
+    if (!mount) throw new Error('No protocol mount for path: ' + logicalPath);
+    const resourcePath = logicalPath.slice(mount.prefix.length);
+    if (!resourcePath) throw new Error('Protocol path must name a resource: ' + logicalPath);
+
+    if (mount.target === 'host') {
+      if (!hostResourcePaths().has(resourcePath)) throw new Error('Unknown Host protocol resource: ' + resourcePath);
+      return {
+        logical_path: logicalPath,
+        logical_only: true,
+        mount: mount.prefix,
+        target: 'host',
+        protocol_version: manifest.version,
+        resource_path: resourcePath,
+        source: 'host',
+        content: fs.readFileSync(safeResolve(root, resourcePath), 'utf8')
+      };
+    }
+
+    const worldline = resolveWorldline(mount.worldline);
+    if (!worldline.emulation) throw new Error('Mounted worldline has no emulator: ' + mount.worldline);
+    const guestRoot = safeResolve(root, worldline.root);
+    const table = loadSemanticMount(worldline, guestRoot);
+    const route = table.routes[resourcePath];
+    let content;
+    let source;
+    if (route?.kind === 'asset') {
+      if (!declaredEmulationAssets(worldline).has(route.asset)) throw new Error('Mounted asset is not declared by the Capsule: ' + route.asset);
+      content = fs.readFileSync(safeResolve(guestRoot, route.asset), 'utf8');
+      source = 'candidate_asset';
+    } else if (route?.kind === 'compose') {
+      if (!worldline.emulation.base.assets.includes(route.base)) throw new Error('Mounted base is not pinned by the Host digest: ' + route.base);
+      for (const overlay of route.overlays) {
+        if (!declaredEmulationAssets(worldline).has(overlay)) throw new Error('Mounted overlay is not declared by the Capsule: ' + overlay);
+      }
+      const parts = ['# Host Resource: ' + route.base, fs.readFileSync(safeResolve(root, route.base), 'utf8')];
+      for (const overlay of route.overlays) {
+        parts.push('# Worldline Overlay: ' + overlay, fs.readFileSync(safeResolve(guestRoot, overlay), 'utf8'));
+      }
+      content = parts.join('\n\n');
+      source = 'composed';
+    } else {
+      if (!worldline.emulation.base.assets.includes(resourcePath)) throw new Error('Unknown or unpinned Worldline resource: ' + resourcePath);
+      content = fs.readFileSync(safeResolve(root, resourcePath), 'utf8');
+      source = 'inherited_host';
+    }
+    return {
+      logical_path: logicalPath,
+      logical_only: true,
+      mount: mount.prefix,
+      target: 'worldline',
+      worldline: worldline.id,
+      generation: worldline.lineage_generation,
+      internal_status: worldline.emulation.internal_status,
+      upstream_status: worldline.emulation.upstream_status,
+      resource_path: resourcePath,
+      source,
+      base_commit: worldline.emulation.base.commit,
+      host_digest: worldline.emulation.base.digest.value,
+      capsule_digest: worldline.emulation.capsule.digest.value,
+      content
+    };
+  }
+
+  function loadProtocolPath(input) {
+    return resolveProtocolPath(input).content;
   }
 
   function resolveWorldline(id) {
@@ -516,6 +654,8 @@ function createWorldlineTools(dependencies) {
 
   return {
     loadRegistry,
+    resolveProtocolPath,
+    loadProtocolPath,
     listWorldlines,
     resolveWorldline,
     resolveWorldlineRole,
@@ -535,6 +675,7 @@ module.exports = {
   REQUIRED_GENERATION_ROLES,
   safeResolve,
   calculateCapsuleDigest,
+  checkWorldlineRegistryInvariants,
   checkWorldlineInvariants,
   createWorldlineTools
 };

@@ -154,6 +154,30 @@ const result = unflatten.validateWorldlineArtifact(
 
 `provisional_latest` は名前だけの可変参照です。各実行では、composerが示すHost commit、Host asset digest、Capsule digestを記録してください。候補内部のrole判断は、Hostへ投影すると `advisory_observation` になります。第三世代の外部経験とHost Integratorの判断なしに、rootのStable規則へ昇格しません。
 
+### Versioned Semantic Mount
+
+v1とv2は同じrepositoryから論理パスで読み分けられます。
+
+- `~/…`: v1 Stable（既定）
+- `~/v1/…`: v1 Stable（明示形）
+- `~/v2/…`: v2 provisional latest
+
+`~/`はOSのhome directoryではありません。Unflatten SDK/CLIだけが解決するlogical prefixです。shellでは必ずquoteしてください。
+
+```sh
+npx unflatten path '~/docs/protocol.md'
+npx unflatten path '~/v2/docs/protocol.md'
+```
+
+```js
+const resolved = unflatten.resolveProtocolPath('~/v2/docs/protocol.md');
+console.log(resolved.worldline, resolved.host_digest, resolved.capsule_digest);
+
+const protocol = unflatten.loadProtocolPath('~/v2/docs/protocol.md');
+```
+
+`~/v2/docs/protocol.md`は物理fileの別名ではなく、v1 Protocolとv2 overlayの合成resourceです。`~/v2/docs/handoff.md`のようにv2が変更していないresourceは、Host digestに固定されたv1 assetを継承します。未知のpath、digest外asset、`..`によるtraversalは拒否します。mount prefixはv1 registryが、v2内のsemantic mappingはCapsuleの`mount.json`が所有します。
+
 ## Validate a Handoff
 
 YAMLとJSONの両方を受け付けます。
@@ -290,6 +314,8 @@ Node.jsを使わないエージェント環境では、リポジトリをsubmodu
 - `loadWorldlineAsset(id, relativePath)`
 - `composeWorldlineEmulationPrompt(id, entrypointOrRole, task, options)`
 - `validateWorldlineArtifact(id, schemaName, objectOrYaml)`
+- `resolveProtocolPath(logicalPath)`
+- `loadProtocolPath(logicalPath)`
 
 ## Validation Boundary
 

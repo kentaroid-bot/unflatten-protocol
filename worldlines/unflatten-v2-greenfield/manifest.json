@@ -55,7 +55,7 @@
       "status": "completed",
       "roles_completed": ["innovator", "auditor", "integrator"],
       "experience_id": "human-steward-emulator-correction",
-      "candidate_digest": "051588ff7fec746cf4f1fee374d440d3c35c2c527d5cb83d01474f64cbcd3e40",
+      "candidate_digest": "c9ea37704f8ee5d2db800646eff8683c0c35591da87a8a12d5a37439d8b9ed53",
       "evidence": [
         "Human Steward correction: Greenfield Ingress is internally Stable inside a gestating v2 emulator",
         "self-audit/004/12-emulator-innovator-to-auditor.yaml",
@@ -79,6 +79,7 @@
       "strategy": "inherit_host",
       "commit": "86ef384bf2d83648a1140434d6f41bcf0120bfe7",
       "assets": [
+        "docs/handoff.md",
         "docs/protocol.md",
         "manifest.json",
         "prompt-templates/core/auditor.md",
@@ -89,11 +90,20 @@
         "prompt-templates/extensions/entropy-harvester.md",
         "prompt-templates/extensions/exit-designer.md",
         "prompt-templates/extensions/mesh-scaler.md",
-        "prompt-templates/meta/meta-protocol-designer.md"
+        "prompt-templates/meta/meta-protocol-designer.md",
+        "prompt-templates/meta/protocol-invention-engine.md",
+        "schema/audit-report.schema.json",
+        "schema/handoff-contract.schema.json",
+        "schema/protocol-manifest.schema.json",
+        "schema/semantic-mount.schema.json",
+        "schema/state-history.schema.json",
+        "schema/workflow-run.schema.json",
+        "schema/worldline-registry.schema.json",
+        "schema/worldline.schema.json"
       ],
       "digest": {
         "algorithm": "sha256",
-        "value": "dc299161c4835bc697d08ef9ab38fcc7738c786c47a3cefa8e8a354d95b5fe50"
+        "value": "b5bc8a0e620f619ddd035eac04b05373287f12f53e991d53500d7ff0b78e606f"
       }
     },
     "protocol_overlay": "protocol-overlay.md",
@@ -110,6 +120,7 @@
     "schemas": {
       "ingress-record": "schema/ingress-record.schema.json"
     },
+    "virtual_mount": "mount.json",
     "authority_projection": {
       "internal": "role_defined",
       "upstream": "advisory_observation"
@@ -120,12 +131,13 @@
         "fixtures/ingress.valid.yaml",
         "ingress.md",
         "innovator-overlay.md",
+        "mount.json",
         "protocol-overlay.md",
         "schema/ingress-record.schema.json"
       ],
       "digest": {
         "algorithm": "sha256",
-        "value": "051588ff7fec746cf4f1fee374d440d3c35c2c527d5cb83d01474f64cbcd3e40"
+        "value": "c9ea37704f8ee5d2db800646eff8683c0c35591da87a8a12d5a37439d8b9ed53"
       }
     }
   }

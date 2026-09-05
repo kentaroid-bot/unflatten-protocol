@@ -9,7 +9,7 @@ const { detectFlattening } = require('./rules/detect-flattening');
 const { measureSharpness } = require('./rules/measure-sharpness');
 const { checkInvariants } = require('./rules/check-invariants');
 const { createWorkflowTools } = require('./workflow');
-const { checkWorldlineInvariants, createWorldlineTools } = require('./worldlines');
+const { checkWorldlineInvariants, checkWorldlineRegistryInvariants, createWorldlineTools } = require('./worldlines');
 
 const ROOT = path.resolve(__dirname, '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest.json'), 'utf8'));
@@ -94,7 +94,9 @@ function validate(schemaName, input) {
     ? checkInvariants(value)
     : schemaName === 'worldline'
       ? checkWorldlineInvariants(value)
-      : [];
+      : schemaName === 'worldline-registry'
+        ? checkWorldlineRegistryInvariants(value)
+        : [];
   const nestedValidation = schemaName === 'audit-report' && schemaValid && value?.handoff
     ? validate('handoff', { handoff: value.handoff })
     : null;
@@ -189,6 +191,8 @@ module.exports = {
   resolveWorldlineRole: worldlines.resolveWorldlineRole,
   loadWorldlineRole: worldlines.loadWorldlineRole,
   composeWorldlineRolePrompt: worldlines.composeWorldlineRolePrompt,
+  resolveProtocolPath: worldlines.resolveProtocolPath,
+  loadProtocolPath: worldlines.loadProtocolPath,
   loadWorldlineAsset: worldlines.loadWorldlineAsset,
   describeWorldlineEmulation: worldlines.describeWorldlineEmulation,
   composeWorldlineEmulationPrompt: worldlines.composeWorldlineEmulationPrompt,

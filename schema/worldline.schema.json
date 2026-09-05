@@ -166,7 +166,7 @@
     },
     "emulation": {
       "type": "object",
-      "required": ["internal_status", "upstream_status", "channel", "base", "protocol_overlay", "entrypoints", "role_overlays", "schemas", "authority_projection", "capsule"],
+      "required": ["internal_status", "upstream_status", "channel", "base", "protocol_overlay", "entrypoints", "role_overlays", "schemas", "virtual_mount", "authority_projection", "capsule"],
       "properties": {
         "internal_status": { "const": "stable" },
         "upstream_status": { "const": "gestating" },
@@ -219,6 +219,7 @@
           "minProperties": 1,
           "additionalProperties": { "$ref": "#/$defs/assetPath" }
         },
+        "virtual_mount": { "$ref": "#/$defs/assetPath" },
         "authority_projection": {
           "type": "object",
           "required": ["internal", "upstream"],

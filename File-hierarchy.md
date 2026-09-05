@@ -41,6 +41,7 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │   ├── state-history.schema.json
 │   ├── audit-report.schema.json
 │   ├── workflow-run.schema.json         # 実行中ロール、digest、遷移履歴
+│   ├── semantic-mount.schema.json       # v1/v2 logical pathのcompose/asset対応
 │   ├── worldline-registry.schema.json  # Stable Hostが認識するGuest一覧
 │   └── worldline.schema.json           # 三世代、review、spin-out境界
 │
@@ -64,6 +65,7 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │   └── unflatten-v2-greenfield/        # 内部Stable／上流gestatingの第2世代Capsule
 │       ├── manifest.json               # 二重状態、固定base、digest、世代証拠
 │       ├── emulator.md                 # 権限投影とロード境界（@emu）
+│       ├── mount.json                  # digest対象のVersioned Semantic Mount対応
 │       ├── protocol-overlay.md         # Capsule内部のPhase 0正本
 │       ├── innovator-overlay.md        # Greenfield時のInnovator入力境界
 │       ├── ingress.md                  # Greenfield Ingress Contract
