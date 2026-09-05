@@ -1,0 +1,144 @@
+{
+  "$schema": "../../schema/worldline.schema.json",
+  "id": "unflatten-v2-greenfield",
+  "kind": "guest_worldline",
+  "status": "runnable",
+  "lineage_generation": 2,
+  "generation_limit": 3,
+  "parent": {
+    "repository": "https://github.com/kentaroid-bot/unflatten-protocol",
+    "commit": "86ef384bf2d83648a1140434d6f41bcf0120bfe7",
+    "worldline": "stable-v0.2.0",
+    "relation": "guest_of"
+  },
+  "roles": {
+    "emulator-boundary": {
+      "alias": "@emu",
+      "template": "emulator.md",
+      "authority": "advisory_observation"
+    }
+  },
+  "evaluation_grammar": {
+    "success_signals": [
+      "新しい生成系譜の動機を一般論で補完せず、role選択前に観測可能な形で保持できる",
+      "内部Stableと上流gestatingを混同せず、同じCapsuleを再現可能に起動できる",
+      "異なる経験に基づく三世代を経てから上流判断へ渡せる"
+    ],
+    "failure_signals": [
+      "Motive Queryが定型質問票となり未知の方向を先取りする",
+      "候補規則がStable Hostへ暗黙に適用される",
+      "同じ証拠の書き換えを新世代として数える"
+    ]
+  },
+  "shared_boundaries": [
+    "Stable Host Protocolを置換しない",
+    "内部のoperational decisionを上流へ投影するときはadvisory observationに降格する",
+    "provisional_latestは明示的opt-inとresolved commit、Host asset digest、Capsule digestを必要とする",
+    "第三世代前にpromote、spin_out、archiveまたはterminateを決定しない"
+  ],
+  "generation_records": [
+    {
+      "generation": 1,
+      "status": "completed",
+      "roles_completed": ["innovator", "auditor", "integrator"],
+      "experience_id": "greenfield-ingress-initial-design",
+      "candidate_digest": "0a096512432bc1f59d24c682de44f190eb72af5f248506f173e9bd14567f3b5d",
+      "evidence": [
+        "self-audit/004/03-innovator-to-auditor.yaml",
+        "self-audit/004/04-audit-report.yaml",
+        "self-audit/004/05-integrator-to-engineer.yaml",
+        "immutable implementation locator 6339fbd396ff1c50c5608a3751c259437ea9dc05"
+      ]
+    },
+    {
+      "generation": 2,
+      "status": "completed",
+      "roles_completed": ["innovator", "auditor", "integrator"],
+      "experience_id": "human-steward-emulator-correction",
+      "candidate_digest": "c9ea37704f8ee5d2db800646eff8683c0c35591da87a8a12d5a37439d8b9ed53",
+      "evidence": [
+        "Human Steward correction: Greenfield Ingress is internally Stable inside a gestating v2 emulator",
+        "self-audit/004/12-emulator-innovator-to-auditor.yaml",
+        "self-audit/004/13-emulator-audit.yaml",
+        "self-audit/004/14-emulator-integrator-to-engineer.yaml"
+      ]
+    }
+  ],
+  "review": {
+    "required_at_generation": 3,
+    "allowed_outcomes": ["promote", "spin_out", "archive", "terminate", "extend_once"],
+    "extensions_used": 0,
+    "max_extensions": 1,
+    "decisions": []
+  },
+  "emulation": {
+    "internal_status": "stable",
+    "upstream_status": "gestating",
+    "channel": "provisional_latest",
+    "base": {
+      "strategy": "inherit_host",
+      "commit": "86ef384bf2d83648a1140434d6f41bcf0120bfe7",
+      "assets": [
+        "docs/handoff.md",
+        "docs/protocol.md",
+        "manifest.json",
+        "prompt-templates/core/auditor.md",
+        "prompt-templates/core/engineer.md",
+        "prompt-templates/core/innovator.md",
+        "prompt-templates/core/integrator.md",
+        "prompt-templates/extensions/alien-proxy.md",
+        "prompt-templates/extensions/entropy-harvester.md",
+        "prompt-templates/extensions/exit-designer.md",
+        "prompt-templates/extensions/mesh-scaler.md",
+        "prompt-templates/meta/meta-protocol-designer.md",
+        "prompt-templates/meta/protocol-invention-engine.md",
+        "schema/audit-report.schema.json",
+        "schema/handoff-contract.schema.json",
+        "schema/protocol-manifest.schema.json",
+        "schema/semantic-mount.schema.json",
+        "schema/state-history.schema.json",
+        "schema/workflow-run.schema.json",
+        "schema/worldline-registry.schema.json",
+        "schema/worldline.schema.json"
+      ],
+      "digest": {
+        "algorithm": "sha256",
+        "value": "b5bc8a0e620f619ddd035eac04b05373287f12f53e991d53500d7ff0b78e606f"
+      }
+    },
+    "protocol_overlay": "protocol-overlay.md",
+    "entrypoints": {
+      "ingress": {
+        "kind": "pre_role",
+        "document": "ingress.md",
+        "schema": "ingress-record"
+      }
+    },
+    "role_overlays": {
+      "innovator": "innovator-overlay.md"
+    },
+    "schemas": {
+      "ingress-record": "schema/ingress-record.schema.json"
+    },
+    "virtual_mount": "mount.json",
+    "authority_projection": {
+      "internal": "role_defined",
+      "upstream": "advisory_observation"
+    },
+    "capsule": {
+      "assets": [
+        "emulator.md",
+        "fixtures/ingress.valid.yaml",
+        "ingress.md",
+        "innovator-overlay.md",
+        "mount.json",
+        "protocol-overlay.md",
+        "schema/ingress-record.schema.json"
+      ],
+      "digest": {
+        "algorithm": "sha256",
+        "value": "c9ea37704f8ee5d2db800646eff8683c0c35591da87a8a12d5a37439d8b9ed53"
+      }
+    }
+  }
+}

@@ -1,0 +1,102 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: engineer
+  to_role: integrator
+  reason: "Versioned Semantic Mountの実装と反証テストが完了した。"
+  inquiry:
+    problem_tension: "v1/v2をpathで読み分けながら、filesystem誤認、shadowing、driftを防ぐ必要がある。"
+    current_question: "実装済みlogical resolverを第二世代v2のprovisional入口として運用できるか。"
+    distinct_dimensions:
+      - dimension: "path-addressable coexistence"
+        significance: "v1/v2選択が各参照へ残る。"
+      - dimension: "resolved semantic identity"
+        significance: "可変v2 locatorから実際のWorldlineとdigestを回収する。"
+    flattening_risks:
+      - "実装成功を外部有効性の証明にする。"
+  hypothesis:
+    statement: "v1 mount registryとv2 digest固定mount.jsonは、`~/...`と`~/v2/...`を安全なlogical resourceとして解決する。"
+    core_claims:
+      - "`~/`はlogical-onlyである。"
+      - "v1がaddress、v2がmeaning overrideを所有する。"
+      - "compose、asset、pinned inheritanceを区別する。"
+      - "v2 generationは2のままである。"
+    mechanism: "longest-prefix resolverがschema/invariant済みmountとroute tableを解決し、identityとcontentを返す。"
+    assumptions:
+      - assumption: "外部AgentがSDKまたはquoted CLIを使用する。"
+        status: unknown
+    scope:
+      applies_to:
+        - "canonical Host resources and unflatten-v2-greenfield routes"
+      does_not_apply_to:
+        - "OS filesystem paths and arbitrary repository files"
+  hypothetical_world:
+    description: "一つのAgentがv1/v2を明示pathから同時に読み、混ぜずに比較・運用できる。"
+    consequences:
+      primary:
+        - "v1/v2を同時利用できる。"
+      secondary:
+        - "route単位の段階移行が可能になる。"
+      tertiary:
+        - "将来複数Worldlineを別mountへ置ける。"
+    opportunities:
+      - "resolved path provenance in workflow runs"
+  evaluation:
+    falsifiers:
+      - "traversal、unknown fallback、duplicate mountが通る。"
+      - "v2 protocolがoverlayを含まない。"
+      - "route変更がCapsule digestを変えない。"
+    evidence:
+      supporting:
+        - "32件のSDK testsが成功した。"
+        - "v1 default、v1 explicit、v2 compose、v2 asset、v2 inheritanceを検証した。"
+        - "traversal、unknown fallback、duplicate mountを拒否した。"
+      contradicting: []
+      unknown:
+        - "外部Agentの`~/`誤認率"
+    tests_completed:
+      - "SDK regression"
+      - "semantic path positive and adversarial cases"
+      - "schema and digest resolution"
+    tests_remaining:
+      - "third-generation external run"
+  decision:
+    status: advance
+    authority: implementation_report
+    decided_by: engineer
+    rationale: "Integratorが拘束した機構と反証条件を実装した。candidate採択ではなく実装完了の報告である。"
+    preserved_dimensions:
+      - "`~/...` / `~/v2/...` readability"
+      - "Internal Stable / Upstream Gestating"
+      - "three-generation boundary"
+    rejected_claims:
+      - "physical directory copy"
+      - "raw path substitution"
+    revisions:
+      - "semantic-mount schema、registry mounts、mount.json、SDK/CLI resolverを追加した。"
+  pivot:
+    trigger: "raw rewriteがsemantic compositionを表せない。"
+    learned_structure:
+      - "a version path is an address plus a resolved identity"
+    pivot_seeds:
+      - "workflow path provenance"
+    next_hypothesis: "external Agentがlogical pathを使えばmode confusionが減る。"
+  epistemic_remainder:
+    residuals:
+      - observation: "shell home expansionとの衝突はruntime外に残る。"
+        schema_limit: "SDKはresolverを使わない人間操作を防げない。"
+        provenance: "self-audit/004/20-semantic-mount-audit.yaml"
+        review_when: "第三世代external run。"
+    dissent:
+      - position: "canonical URI aliasも必要である。"
+        holder: "Auditor counter-position"
+        unresolved_because: "`~/`方式の実観測後に比較する。"
+  next_step:
+    objective: "PRを更新し、第三世代external runでpath理解とGreenfield効果を観測する。"
+    constraints:
+      - "mergeをv2 promotionとみなさない。"
+      - "external run前にgeneration 3へ進めない。"
+    expected_output:
+      - "resolved path identityを含むexternal run evidence"
+      - "generation 3 audit and integration"
+    unresolved_questions:
+      - "第三世代でURI形式との比較を含めるか。"

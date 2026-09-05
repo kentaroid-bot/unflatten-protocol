@@ -1,0 +1,122 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: engineer
+  to_role: auditor
+  reason: Integratorが限定した4件の修復とregression testが完了したため、最終意味監査へ戻す。
+  inquiry:
+    problem_tension: unknownを捏造せず、安全例外後の系譜を失わず、pre-role composerをvalidatorへ自己完結的に接続する必要がある。
+    current_question: 修復後実装はAuditorの4反証を解消し、別のflatteningまたはscope driftを導入していないか。
+    distinct_dimensions:
+      - dimension: non-fabricated incompleteness
+        significance: partial/deferredで未観測fieldを省略できる。
+      - dimension: observed basis before ready
+        significance: readyにはnon-unknown basis claimが必要である。
+      - dimension: safety return path
+        significance: safety exceptionはfollow-upを必須にする。
+      - dimension: composer-validator closure
+        significance: composerは出力schemaをrole選択前に提示する。
+    flattening_risks:
+      - "non-unknown basisを意味的な真実認定へ拡張する。"
+      - "schema埋込みをmandatory workflow gateへ拡張する。"
+  hypothesis:
+    statement: "4件の限定修復により、Greenfield Ingressはunknownを捏造せず保持するopt-in Stable probeとして再監査可能になった。"
+    core_claims:
+      - "Outcome partial/deferredは未観測fieldを省略できる。"
+      - "specified/revisedだけが完全fieldを要求する。"
+      - "readyにはnon-unknown basis claimが一つ以上ある。"
+      - "safety_exception_loggedはfollow_up_required: trueを要求する。"
+      - "composeIngressPromptはschemaとrecord-only指示を含み、Loaded Roleを含まない。"
+    mechanism: "JSON Schema conditional、composer prompt parts、behavior regression testsを同じ境界へ接続した。"
+    assumptions:
+      - assumption: "non-unknown basisは意味的真正性ではなく観測由来の有無だけを示す。"
+        status: supported
+      - assumption: "実runでGreenfield Ingressがpre-role flatteningを減らす。"
+        status: unknown
+    scope:
+      applies_to:
+        - "Ingress schema、composer、tests、Contract説明"
+      does_not_apply_to:
+        - "semantic scoring、mandatory gate、version bump、workflow-run変更"
+  hypothetical_world:
+    description: "外部projectは未定情報を省略したrecordを保持し、観測根拠が得られてからreadyへ進み、安全例外後は必ずIngressへ戻る。"
+    consequences:
+      primary:
+        - "Auditorの4件の再現反証が逆転する。"
+      secondary:
+        - "record生成からvalidationまで標準APIで接続できる。"
+      tertiary:
+        - "実project comparisonへ進める。"
+    opportunities:
+      - "Ingress効果とquery burdenを別々に観測する。"
+  evaluation:
+    falsifiers:
+      - "deferred Outcomeが内容fieldなしでinvalidになる。"
+      - "unknown basisだけのreadyがvalidになる。"
+      - "follow-up falseの安全例外がvalidになる。"
+      - "composerがschemaを含まない、またはroleを含む。"
+      - "既存testが退行する。"
+    evidence:
+      supporting:
+        - "4 behavior reproductionの期待値がすべて逆転した。"
+        - "npm test 26件が通過した。"
+      contradicting: []
+      unknown:
+        - "実projectでの意味的効果と人間負荷"
+    tests_completed:
+      - "deferred Outcome positive test"
+      - "incomplete specified Outcome negative test"
+      - "ready unknown basis negative test"
+      - "safety follow-up false/true tests"
+      - "composer schema inclusion and role absence test"
+      - "full npm test 26件"
+    tests_remaining:
+      - "Auditor final semantic re-audit"
+      - "実project comparison run"
+  decision:
+    status: advance
+    authority: implementation_report
+    decided_by: engineer
+    rationale: "Integratorの4件のrepair scopeを実装し、各反証条件と既存回帰をテストした。実効果は未評価である。"
+    preserved_dimensions:
+      - "pre-role and opt-in"
+      - "Motive/Outcome separation"
+      - "non-fabricated incompleteness"
+      - "safety follow-up"
+      - "semantic validation boundary"
+    rejected_claims:
+      - "test成功がIngressの実効果を証明する。"
+      - "non-unknown basisが動機の真実性を証明する。"
+    revisions:
+      - "Outcome required fieldsをstatus別にした。"
+      - "readyへnon-unknown basis containsを追加した。"
+      - "safety follow-upをtrueへ固定した。"
+      - "composerへschemaと出力境界を追加した。"
+  pivot:
+    trigger: "not_applicable: 中核を変えず修復した。"
+    learned_structure:
+      - "unknownを保持するにはunknown文字列の強制よりfield省略が安全である。"
+      - "安全例外は復帰義務を構造に含める必要がある。"
+    pivot_seeds:
+      - "field-level epistemic status"
+      - "comparison Worldline"
+    next_hypothesis: "not_applicable: 最終監査へ渡す。"
+  epistemic_remainder:
+    residuals:
+      - observation: "Schemaが任意fieldを許しても、LLMが実際に捏造を避けるかは観測していない。"
+        schema_limit: "静的validationは生成時の認知過程を証明しない。"
+        provenance: "repair verification"
+        review_when: "実Greenfield runを比較するとき。"
+    dissent:
+      - position: "query-first以外の尖った仮説提示経路も並行比較すべきである。"
+        holder: "Auditor adversarial simulation"
+        unresolved_because: "今回のStable probeへ混ぜず将来Worldlineとして保持する。"
+  next_step:
+    objective: "修復後成果物を最終Dual-Stress Auditし、Integratorへmerge判断を渡す。"
+    constraints:
+      - "実効果を証明済みとしない。"
+      - "4件の修復外へscopeを拡張しない。"
+    expected_output:
+      - "final audit report"
+      - "Auditor-to-Integrator Handoff"
+    unresolved_questions:
+      - "Stable merge後の最初のcomparison projectを何にするか。"

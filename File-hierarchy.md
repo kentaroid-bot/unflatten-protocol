@@ -41,6 +41,7 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │   ├── state-history.schema.json
 │   ├── audit-report.schema.json
 │   ├── workflow-run.schema.json         # 実行中ロール、digest、遷移履歴
+│   ├── semantic-mount.schema.json       # v1/v2 logical pathのcompose/asset対応
 │   ├── worldline-registry.schema.json  # Stable Hostが認識するGuest一覧
 │   └── worldline.schema.json           # 三世代、review、spin-out境界
 │
@@ -58,13 +59,25 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │   └── handoff.valid.yaml              # 検証可能な最小Handoff例
 ├── worldlines/                         # Stable Hostから隔離した候補プロトコル
 │   ├── registry.json                   # Guest manifestレジストリ
-│   └── epistemic-lineage-v2/
-│       ├── manifest.json               # 第1世代の状態、親commit、内部評価文法
-│       └── epistemic-lineage-steward.md # Guest role（@lin）
+│   ├── epistemic-lineage-v2/
+│   │   ├── manifest.json               # 第1世代の状態、親commit、内部評価文法
+│   │   └── epistemic-lineage-steward.md # Guest role（@lin）
+│   └── unflatten-v2-greenfield/        # 内部Stable／上流gestatingの第2世代Capsule
+│       ├── manifest.json               # 二重状態、固定base、digest、世代証拠
+│       ├── emulator.md                 # 権限投影とロード境界（@emu）
+│       ├── mount.json                  # digest対象のVersioned Semantic Mount対応
+│       ├── protocol-overlay.md         # Capsule内部のPhase 0正本
+│       ├── innovator-overlay.md        # Greenfield時のInnovator入力境界
+│       ├── ingress.md                  # Greenfield Ingress Contract
+│       ├── schema/
+│       │   └── ingress-record.schema.json
+│       └── fixtures/
+│           └── ingress.valid.yaml
 ├── self-audit/                         # このリポジトリ自身を通した役割別記録
 │   ├── 001/
 │   ├── 002/
-│   └── 003/
+│   ├── 003/
+│   └── 004/                            # Motive-first gateの役割別設計・監査・実装記録
 └── test/
     └── sdk.test.js                     # ローダー、schema、監査境界のテスト
 ```

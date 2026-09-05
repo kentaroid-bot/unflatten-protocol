@@ -1,0 +1,158 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: "integrator"
+  to_role: "engineer"
+  reason: "Motive-First GateとGreenfield Ingressの二回の監査を統合し、role選択前に動くStable primitiveとして限定実装する。"
+
+  inquiry:
+    problem_tension: "生成前の動機欠落を防ぐ入口が必要だが、Guest依存、重い質問票、privacy侵害、自動semantic判定は新しい平坦化と停止を生む。"
+    current_question: "既存workflowを破壊せず、Greenfield Ingressを外部projectがロード・記録・検証できる最小のStable SDK機能へどう変換するか。"
+    distinct_dimensions:
+      - dimension: "pre-role ingress"
+        significance: "role選択自体による問題設定の先取りを防ぐ。"
+      - dimension: "Motive RecordとOutcome Envelopeの分離"
+        significance: "delivery仕様が問いの生成理由を上書きしない。"
+      - dimension: "provenance without truth capture"
+        significance: "Human Confirmationを歴史的真実の認定にしない。"
+      - dimension: "low-burden and privacy-preserving inquiry"
+        significance: "人間の認知帯域、安全、言語化前のNoiseを守る。"
+    flattening_risks:
+      - "schemaを通ったことをmotiveの真正性・十分性とみなす。"
+      - "Greenfield Ingressを全task共通の長いintake formにする。"
+      - "Outcomeを固定の勝利条件にする。"
+
+  hypothesis:
+    statement: "Greenfield IngressをStableな独立data contractとpre-role promptとして提供すれば、外部projectはrole選択前にMotive statusを記録し、不足時の一問を正規の一手にできる。"
+    core_claims:
+      - "Ingressはcore/Guest roleより前にロードできる。"
+      - "Motive RecordとOutcome Envelopeは別objectである。"
+      - "plural claims、unknown、partial、redacted、restricted referenceを表現できる。"
+      - "query_required、hold、safety_exception_loggedをreadyと区別する。"
+      - "静的検証はshape/stateだけを扱いsemantic authorityを持たない。"
+    mechanism: "docs/ingress.mdを正本とし、schema/ingress-record.schema.json、manifest registry、validator API/CLI、composeIngressPrompt、router/role docs、fixture/testsを接続する。"
+    assumptions:
+      - assumption: "独立schemaは既存Handoffを破壊せず追加できる。"
+        status: "supported"
+      - assumption: "pre-role promptをopt-in APIとして提供すれば既存利用者を停止しない。"
+        status: "supported"
+      - assumption: "実projectでIngressがpre-role flatteningを減らす。"
+        status: "unknown"
+    scope:
+      applies_to:
+        - "docs/ingress.md"
+        - "docs/protocol.mdのPhase 0入口"
+        - "AGENTS.md router"
+        - "prompt-templates/core/innovator.md conflict repair"
+        - "manifestとingress schema"
+        - "validator API/CLI、fixture、tests"
+        - "READMEとFile-hierarchy"
+      does_not_apply_to:
+        - "既存Handoff schemaのrequired field変更"
+        - "全composeRolePrompt呼出しの自動block"
+        - "motiveのsemantic scoringまたは本人確認"
+        - "raw motiveの外部公開"
+        - "package version bumpまたはrelease"
+
+  hypothetical_world:
+    description: "外部projectは役割を選ぶ前にIngress promptをロードし、既知情報を抽出し、不足時は一問だけ返す。記録はschema検証できるが、その意味的品質を機械が最終認定しない。"
+    consequences:
+      primary:
+        - "Greenfield Ingress recordがSDK artifactになる。"
+        - "Motive Query、Hold、安全例外を区別できる。"
+      secondary:
+        - "MotiveとOutcomeの異なる変形を追跡できる。"
+        - "Guest @linなしでもStable入口が動く。"
+      tertiary:
+        - "NZA等でIngressあり/なしの比較runが可能になる。"
+    opportunities:
+      - "将来のworkflow runへIngress digestを非破壊的に接続する。"
+
+  evaluation:
+    falsifiers:
+      - "schemaが単一motiveまたはraw disclosureを必須にする。"
+      - "query_required recordが具体的な一問なしでvalidになる。"
+      - "safety exceptionが理由またはfollow-upなしでvalidになる。"
+      - "composeIngressPromptがroleを先に選択する。"
+      - "既存24 testsまたはcurrent workflowが退行する。"
+    evidence:
+      supporting:
+        - "現行validatorはmanifest登録schemaを汎用validate API/CLIで扱える。"
+        - "Motive RecordはGuest role権限と分離したdata schemaとして表現できる。"
+      contradicting:
+        - "現行AGENTSとinnovatorにはMotive不足時の挙動競合がある。"
+      unknown:
+        - "実利用でのquery burdenとlineage recovery効果"
+        - "将来HandoffへIngress参照をrequired化する必要性"
+    tests_completed:
+      - "二回のDual-Stress Audit"
+      - "validator/manifest architecture inspection"
+    tests_remaining:
+      - "schema positive/negative tests"
+      - "composeIngressPrompt order test"
+      - "full npm test and npm pack"
+      - "NZAまたは新規projectでのcomparison run"
+
+  decision:
+    status: "advance"
+    authority: "operational_decision"
+    decided_by: "integrator"
+    rationale: "Ingressはrole選択前に必要なためGuestでは機能せずStable primitiveが適切である。一方、実効果はunknownなので既存workflowの自動blockとsemantic scoringを避け、opt-inで検証可能な最小境界に限定する。"
+    preserved_dimensions:
+      - "Motive-First"
+      - "Greenfield Ingress"
+      - "Motive/Outcome separation"
+      - "one-question-at-a-time"
+      - "plurality、privacy、unknown"
+      - "safety exception"
+    rejected_claims:
+      - "Guest @linがStable data contractを所有する。"
+      - "schema validationがmotiveの真正性を証明する。"
+      - "全既存taskを自動的にGateでblockする。"
+      - "初期Outcomeが不変の完成条件である。"
+    revisions:
+      - "Motive PacketをStable Ingress Record内のMotive Recordとして抽出する。"
+      - "pre-role composerを追加する。"
+      - "自動強制ではなくopt-in validationから開始する。"
+
+  pivot:
+    trigger: "not_applicable: 監査修復を採用するadvance判断である。"
+    learned_structure:
+      - "role authorityを昇格せず、Guestが発見したdata distinctionだけをStable化できる。"
+      - "MotiveとFormは別々に改訂可能なrecordである。"
+      - "入口の静的検証と意味的な動機理解は異なる権限である。"
+    pivot_seeds:
+      - "Ingress digest in workflow history"
+      - "comparison run metrics"
+    next_hypothesis: "not_applicable: 実装範囲をdecisionとnext_stepに固定した。"
+
+  epistemic_remainder:
+    residuals:
+      - observation: "言語化前のNoiseはstructured Motive Recordで完全には保存できない。"
+        schema_limit: "schemaは文字列または参照として表現された情報だけを検査する。"
+        provenance: "self-audit/004 Greenfield audit"
+        review_when: "motive_partialで開始したcomparison runを観測したとき。"
+    dissent:
+      - position: "暫定仮説を先に示し、その反応から動機を発見する経路も残すべきである。"
+        holder: "Auditor adversarial simulation"
+        unresolved_because: "Motive Query firstとの比較runがないため、今回はcanonical生成をblockせずopt-in導入に留める。"
+
+  next_step:
+    objective: "Stable Greenfield Ingressの文書、schema、SDK validation/composer、router規則、fixture/testsを実装し、既存workflowを退行させず検証する。"
+    constraints:
+      - "implementationは指定scopeに限定する。"
+      - "MotiveとOutcomeを同一objectへ統合しない。"
+      - "raw disclosureをrequiredにしない。"
+      - "semantic scoringを追加しない。"
+      - "composeRolePromptを自動blockしない。"
+      - "package versionを変更しない。"
+    expected_output:
+      - "docs/ingress.md"
+      - "schema/ingress-record.schema.json"
+      - "manifest/API/CLI integration"
+      - "valid fixtureとnegative tests"
+      - "AGENTS/protocol/innovator/README/File-hierarchy updates"
+      - "npm test、npm pack、Handoff validation結果"
+      - "Engineer-to-Auditor Handoff"
+    unresolved_questions:
+      - "comparison run後にautomatic workflow gateへ昇格するか。"
+      - "Ingress digestをworkflow-run schemaへ追加するか。"

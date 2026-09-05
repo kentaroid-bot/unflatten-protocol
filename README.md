@@ -128,6 +128,56 @@ npx unflatten worldline-role epistemic-lineage-v2 @lin
 
 三世代後の`decideWorldline()`は、`authority: operational_decision`、`decided_by: integrator`、判断理由、証拠参照を必須とします。`extend_once`を選んだ場合も判断は上書きされず、最終判断と並ぶ最大2件の`review.decisions`として保存されます。静的検証はこの宣言構造を検査しますが、判断者の本人性や証拠の意味的品質までは証明しません。
 
+### Internal-Stable Emulator Capsule
+
+候補Worldlineは、Stable Hostの中で自己完結した局所世界として起動できます。たとえば `unflatten-v2-greenfield` は、内部ではGreenfield IngressをStableとして運用しつつ、Hostからはgestatingな第二世代として扱われます。これはStable Hostの規則を書き換えるfeature flagではありません。
+
+```js
+const unflatten = require('unflatten-protocol');
+
+const identity = unflatten.describeWorldlineEmulation('unflatten-v2-greenfield');
+// internal_status: stable, upstream_status: gestating, generation: 2
+
+const prompt = unflatten.composeWorldlineEmulationPrompt(
+  'unflatten-v2-greenfield',
+  'ingress',
+  '入口状態を判定し、必要ならMotive Queryを一つだけ返す。',
+  { context: knownProjectContext }
+);
+
+const result = unflatten.validateWorldlineArtifact(
+  'unflatten-v2-greenfield',
+  'ingress-record',
+  ingressYaml
+);
+```
+
+`provisional_latest` は名前だけの可変参照です。各実行では、composerが示すHost commit、Host asset digest、Capsule digestを記録してください。候補内部のrole判断は、Hostへ投影すると `advisory_observation` になります。第三世代の外部経験とHost Integratorの判断なしに、rootのStable規則へ昇格しません。
+
+### Versioned Semantic Mount
+
+v1とv2は同じrepositoryから論理パスで読み分けられます。
+
+- `~/…`: v1 Stable（既定）
+- `~/v1/…`: v1 Stable（明示形）
+- `~/v2/…`: v2 provisional latest
+
+`~/`はOSのhome directoryではありません。Unflatten SDK/CLIだけが解決するlogical prefixです。shellでは必ずquoteしてください。
+
+```sh
+npx unflatten path '~/docs/protocol.md'
+npx unflatten path '~/v2/docs/protocol.md'
+```
+
+```js
+const resolved = unflatten.resolveProtocolPath('~/v2/docs/protocol.md');
+console.log(resolved.worldline, resolved.host_digest, resolved.capsule_digest);
+
+const protocol = unflatten.loadProtocolPath('~/v2/docs/protocol.md');
+```
+
+`~/v2/docs/protocol.md`は物理fileの別名ではなく、v1 Protocolとv2 overlayの合成resourceです。`~/v2/docs/handoff.md`のようにv2が変更していないresourceは、Host digestに固定されたv1 assetを継承します。未知のpath、digest外asset、`..`によるtraversalは拒否します。mount prefixはv1 registryが、v2内のsemantic mappingはCapsuleの`mount.json`が所有します。
+
 ## Validate a Handoff
 
 YAMLとJSONの両方を受け付けます。
@@ -227,7 +277,11 @@ SDKは特定のLLMプロバイダー、モデルまたはエージェントフ�
 ## Unflatten Protocol
 
 探索、監査、実装または統合を行う前に、インストール済みの
-`unflatten-protocol` が提供する `docs/protocol.md` と、選択した役割をロードする。
+`unflatten-protocol` が提供する `docs/protocol.md` をロードする。
+その後、選択した役割をロードする。
+
+gestating Worldlineを試す場合だけ、対象IDを明示してEmulator Capsuleをロードし、
+resolved Host commit、Host asset digest、Capsule digestを実行記録へ残す。候補内部のStableをHost Stableとみなさない。
 
 成果物の自動検証では、静的検証とMetasystemic Auditorによる意味的監査を
 区別し、静的スコアだけで仮説の真偽または価値を判定しない。
@@ -254,6 +308,14 @@ Node.jsを使わないエージェント環境では、リポジトリをsubmodu
 - `transitionWorkflow(run, options)`
 - `verifyWorkflowRun(run, options)`
 - `composeWorkflowPrompt(run, task, options)`
+- `listWorldlines()`
+- `resolveWorldline(id)`
+- `describeWorldlineEmulation(id)`
+- `loadWorldlineAsset(id, relativePath)`
+- `composeWorldlineEmulationPrompt(id, entrypointOrRole, task, options)`
+- `validateWorldlineArtifact(id, schemaName, objectOrYaml)`
+- `resolveProtocolPath(logicalPath)`
+- `loadProtocolPath(logicalPath)`
 
 ## Validation Boundary
 

@@ -81,6 +81,7 @@
     "audit-report": "schema/audit-report.schema.json",
     "workflow-run": "schema/workflow-run.schema.json",
     "worldline-registry": "schema/worldline-registry.schema.json",
-    "worldline": "schema/worldline.schema.json"
+    "worldline": "schema/worldline.schema.json",
+    "semantic-mount": "schema/semantic-mount.schema.json"
   }
 }

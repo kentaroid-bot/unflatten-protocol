@@ -1,0 +1,24 @@
+{
+  "$schema": "../../schema/semantic-mount.schema.json",
+  "version": "1.0",
+  "routes": {
+    "docs/protocol.md": {
+      "kind": "compose",
+      "base": "docs/protocol.md",
+      "overlays": ["protocol-overlay.md"]
+    },
+    "prompt-templates/core/innovator.md": {
+      "kind": "compose",
+      "base": "prompt-templates/core/innovator.md",
+      "overlays": ["innovator-overlay.md"]
+    },
+    "docs/ingress.md": {
+      "kind": "asset",
+      "asset": "ingress.md"
+    },
+    "schema/ingress-record.schema.json": {
+      "kind": "asset",
+      "asset": "schema/ingress-record.schema.json"
+    }
+  }
+}

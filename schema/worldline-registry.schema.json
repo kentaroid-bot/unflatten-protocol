@@ -3,7 +3,7 @@
   "$id": "https://unflatten.dev/schema/worldline-registry.schema.json",
   "title": "Unflatten Protocol Worldline Registry",
   "type": "object",
-  "required": ["host", "worldlines"],
+  "required": ["host", "mounts", "worldlines"],
   "properties": {
     "$schema": { "type": "string", "minLength": 1 },
     "host": {
@@ -15,6 +15,34 @@
         "baseline_commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
       },
       "additionalProperties": false
+    },
+    "mounts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["prefix", "target"],
+            "properties": {
+              "prefix": { "enum": ["~/", "~/v1/"] },
+              "target": { "const": "host" }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": ["prefix", "target", "worldline"],
+            "properties": {
+              "prefix": { "type": "string", "pattern": "^~/v[2-9][0-9]*/$" },
+              "target": { "const": "worldline" },
+              "worldline": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
     },
     "worldlines": {
       "type": "object",

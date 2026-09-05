@@ -1,0 +1,107 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: engineer
+  to_role: integrator
+  reason: "Host asset digest修復と全検証が完了したため、汎用母体PRの状態と第三世代開始条件を返す。"
+  inquiry:
+    problem_tension: "内部Stable候補を本気で運用しながら、Host drift、自己昇格、世代launderingを防ぐ必要がある。"
+    current_question: "二面digestで固定された第二世代Capsuleをprovisional latestとして外部runへ渡せるか。"
+    distinct_dimensions:
+      - dimension: "two-sided emulator identity"
+        significance: "HostとCandidateの両内容が実行意味を構成する。"
+      - dimension: "three-generation boundary"
+        significance: "次はコード修正でなく外部経験でなければならない。"
+    flattening_risks:
+      - "全テスト成功をcandidate昇格判断とみなす。"
+  hypothesis:
+    statement: "Host asset digestとCapsule digestを照合するgeneric emulatorは、Greenfield v2を第二世代の内部Stableとして再現可能に起動できる。"
+    core_claims:
+      - "rootにGreenfield固有正本を置かない。"
+      - "内部Stableと上流gestatingを別軸で表示する。"
+      - "二面digest mismatchを起動前に拒否する。"
+      - "第三世代に別experienceとevidenceを要求する。"
+    mechanism: "manifest宣言assetを決定的SHA-256で検証し、Stable Host、overlay、entrypoint/roleを固定順で合成する。"
+    assumptions:
+      - assumption: "外部projectは明示的opt-in APIを呼び出せる。"
+        status: unknown
+    scope:
+      applies_to:
+        - "generic Emulator SDK and unflatten-v2-greenfield generation 2"
+      does_not_apply_to:
+        - "candidate promotion and third-generation verdict"
+  hypothetical_world:
+    description: "同じHost/Capsule digest対を選んだ利用者は、同じ内部Stable世界を起動し、結果だけをupstreamへadvisory evidenceとして返す。"
+    consequences:
+      primary:
+        - "暗黙Host driftとcandidate tamperを拒否する。"
+      secondary:
+        - "Host更新は明示的rebase判断を要求する。"
+      tertiary:
+        - "異なるcloneの系譜をidentity対で比較できる。"
+    opportunities:
+      - "第三世代の実project運用"
+  evaluation:
+    falsifiers:
+      - "HostまたはCandidate asset改変後も旧digestで起動する。"
+      - "通常roleがGreenfieldを暗黙適用する。"
+      - "同一experience/evidenceで世代を進められる。"
+    evidence:
+      supporting:
+        - "30件のSDK testsが成功した。"
+        - "全self-audit artifactがschema validationを通過した。"
+        - "package dry-runへ全Capsule assetが含まれた。"
+      contradicting: []
+      unknown:
+        - "外部利用者のmode confusion"
+        - "Greenfield Ingressの実効性"
+    tests_completed:
+      - "Host and Capsule digest checks"
+      - "candidate isolation and schema validation"
+      - "generation laundering invariants"
+      - "existing Worldline regression"
+    tests_remaining:
+      - "third-generation external provisional run"
+  decision:
+    status: advance
+    authority: implementation_report
+    decided_by: engineer
+    rationale: "Integratorが指定した二面digest修復を実装し、決定的検証は成功した。これは実装完了報告でありcandidate昇格判断ではない。"
+    preserved_dimensions:
+      - "Internal Stable / Upstream Gestating"
+      - "provisional latest"
+      - "three generations"
+    rejected_claims:
+      - "commit labelだけで実行内容が固定される。"
+      - "実装修正を第三世代に数える。"
+    revisions:
+      - "emulation.baseにHost assetsとdigestを追加した。"
+      - "runtimeとpromptにHost digest検証・表示を追加した。"
+  pivot:
+    trigger: "Host pin truthfulness defect"
+    learned_structure:
+      - "Emulator identityはHost digestとCapsule digestの対である。"
+    pivot_seeds:
+      - "nutrition lineage"
+    next_hypothesis: "外部projectでprovisional運用すれば第三世代の異なる経験を得られる。"
+  epistemic_remainder:
+    residuals:
+      - observation: "Host更新をCandidateへ取り込む系譜形式は未設計である。"
+        schema_limit: "baseは固定identityを表すが更新関係を表さない。"
+        provenance: "self-audit/004/16-emulator-implementation-audit.yaml"
+        review_when: "外部run前にHost更新の取り込みが必要になったとき。"
+    dissent:
+      - position: "Host全role固定は更新負荷を増やす。"
+        holder: "Auditor counter-position"
+        unresolved_because: "第三世代で実負荷を観測する。"
+  next_step:
+    objective: "PRを汎用Emulator母体変更としてreview可能に保ち、明示的に選んだ外部projectでGreenfield v2の第三世代runを行う。"
+    constraints:
+      - "PR mergeをcandidate promotionと記録しない。"
+      - "外部run完了前にlineage_generationを3へしない。"
+      - "第三世代後にHost Integratorが出生判断する。"
+    expected_output:
+      - "external run evidence"
+      - "generation 3 Innovator/Auditor/Integrator cycle"
+      - "Host Integrator review decision"
+    unresolved_questions:
+      - "第三世代の対象projectと観測項目"

@@ -50,6 +50,59 @@ upstreamは唯一の真理ではなく、共有しやすいStable Hostまたは�
 
 この構造が目指すのは、**局所的には明示的で、全体としては多元的なLLM出力**です。明示的とは確定的に断言することではなく、前提、作用機序、証拠状態、`unknown`および反証条件を曖昧にしないことです。折り合わない案を一つの曖昧な回答へ押し込めず、それぞれを最後まで検証可能な形で走らせます。
 
+## Internal-Stable Emulator Capsules
+
+Guest Worldlineは、Stable Hostの一部を直接変更する差分ではなく、Hostを基底に候補規則を重ねる **Emulator Capsule** として動かせます。このときStableという語は観測世界を伴います。
+
+- **Internal Stable**: Capsule内部では、overlay、entrypoint、schemaおよびrole overrideを一貫した正本として使う。
+- **Upstream Gestating**: Hostから見れば未批准であり、rootの正本、通常roleおよび通常APIを変更しない。
+- **Provisional Latest**: 利用を勧められる暫定最新版。ただし暗黙適用せず、利用者がWorldline IDを明示してopt-inする。
+
+起動順序は固定します。
+
+1. `parent.commit`でStable Hostの基底を解決する。
+2. Stable Host Protocolをロードする。
+3. Capsuleのprotocol overlayを重ねる。
+4. entrypoint、またはStable Host roleをロードする。
+5. 対応するrole overlayを重ねる。
+6. resolved Host commit、Host asset digest、Capsule digestをrunへ記録する。
+
+`provisional_latest`のようなchannel名は発見用locatorであり、再現性のpinではありません。同じ名前の内容が進んでも過去のrunを再現できるよう、実行時点の40桁commit、Host asset digest、Capsule digestを併記します。Host digestはroot manifest、protocol、load可能role群を、Capsule digestはmanifest自身を除く候補asset集合を固定します。両方を宣言path順に依存しない決定的算法で計算し、baseとoverlayの片面だけがdriftするのを拒否します。
+
+### Dual Authority Projection
+
+Capsule内部のAuditorやIntegratorは、その局所世界ではrole定義どおりに判断できます。しかしその判断をStable Hostへ持ち出すとき、権限は `advisory_observation` へ投影されます。候補自身が自分をHost Stableへ昇格させることはできません。第三世代後の `promote | spin_out | archive | terminate | extend_once` はHost Integratorの `operational_decision`です。
+
+### Generation Is Experience, Not Revision
+
+一世代は、異なる経験に晒されたInnovator、Auditor、Integratorの完全サイクルです。commit数、文言修正数、同じ証拠の別表現ではありません。Emulator manifestは各世代に固有の `experience_id` とcandidate digestを要求し、世代間の同一evidence locator再利用を拒否します。
+
+現在の `unflatten-v2-greenfield` は第二世代です。第一世代はGreenfield Ingressの初期設計・監査・統合、第二世代はHuman Stewardによる「内部Stable／上流gestating」というエミュレーター境界の訂正と、その後の再監査です。第三世代は実projectでのprovisional運用という異なる経験が得られるまで開始しません。
+
+### Versioned Semantic Mount
+
+Stable Hostと内部Stable Worldlineは、物理directoryを複製せず、logical pathとして同時に参照できます。
+
+```text
+~/docs/protocol.md       -> v1 Stable Host resource
+~/v1/docs/protocol.md    -> v1 Stable Host resource（明示形）
+~/v2/docs/protocol.md    -> v1 protocol + v2 protocol overlay
+~/v2/docs/handoff.md     -> digest固定されたv1 resourceの継承
+~/v2/docs/ingress.md     -> v2 Capsule asset
+```
+
+この`~/`はshellやOSのhome directoryではありません。SDK/CLIだけが解決するlogical namespaceです。CLI引数では`'~/v2/…'`のようにquoteし、filesystem APIへ直接渡してはいけません。
+
+住所の割当は母体の`worldlines/registry.json`が所有します。`~/`はHost専用で、Worldlineは`~/vN/`だけを取得できます。resolverは最長prefixを選ぶため、`~/v2/`が`~/`より先に解決されます。重複prefix、存在しないWorldline、traversalは拒否します。
+
+住所の内部で何を返すかは各Capsuleのdigest対象`mount.json`が所有します。routeは次の三種です。
+
+- **compose**: Host baseと一つ以上のcandidate overlayを順に結合する。
+- **asset**: Candidate固有assetを返す。
+- **inherit**: exact routeがなく、かつ`base.assets`に固定されたHost resourceだけを返す。
+
+`v2`は発見用の可変locatorです。resolverはlogical pathだけでなく、resolved Worldline、generation、base commit、Host digest、Capsule digestを返します。実行記録ではこのresolved identityを保存してください。
+
 ## Anti-Proliferation Boundary
 
 Worldlineは判断回避のための分岐ではありません。新しいWorldlineとして保持するには、少なくとも次が必要です。
@@ -69,6 +122,10 @@ Worldlineは判断回避のための分岐ではありません。新しいWorld
 
 - 一つのHost registryに複数Guestを登録できる。
 - Guest roleをroot通常roleから隔離して明示的にロードできる。
+- Internal Stable / Upstream Gestatingの二重状態でCapsuleを起動できる。
+- Host commitに加えてHost asset digestとCapsule digestを検証し、entrypoint、schemaおよびrole overlayを隔離ロードできる。
+- v1/v2をVersioned Semantic Mountから同時に解決し、compose、candidate asset、pinned inheritanceを区別できる。
+- 世代ごとのexperienceとevidence再利用を検査できる。
 - 世代を進め、第三世代でreviewを要求できる。
 - Integrator decision historyとspin-out provenanceを構造検証できる。
 - 状態遷移は入力を直接上書きせず、新しいmanifest候補を返す。

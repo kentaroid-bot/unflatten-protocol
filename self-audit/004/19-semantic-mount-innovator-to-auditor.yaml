@@ -1,0 +1,109 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: innovator
+  to_role: auditor
+  reason: "Human Stewardが、v1とv2を同時利用するため `~/...` と `~/v2/...` の読替規則を発見した。"
+  inquiry:
+    problem_tension: "Worldline IDとcomposer APIだけでは、人間やファイル中心のAgentがv1/v2のどちらを読むか直感的に指定しにくい。"
+    current_question: "v1母体が所有する仮想prefix routerにより、v1と内部Stable v2を同一repositoryでパスとして共存させられるか。"
+    distinct_dimensions:
+      - dimension: "path-addressable coexistence"
+        significance: "選択を一度のAPI引数でなく、各参照に残る明示的な位置へ変える。"
+      - dimension: "semantic composition"
+        significance: "v2 protocolは単一fileでなくv1 baseとoverlayの合成結果である。"
+      - dimension: "maternal routing authority"
+        significance: "v2をロードする前にprefixを識別する規則はv1母体に必要である。"
+    flattening_risks:
+      - "単純な文字列置換だけを実装し、composeとinheritanceを失う。"
+      - "`~/`をOS homeとして直接filesystemへ展開する。"
+  hypothesis:
+    statement: "v1 registryが `~/` と `~/v2/` のVersioned Semantic Mountを解決し、v2 manifestがoverride/compose/inheritを宣言すれば、両worldを同時にpath-addressableにできる。"
+    core_claims:
+      - "logical pathはOS pathではない。"
+      - "longest-prefix routingはv1 registryが所有する。"
+      - "v2固有の意味対応はv2 manifestが所有する。"
+      - "未変更resourceはdigest固定されたHost assetだけをinheritする。"
+      - "物理copyやsymlinkを作らない。"
+    mechanism: "resolverがmount prefixを選び、exact overrideならcandidate assetまたはbase+overlayを返し、それ以外は宣言済みHost canonical resourceへfallbackする。"
+    assumptions:
+      - assumption: "canonical resource集合をroot manifestから列挙できる。"
+        status: supported
+      - assumption: "`~/`表記がshell pathでなくprotocol pathだと明示すれば誤操作を抑えられる。"
+        status: unknown
+    scope:
+      applies_to:
+        - "protocol、handoff、roles、schemas、enginesのlogical loading"
+      does_not_apply_to:
+        - "任意repository fileやOS homeのfilesystem access"
+  hypothetical_world:
+    description: "Agentは同じsessionで `~/docs/protocol.md` をv1として、`~/v2/docs/protocol.md` をv2合成protocolとして読み、差異を混ぜず比較・利用できる。"
+    consequences:
+      primary:
+        - "version選択が参照pathへ局所化される。"
+      secondary:
+        - "同一task内でv1とv2の比較が可能になる。"
+      tertiary:
+        - "複数の候補を別mountへ並置できる。"
+    opportunities:
+      - "Agent-agnosticなCLI path loader"
+      - "将来のplural provisional mounts"
+  evaluation:
+    falsifiers:
+      - "`~/v2/docs/protocol.md`がoverlayなしのHost protocolだけを返す。"
+      - "unknownまたはtraversal pathがfilesystemから読める。"
+      - "Host drift assetをv2が暗黙継承する。"
+      - "mount alias変更がv2 Capsule digestを暗黙変更する。"
+    evidence:
+      supporting:
+        - "現行v1 registryはWorldline発見を既に所有する。"
+        - "現行v2 manifestはbase assets、overlay、schemaを宣言する。"
+      contradicting:
+        - "現行SDKはlogical path resolverを持たない。"
+      unknown:
+        - "`~/`記法のOS path誤認率"
+    tests_completed:
+      - "existing registry and emulator boundary inspection"
+    tests_remaining:
+      - "Auditor traversal、shadowing、mode confusion audit"
+  decision:
+    status: not_evaluated
+    authority: not_evaluated
+    decided_by: innovator
+    rationale: "Versioned Semantic Mountを発見したが採否を先取りしない。"
+    preserved_dimensions:
+      - "v1/v2 simultaneous use"
+      - "Internal Stable / Upstream Gestating"
+      - "path readability"
+    rejected_claims:
+      - "physical `v2/` copyが必要である。"
+      - "単純prefix置換だけで意味合成が完了する。"
+    revisions: []
+  pivot:
+    trigger: "Worldline ID選択だけではpath中心Agentの読み分け規則にならない。"
+    learned_structure:
+      - "version selection can be a namespace operation"
+    pivot_seeds:
+      - "Versioned Semantic Mount"
+      - "plural provisional mounts"
+    next_hypothesis: "longest-prefix semantic routingなら複数の内部Stable worldを同じ母体で読める。"
+  epistemic_remainder:
+    residuals:
+      - observation: "`~/`は親しみやすい一方、shell home expansionの意味を既に持つ。"
+        schema_limit: "logical pathとphysical pathを同じ文字列だけでは区別できない。"
+        provenance: "Human Steward path rewrite proposal"
+        review_when: "CLI/API documentationと実Agent利用時。"
+    dissent:
+      - position: "`unflatten:/v2/...`の方が誤認しにくい。"
+        holder: "Innovator counter-position"
+        unresolved_because: "人間の可読性とURI明示性の比較が未監査である。"
+  next_step:
+    objective: "Versioned Semantic Mountを最強形にして、path traversal、shadowing、drift、認知誤認から監査する。"
+    constraints:
+      - "v2をroot Stableへ昇格しない。"
+      - "第三世代へ数えない。"
+      - "physical copyを作らない。"
+    expected_output:
+      - "semantic mount audit"
+      - "Auditor-to-Integrator Handoff"
+    unresolved_questions:
+      - "`~/`をcanonical notationとするかaliasとするか。"

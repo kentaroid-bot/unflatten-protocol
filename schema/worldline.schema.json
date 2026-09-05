@@ -105,7 +105,9 @@
             "type": "array",
             "minItems": 1,
             "items": { "type": "string", "minLength": 1 }
-          }
+          },
+          "experience_id": { "type": "string", "pattern": "^[A-Za-z0-9._:-]+$" },
+          "candidate_digest": { "$ref": "#/$defs/sha256" }
         },
         "additionalProperties": false
       }
@@ -161,7 +163,104 @@
         "divergence_reason": { "type": "string", "minLength": 1 }
       },
       "additionalProperties": false
+    },
+    "emulation": {
+      "type": "object",
+      "required": ["internal_status", "upstream_status", "channel", "base", "protocol_overlay", "entrypoints", "role_overlays", "schemas", "virtual_mount", "authority_projection", "capsule"],
+      "properties": {
+        "internal_status": { "const": "stable" },
+        "upstream_status": { "const": "gestating" },
+        "channel": { "const": "provisional_latest" },
+        "base": {
+          "type": "object",
+          "required": ["strategy", "commit", "assets", "digest"],
+          "properties": {
+            "strategy": { "const": "inherit_host" },
+            "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+            "assets": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/assetPath" }
+            },
+            "digest": {
+              "type": "object",
+              "required": ["algorithm", "value"],
+              "properties": {
+                "algorithm": { "const": "sha256" },
+                "value": { "$ref": "#/$defs/sha256" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "protocol_overlay": { "$ref": "#/$defs/assetPath" },
+        "entrypoints": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "required": ["kind", "document", "schema"],
+            "properties": {
+              "kind": { "const": "pre_role" },
+              "document": { "$ref": "#/$defs/assetPath" },
+              "schema": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "role_overlays": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/assetPath" }
+        },
+        "schemas": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/assetPath" }
+        },
+        "virtual_mount": { "$ref": "#/$defs/assetPath" },
+        "authority_projection": {
+          "type": "object",
+          "required": ["internal", "upstream"],
+          "properties": {
+            "internal": { "const": "role_defined" },
+            "upstream": { "const": "advisory_observation" }
+          },
+          "additionalProperties": false
+        },
+        "capsule": {
+          "type": "object",
+          "required": ["assets", "digest"],
+          "properties": {
+            "assets": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/assetPath" }
+            },
+            "digest": {
+              "type": "object",
+              "required": ["algorithm", "value"],
+              "properties": {
+                "algorithm": { "const": "sha256" },
+                "value": { "$ref": "#/$defs/sha256" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
+  },
+  "$defs": {
+    "assetPath": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"
+    },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
   },
   "allOf": [
     {
@@ -191,6 +290,16 @@
       },
       "then": { "required": ["spin_out"] },
       "else": { "not": { "required": ["spin_out"] } }
+    },
+    {
+      "if": { "required": ["emulation"] },
+      "then": {
+        "properties": {
+          "generation_records": {
+            "items": { "required": ["experience_id", "candidate_digest"] }
+          }
+        }
+      }
     }
   ],
   "additionalProperties": false

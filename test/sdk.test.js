@@ -2,9 +2,11 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const os = require('node:os');
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const sdk = require('../validator');
+const { calculateCapsuleDigest } = require('../validator/worldlines');
 const YAML = require('yaml');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -26,7 +28,7 @@ test('resolves canonical and alternate aliases', () => {
 
 test('loads lineage steward only through its guest worldline', () => {
   const worldlines = sdk.listWorldlines();
-  assert.deepEqual(worldlines.map((entry) => entry.id), ['epistemic-lineage-v2']);
+  assert.deepEqual(worldlines.map((entry) => entry.id).sort(), ['epistemic-lineage-v2', 'unflatten-v2-greenfield']);
   const role = sdk.resolveWorldlineRole('epistemic-lineage-v2', '@lin');
   assert.equal(role.authority, 'advisory_observation');
   const prompt = sdk.loadWorldlineRole('epistemic-lineage-v2', '@lin');
@@ -199,6 +201,147 @@ test('validates the canonical YAML handoff fixture', () => {
   const result = sdk.validate('handoff', source);
   assert.equal(result.valid, true, JSON.stringify(result.errors));
   assert.deepEqual(result.findings, []);
+});
+
+test('runs Greenfield Ingress as an internally stable, upstream-gestating emulator', () => {
+  const description = sdk.describeWorldlineEmulation('unflatten-v2-greenfield');
+  assert.equal(description.generation, 2);
+  assert.equal(description.generation_limit, 3);
+  assert.equal(description.internal_status, 'stable');
+  assert.equal(description.upstream_status, 'gestating');
+  assert.equal(description.channel, 'provisional_latest');
+  assert.match(description.base_commit, /^[a-f0-9]{40}$/u);
+  assert.match(description.host_digest, /^[a-f0-9]{64}$/u);
+  assert.match(description.capsule_digest, /^[a-f0-9]{64}$/u);
+
+  const prompt = sdk.composeWorldlineEmulationPrompt(
+    'unflatten-v2-greenfield',
+    'ingress',
+    '入口状態を判定する。',
+    { context: '既知のproject context', record: { ingress: { state: 'query_required' } } }
+  );
+  assert.match(prompt, /# Stable Host Protocol/u);
+  assert.match(prompt, /Internal status: stable/u);
+  assert.match(prompt, /Upstream status: gestating/u);
+  assert.match(prompt, /Channel: provisional_latest/u);
+  assert.match(prompt, /Generation: 2\/3/u);
+  assert.match(prompt, /Resolved base commit: [a-f0-9]{40}/u);
+  assert.match(prompt, /Host asset digest \(sha256\): [a-f0-9]{64}/u);
+  assert.match(prompt, /Capsule digest \(sha256\): [a-f0-9]{64}/u);
+  assert.match(prompt, /# Candidate Protocol Overlay/u);
+  assert.match(prompt, /# Candidate Entrypoint: ingress/u);
+  assert.match(prompt, /# Machine-readable Candidate Schema: ingress-record/u);
+  assert.doesNotMatch(prompt, /# Stable Host Role/u);
+});
+
+test('overlays a candidate role without mutating the stable role', () => {
+  const prompt = sdk.composeWorldlineEmulationPrompt('unflatten-v2-greenfield', '@ino', '仮説を形成する。');
+  assert.match(prompt, /# Stable Host Role: innovator/u);
+  assert.match(prompt, /# Candidate Role Overlay: innovator/u);
+  assert.match(prompt, /query_required.*hold/u);
+  assert.match(prompt, /Internal decisions do not promote or mutate the Stable Host/u);
+  assert.doesNotMatch(sdk.loadRole('@ino'), /Greenfield Ingress/u);
+});
+
+test('validates a Capsule-local artifact without adding its schema to Stable Host', () => {
+  const source = fs.readFileSync(path.join(ROOT, 'worldlines/unflatten-v2-greenfield/fixtures/ingress.valid.yaml'), 'utf8');
+  const valid = sdk.validateWorldlineArtifact('unflatten-v2-greenfield', 'ingress-record', source);
+  assert.equal(valid.valid, true, JSON.stringify(valid.errors));
+  assert.equal(sdk.manifest.schemas['ingress-record'], undefined);
+
+  const invalid = structuredClone(valid.value);
+  invalid.ingress.motive_record.status = 'unknown';
+  invalid.ingress.motive_record.claims = [];
+  assert.equal(sdk.validateWorldlineArtifact('unflatten-v2-greenfield', 'ingress-record', invalid).valid, false);
+});
+
+test('rejects generation laundering in emulator manifests', () => {
+  const candidate = sdk.resolveWorldline('unflatten-v2-greenfield');
+  delete candidate.manifest;
+  delete candidate.root;
+  candidate.generation_records[1].experience_id = candidate.generation_records[0].experience_id;
+  assert.equal(sdk.validate('worldline', candidate).valid, false);
+  assert.ok(sdk.validate('worldline', candidate).findings.some((finding) => finding.rule === 'worldline-distinct-generation-experience'));
+
+  candidate.generation_records[1].experience_id = 'distinct-experience';
+  candidate.generation_records[1].candidate_digest = 'f'.repeat(64);
+  assert.equal(sdk.validate('worldline', candidate).valid, false);
+  assert.ok(sdk.validate('worldline', candidate).findings.some((finding) => finding.rule === 'worldline-latest-capsule-digest'));
+});
+
+test('advances an emulator only with a distinct experience and current Capsule digest', () => {
+  const candidate = sdk.resolveWorldline('unflatten-v2-greenfield');
+  delete candidate.manifest;
+  delete candidate.root;
+  assert.throws(() => sdk.advanceWorldline(candidate, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    evidence: ['external-run-1']
+  }), /distinct experience_id/u);
+
+  const third = sdk.advanceWorldline(candidate, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    experience_id: 'external-provisional-run-1',
+    candidate_digest: candidate.emulation.capsule.digest.value,
+    evidence: ['external-run-1']
+  });
+  assert.equal(third.lineage_generation, 3);
+  assert.equal(third.status, 'review_required');
+});
+
+test('binds emulator identity to Host asset content, not only a commit label', () => {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'unflatten-host-digest-'));
+  const asset = path.join(tempRoot, 'protocol.md');
+  fs.writeFileSync(asset, 'host-v1');
+  const before = calculateCapsuleDigest(tempRoot, ['protocol.md']);
+  fs.writeFileSync(asset, 'host-v2');
+  const after = calculateCapsuleDigest(tempRoot, ['protocol.md']);
+  assert.notEqual(before, after);
+
+  const description = sdk.describeWorldlineEmulation('unflatten-v2-greenfield');
+  assert.equal(description.host_digest, 'b5bc8a0e620f619ddd035eac04b05373287f12f53e991d53500d7ff0b78e606f');
+});
+
+test('resolves v1 and v2 through Versioned Semantic Mounts', () => {
+  const stable = sdk.resolveProtocolPath('~/docs/protocol.md');
+  assert.equal(stable.target, 'host');
+  assert.equal(stable.mount, '~/');
+  assert.equal(stable.logical_only, true);
+  assert.match(stable.content, /# Unflatten Protocol/u);
+
+  const explicitV1 = sdk.resolveProtocolPath('~/v1/docs/protocol.md');
+  assert.equal(explicitV1.target, 'host');
+  assert.equal(explicitV1.mount, '~/v1/');
+  assert.equal(explicitV1.content, stable.content);
+
+  const v2 = sdk.resolveProtocolPath('~/v2/docs/protocol.md');
+  assert.equal(v2.target, 'worldline');
+  assert.equal(v2.worldline, 'unflatten-v2-greenfield');
+  assert.equal(v2.generation, 2);
+  assert.equal(v2.source, 'composed');
+  assert.match(v2.content, /# Host Resource: docs\/protocol\.md/u);
+  assert.match(v2.content, /# Worldline Overlay: protocol-overlay\.md/u);
+  assert.match(v2.content, /Greenfield Ingress/u);
+  assert.match(v2.host_digest, /^[a-f0-9]{64}$/u);
+  assert.match(v2.capsule_digest, /^[a-f0-9]{64}$/u);
+
+  const inherited = sdk.resolveProtocolPath('~/v2/docs/handoff.md');
+  assert.equal(inherited.source, 'inherited_host');
+  assert.match(inherited.content, /# Unflatten Handoff Contract/u);
+
+  const ingress = sdk.loadProtocolPath('~/v2/docs/ingress.md');
+  assert.match(ingress, /# Greenfield Ingress Contract/u);
+});
+
+test('Semantic Mount rejects traversal, unknown fallback, and namespace capture', () => {
+  assert.throws(() => sdk.resolveProtocolPath('~/v2/../docs/protocol.md'), /traversal|Invalid/u);
+  assert.throws(() => sdk.resolveProtocolPath('~/v2/README.md'), /Unknown or unpinned/u);
+  assert.throws(() => sdk.resolveProtocolPath('/v2/docs/protocol.md'), /must start/u);
+
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, 'worldlines/registry.json'), 'utf8'));
+  registry.mounts.push({ prefix: '~/v2/', target: 'worldline', worldline: 'epistemic-lineage-v2' });
+  const duplicate = sdk.validate('worldline-registry', registry);
+  assert.equal(duplicate.valid, false);
+  assert.ok(duplicate.findings.some((finding) => finding.rule === 'worldline-mount-prefix-unique'));
 });
 
 test('validates the protocol manifest and every registered path exists', () => {
