@@ -43,8 +43,25 @@ function loadProtocol() {
   return read(manifest.protocol);
 }
 
+function loadIngressContract() {
+  return read(manifest.ingress);
+}
+
 function loadHandoffContract() {
   return read(manifest.handoff);
+}
+
+function composeIngressPrompt(task, options = {}) {
+  const parts = [
+    '# Loaded Protocol',
+    loadProtocol(),
+    '# Greenfield Ingress Contract',
+    loadIngressContract()
+  ];
+  if (options.record) parts.push('# Existing Ingress Record', stringifyInput(options.record));
+  if (options.context) parts.push('# Known Context', stringifyInput(options.context));
+  parts.push('# Current Task', String(task || ''));
+  return parts.join('\n\n');
 }
 
 function composeRolePrompt(nameOrAlias, task, options = {}) {
@@ -176,7 +193,9 @@ module.exports = {
   resolveRole,
   loadRole,
   loadProtocol,
+  loadIngressContract,
   loadHandoffContract,
+  composeIngressPrompt,
   composeRolePrompt,
   validate,
   inspectArtifact,

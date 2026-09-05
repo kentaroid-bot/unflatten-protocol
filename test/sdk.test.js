@@ -201,11 +201,73 @@ test('validates the canonical YAML handoff fixture', () => {
   assert.deepEqual(result.findings, []);
 });
 
+test('loads and composes the pre-role Greenfield Ingress contract', () => {
+  const contract = sdk.loadIngressContract();
+  assert.match(contract, /Greenfield Ingress/u);
+  assert.match(contract, /role選択前/u);
+
+  const prompt = sdk.composeIngressPrompt('入口状態を判定する。', {
+    context: '既知のproject context',
+    record: { ingress: { state: 'query_required' } }
+  });
+  assert.match(prompt, /# Loaded Protocol/u);
+  assert.match(prompt, /# Greenfield Ingress Contract/u);
+  assert.match(prompt, /# Existing Ingress Record/u);
+  assert.match(prompt, /# Known Context/u);
+  assert.match(prompt, /# Current Task/u);
+  assert.doesNotMatch(prompt, /# Loaded Role/u);
+  assert.ok(prompt.indexOf('# Greenfield Ingress Contract') < prompt.indexOf('# Known Context'));
+});
+
+test('validates Greenfield Ingress states without claiming motive authenticity', () => {
+  const source = fs.readFileSync(path.join(ROOT, 'fixtures/ingress.valid.yaml'), 'utf8');
+  const valid = sdk.validate('ingress-record', source);
+  assert.equal(valid.valid, true, JSON.stringify(valid.errors));
+
+  const readyWithoutMotive = structuredClone(valid.value);
+  readyWithoutMotive.ingress.motive_record.status = 'unknown';
+  readyWithoutMotive.ingress.motive_record.claims = [];
+  assert.equal(sdk.validate('ingress-record', readyWithoutMotive).valid, false);
+
+  const incompleteQuery = structuredClone(valid.value);
+  incompleteQuery.ingress.state = 'query_required';
+  incompleteQuery.ingress.motive_record.status = 'unknown';
+  incompleteQuery.ingress.motive_record.claims = [];
+  incompleteQuery.ingress.query = { status: 'pending', missing_fields: [] };
+  assert.equal(sdk.validate('ingress-record', incompleteQuery).valid, false);
+
+  const incompleteException = structuredClone(valid.value);
+  incompleteException.ingress.state = 'safety_exception_logged';
+  incompleteException.ingress.motive_record.status = 'unknown';
+  incompleteException.ingress.motive_record.claims = [];
+  incompleteException.ingress.query = { status: 'unavailable', missing_fields: ['generative_tension'] };
+  assert.equal(sdk.validate('ingress-record', incompleteException).valid, false);
+
+  const pluralRecord = structuredClone(valid.value);
+  pluralRecord.ingress.motive_record.status = 'redacted';
+  pluralRecord.ingress.motive_record.claims.push({
+    id: 'restricted-origin',
+    original_question: '非公開資料にある別の生成起点をどう保持するか。',
+    generative_tension: '公開可能性と系譜保存が衝突する。',
+    source_fragments: [{
+      reference: 'restricted://motive/second-origin',
+      disclosure: 'restricted_reference',
+      provenance: 'private archive index'
+    }],
+    desired_difference: '異なる動機を平均化せず、非公開のまま並置する。',
+    basis: 'direct_record',
+    disclosure: 'restricted_reference',
+    provenance: 'private archive index'
+  });
+  assert.equal(sdk.validate('ingress-record', pluralRecord).valid, true);
+});
+
 test('validates the protocol manifest and every registered path exists', () => {
   const result = sdk.validate('protocol-manifest', sdk.manifest);
   assert.equal(result.valid, true, JSON.stringify(result.errors));
   const paths = [
     sdk.manifest.protocol,
+    sdk.manifest.ingress,
     sdk.manifest.handoff,
     ...Object.values(sdk.manifest.roles).map((role) => role.template),
     ...Object.values(sdk.manifest.engines),

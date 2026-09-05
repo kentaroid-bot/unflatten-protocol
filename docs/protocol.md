@@ -118,6 +118,21 @@ Residualは、正しいと認定された主張でも、説明不能を神秘化
 
 ## Workflow
 
+### 0. Greenfield Ingress
+
+新しいcanonical hypothesisまたはWorldlineを開始し、その生成系譜の動機が現在の依頼、既存artifactまたはHandoffから十分に観測できない場合は、役割選択とFrameの前にGreenfield Ingressを実行します。
+
+この入口は、問題設定、望まれる差異および成果の初期形態をAIが依頼者より先に決めることを防ぎます。既知情報を抽出した後も生成起点が不足する場合は、一度に一つのMotive Queryを返します。詳細な起動条件、記録形式、状態遷移、非開示および安全例外は[`ingress.md`](ingress.md)を正本とします。
+
+Greenfield Ingressはroleではありません。`ready`になるまでcanonical生成を開始せず、`ready`後に現在の作業フェーズから最初のroleを選択します。
+
+**Output**
+
+- Motive Record
+- Outcome Envelope
+- Ingress state
+- 必要な場合は一つのMotive Query
+
 ### 1. Frame
 
 問いを生じさせている緊張、違和感、未説明の現象または望ましい変化を特定します。

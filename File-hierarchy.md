@@ -10,6 +10,7 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │
 ├── docs/
 │   ├── protocol.md                     # Unflattenの定義と不変条件の正本
+│   ├── ingress.md                      # role選択前のGreenfield Ingress Contract
 │   ├── handoff.md                      # Handoff Contractの正本
 │   ├── worldlines.md                   # No Gray Stones、孵化、分散育成、種分化
 │   ├── agent-roles/                    # 既存エージェント向け互換パス（正本へのリンク）
@@ -37,6 +38,7 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │
 ├── schema/
 │   ├── protocol-manifest.schema.json
+│   ├── ingress-record.schema.json      # Motive RecordとOutcome Envelopeの入口状態
 │   ├── handoff-contract.schema.json
 │   ├── state-history.schema.json
 │   ├── audit-report.schema.json
@@ -55,6 +57,7 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │       └── measure-sharpness.js        # 意味監査前の構成要素チェック
 │
 ├── fixtures/
+│   ├── ingress.valid.yaml              # 検証可能なGreenfield Ingress例
 │   └── handoff.valid.yaml              # 検証可能な最小Handoff例
 ├── worldlines/                         # Stable Hostから隔離した候補プロトコル
 │   ├── registry.json                   # Guest manifestレジストリ
@@ -64,7 +67,8 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 ├── self-audit/                         # このリポジトリ自身を通した役割別記録
 │   ├── 001/
 │   ├── 002/
-│   └── 003/
+│   ├── 003/
+│   └── 004/                            # Motive-first gateの役割別設計・監査・実装記録
 └── test/
     └── sdk.test.js                     # ローダー、schema、監査境界のテスト
 ```

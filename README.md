@@ -71,6 +71,27 @@ GitHubから直接導入できます。
 npm install github:kentaroid-bot/unflatten-protocol
 ```
 
+## Greenfield Ingress
+
+新しいcanonical hypothesisまたはWorldlineを完全に新しく始め、現在の依頼や既存artifactに十分な動機記録がない場合は、roleを選ぶ前にGreenfield Ingressを実行します。これは一律の質問票ではありません。既知情報を先に使い、欠けている生成起点だけを一度に一問ずつ確認します。
+
+```js
+const unflatten = require('unflatten-protocol');
+
+const prompt = unflatten.composeIngressPrompt(
+  'この新しいprojectの入口状態を判定し、必要ならMotive Queryを一つだけ返す。',
+  { context: knownProjectContext }
+);
+```
+
+得られたrecordは汎用validatorで検証できます。
+
+```sh
+npx unflatten validate ingress-record ingress.yaml
+```
+
+Greenfield Ingressはopt-inのpre-role primitiveです。既存利用者の `composeRolePrompt()` を自動停止せず、動機の真実性や十分性を静的スコアで認定しません。適用境界、Motive RecordとOutcome Envelopeの分離、`query_required | hold | safety_exception_logged`の扱いは[`docs/ingress.md`](docs/ingress.md)を参照してください。
+
 ## Load a Role
 
 ```js
@@ -227,7 +248,9 @@ SDKは特定のLLMプロバイダー、モデルまたはエージェントフ�
 ## Unflatten Protocol
 
 探索、監査、実装または統合を行う前に、インストール済みの
-`unflatten-protocol` が提供する `docs/protocol.md` と、選択した役割をロードする。
+`unflatten-protocol` が提供する `docs/protocol.md` をロードする。
+新しい生成系譜で動機記録が不足する場合は、役割選択前に `docs/ingress.md` を適用する。
+その後、選択した役割をロードする。
 
 成果物の自動検証では、静的検証とMetasystemic Auditorによる意味的監査を
 区別し、静的スコアだけで仮説の真偽または価値を判定しない。
@@ -241,7 +264,9 @@ Node.jsを使わないエージェント環境では、リポジトリをsubmodu
 - `resolveRole(nameOrAlias)`
 - `loadRole(nameOrAlias)`
 - `loadProtocol()`
+- `loadIngressContract()`
 - `loadHandoffContract()`
+- `composeIngressPrompt(task, options)`
 - `composeRolePrompt(role, task, options)`
 - `validate(schemaName, objectOrYaml)`
 - `inspectArtifact(textOrObject)`

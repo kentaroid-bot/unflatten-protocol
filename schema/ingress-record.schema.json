@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unflatten.dev/schema/ingress-record.schema.json",
+  "title": "Unflatten Greenfield Ingress Record",
+  "type": "object",
+  "required": ["ingress"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "ingress": {
+      "type": "object",
+      "required": ["version", "state", "scope", "motive_record", "outcome_envelope", "query"],
+      "properties": {
+        "version": { "type": "string", "minLength": 1 },
+        "state": { "enum": ["ready", "query_required", "hold", "safety_exception_logged"] },
+        "scope": {
+          "type": "object",
+          "required": ["kind", "basis", "existing_context"],
+          "properties": {
+            "kind": { "enum": ["new_canonical_hypothesis", "new_worldline"] },
+            "basis": { "$ref": "#/$defs/nonEmptyString" },
+            "existing_context": {
+              "type": "object",
+              "required": ["motive_record", "handoff", "project_context"],
+              "properties": {
+                "motive_record": { "type": "boolean" },
+                "handoff": { "type": "boolean" },
+                "project_context": { "type": "boolean" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "motive_record": {
+          "type": "object",
+          "required": ["status", "claims", "observation_horizon", "pre_ingress_status"],
+          "properties": {
+            "status": { "enum": ["documented", "declared", "partial", "redacted", "unknown"] },
+            "claims": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/motiveClaim" }
+            },
+            "observation_horizon": { "$ref": "#/$defs/nonEmptyString" },
+            "pre_ingress_status": { "enum": ["observed", "compressed", "unknown", "not_applicable"] }
+          },
+          "additionalProperties": false
+        },
+        "outcome_envelope": {
+          "type": "object",
+          "required": ["status", "purpose", "audience", "artifact_forms", "finish_level", "constraints", "completion_evidence"],
+          "properties": {
+            "status": { "enum": ["specified", "partial", "deferred", "revised"] },
+            "purpose": { "$ref": "#/$defs/nonEmptyString" },
+            "audience": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyString" }, "uniqueItems": true },
+            "artifact_forms": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyString" }, "uniqueItems": true },
+            "finish_level": { "$ref": "#/$defs/nonEmptyString" },
+            "constraints": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyString" }, "uniqueItems": true },
+            "completion_evidence": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyString" }, "uniqueItems": true },
+            "revision_note": { "$ref": "#/$defs/nonEmptyString" }
+          },
+          "additionalProperties": false
+        },
+        "query": {
+          "type": "object",
+          "required": ["status", "missing_fields"],
+          "properties": {
+            "status": { "enum": ["not_needed", "pending", "answered", "declined", "unavailable"] },
+            "question": { "$ref": "#/$defs/nonEmptyString" },
+            "missing_fields": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyString" }, "uniqueItems": true }
+          },
+          "additionalProperties": false
+        },
+        "exception": {
+          "type": "object",
+          "required": ["reason", "recorded_at", "follow_up_required"],
+          "properties": {
+            "reason": { "$ref": "#/$defs/nonEmptyString" },
+            "recorded_at": { "type": "string", "format": "date-time" },
+            "follow_up_required": { "type": "boolean" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "state": { "const": "ready" } } },
+          "then": {
+            "properties": {
+              "motive_record": {
+                "properties": {
+                  "status": { "enum": ["documented", "declared", "partial", "redacted"] },
+                  "claims": { "minItems": 1 }
+                }
+              },
+              "query": { "properties": { "status": { "enum": ["not_needed", "answered"] } } }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "state": { "const": "query_required" } } },
+          "then": {
+            "properties": {
+              "query": {
+                "required": ["question"],
+                "properties": { "status": { "const": "pending" }, "missing_fields": { "minItems": 1 } }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "state": { "const": "hold" } } },
+          "then": {
+            "properties": {
+              "query": { "properties": { "status": { "enum": ["declined", "unavailable"] } } }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "state": { "const": "safety_exception_logged" } } },
+          "then": { "required": ["exception"] }
+        },
+        {
+          "if": { "properties": { "motive_record": { "properties": { "status": { "const": "unknown" } } } } },
+          "then": { "properties": { "state": { "enum": ["query_required", "hold", "safety_exception_logged"] } } }
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "sourceFragment": {
+      "type": "object",
+      "required": ["disclosure", "provenance"],
+      "properties": {
+        "content": { "$ref": "#/$defs/nonEmptyString" },
+        "reference": { "$ref": "#/$defs/nonEmptyString" },
+        "disclosure": { "enum": ["public", "redacted", "restricted_reference"] },
+        "provenance": { "$ref": "#/$defs/nonEmptyString" }
+      },
+      "oneOf": [
+        { "required": ["content"] },
+        { "required": ["reference"] }
+      ],
+      "additionalProperties": false
+    },
+    "motiveClaim": {
+      "type": "object",
+      "required": ["id", "original_question", "generative_tension", "source_fragments", "desired_difference", "basis", "disclosure", "provenance"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+        "original_question": { "$ref": "#/$defs/nonEmptyString" },
+        "generative_tension": { "$ref": "#/$defs/nonEmptyString" },
+        "source_fragments": { "type": "array", "items": { "$ref": "#/$defs/sourceFragment" } },
+        "desired_difference": { "$ref": "#/$defs/nonEmptyString" },
+        "basis": { "enum": ["author_confirmed", "direct_record", "inferred", "unknown"] },
+        "disclosure": { "enum": ["public", "redacted", "restricted_reference"] },
+        "provenance": { "$ref": "#/$defs/nonEmptyString" },
+        "confirmed_by": { "$ref": "#/$defs/nonEmptyString" },
+        "confirmed_at": { "type": "string", "format": "date-time" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "basis": { "const": "author_confirmed" } } },
+          "then": { "required": ["confirmed_by", "confirmed_at"] }
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
+

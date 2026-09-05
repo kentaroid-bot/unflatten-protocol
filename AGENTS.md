@@ -11,7 +11,8 @@
 作業を開始する前に、次の順序でファイルを実際に読み、その指示を現在の依頼へ適用してください。
 
 1. `docs/protocol.md`
-2. 現在選択されている `prompt-templates/core/<role>.md`
+2. 新しい生成系譜を開始する場合は `docs/ingress.md`
+3. 現在選択されている `prompt-templates/core/<role>.md`
 
 役割の切り替えまたは作業の委任を行う場合は、これらに加えて `docs/handoff.md` を読んでください。
 
@@ -20,6 +21,7 @@
 ## Sources of Truth
 
 - Unflattenの定義、不変条件、状態遷移、反証およびPivotの正本は `docs/protocol.md` です。
+- 新しい生成系譜を開始する前のMotive Record、Outcome Envelopeおよび入口状態の正本は `docs/ingress.md` です。
 - 役割間または担当間のHandoff Contractの正本は `docs/handoff.md` です。
 - 各フェーズに固有の目的、禁止事項および出力形式の正本は、対応する `prompt-templates/core/<role>.md` です。
 - この `AGENTS.md` は、正本を選択して読み込むためのルーターです。
@@ -41,6 +43,17 @@
 役割名だけから振る舞いを推測してはいけません。対応するファイルが存在しない場合は、その役割を開始せず、不足している定義を明示してください。
 
 `docs/agent-roles/` は人間と既存エージェント向けの互換パスです。SDKがロードする正本は `prompt-templates/core/` にあり、対応関係は `manifest.json` で解決します。
+
+## Greenfield Ingress
+
+新しいcanonical hypothesisまたはWorldlineを生成し、かつ現在の依頼、既存artifactまたはHandoffから十分なMotive Recordを観測できない場合は、役割を選ぶ前に `docs/ingress.md` を適用してください。
+
+- 既知の背景、目的、方向および成果条件を先に抽出し、同じ情報を再質問しない。
+- 不足がある場合は、一度に一つの自由回答式Motive Queryを行う。
+- `query_required` または `hold` の間は、役割を選択せず、canonical hypothesisを生成しない。
+- 緊急の安全対応は停止せず、`safety_exception_logged`として不足と事後確認義務を残す。
+
+新しいrepositoryであることだけを起動条件にしてはいけません。既存仕様の実装、既存仮説の監査、軽微修正および通常の継続作業では、十分な動機情報がある限り再ヒアリングしません。
 
 ## Role Selection
 

@@ -1,0 +1,139 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: engineer
+  to_role: auditor
+  reason: Greenfield Ingressの限定実装が完了したため、実装可能性と仮説成立を混同せず再監査へ渡す。
+  inquiry:
+    problem_tension: role選択前の動機確認を実装可能にしつつ、全taskの強制停止、semantic scoring、自己暴露要求へ変質させてはならない。
+    current_question: 実装されたStable primitiveは、Integratorが固定したMotive-Firstの境界を保存し、実projectで反証可能な形になっているか。
+    distinct_dimensions:
+      - dimension: pre-role ingress
+        significance: composeIngressPromptはroleをロードせず、問題設定の先取り前に使用できる。
+      - dimension: Motive RecordとOutcome Envelopeの分離
+        significance: schema上で別objectとし、成果形態の変更が生成起点を上書きしない。
+      - dimension: plurality、privacy、unknown
+        significance: 複数claim、redacted、restricted reference、unknownを表現し、raw motive公開を要求しない。
+      - dimension: advisory static boundary
+        significance: schemaはshapeとstateだけを検証し、動機の真正性または十分性を認定しない。
+    flattening_risks:
+      - ready状態を意味的に十分な動機の証明として扱う。
+      - opt-in APIを全既存workflowの自動Gateへ拡張する。
+      - Outcome Envelopeを不変の勝利条件として運用する。
+  hypothesis:
+    statement: 独立したIngress Contract、schema、pre-role composer、router guidanceをStable SDKへ追加すれば、既存workflowを破壊せずGreenfield Motive Queryを正規の一手にできる。
+    core_claims:
+      - Greenfield Ingressはrole選択前にロードできる。
+      - 起動条件はnew canonical generative scopeとMotive Record不足の積である。
+      - query_requiredには具体的な一問と不足fieldが必要である。
+      - safety exceptionには理由、時刻、follow-up要否が必要である。
+      - 既存composeRolePromptは自動停止されない。
+    mechanism: docs/ingress.mdを正本とし、manifest、JSON Schema、validator API、fixture、routerとrole文書、README、testsを参照関係で接続した。
+    assumptions:
+      - assumption: 外部projectがrole選択前にcomposeIngressPromptを明示的に呼び出す。
+        status: unknown
+      - assumption: one-question-at-a-time運用が一括質問票よりDistinct Dimensionsを保持する。
+        status: unknown
+      - assumption: 独立schema追加は既存利用者へ後方互換である。
+        status: supported
+    scope:
+      applies_to:
+        - 新しいcanonical hypothesisまたはWorldlineでMotive Recordが不足する作業
+        - docs、schema、Node.js SDK、CLI汎用validate、agent router guidance
+      does_not_apply_to:
+        - semantic motive scoring
+        - Human Confirmationの本人性証明
+        - 既存composeRolePromptの自動block
+        - package releaseまたはversion bump
+  hypothetical_world:
+    description: 外部projectはGreenfield作業の開始時だけpre-role promptを呼び、既知の動機が足りなければ一問を返し、ready後に作業フェーズからroleを選ぶ。
+    consequences:
+      primary:
+        - Ingress stateとMotive provenanceをschema検証可能なartifactとして保存できる。
+      secondary:
+        - Motive変更とOutcome変更を別々に監査できる。
+        - query、hold、安全例外を暗黙の停止と区別できる。
+      tertiary:
+        - Greenfield Ingressあり/なしの実runを比較できる。
+    opportunities:
+      - NZAまたは別の新規projectでlineage recoveryとquery burdenを観測する。
+  evaluation:
+    falsifiers:
+      - composeIngressPromptがLoaded Roleを含む。
+      - readyがunknown motiveまたは空claimsでschema validになる。
+      - query_requiredが具体的questionまたはmissing_fieldsなしでschema validになる。
+      - safety_exception_loggedがexception記録なしでschema validになる。
+      - 既存SDK testが退行する。
+      - 実runでIngressが不要な質問、離脱、boilerplate motiveを増やす。
+    evidence:
+      supporting:
+        - composeIngressPromptの出力順とLoaded Role不在を自動テストした。
+        - ready、query_required、安全例外、複数restricted claimのpositive/negative schema testを実装した。
+        - 既存testを含む26件が通過した。
+      contradicting: []
+      unknown:
+        - 実projectでpre-role flatteningを減らす程度
+        - query abandonmentと人間の認知負荷
+        - partialまたはredacted recordがboilerplate bypassになる頻度
+    tests_completed:
+      - ingress.valid.yamlのCLI schema validation
+      - Greenfield Ingress stateのpositive/negative tests
+      - composeIngressPrompt orderとrole不在のtest
+      - protocol manifestと全登録pathのtest
+      - full npm test 26件
+      - npm package contentsの一時cacheによる確認
+      - git diff --check
+    tests_remaining:
+      - Auditorによる実装差分の意味的再監査
+      - 新規projectでのIngressあり/なし比較run
+  decision:
+    status: advance
+    authority: implementation_report
+    decided_by: engineer
+    rationale: Integratorの限定scopeは実装され、自動テスト上の反証条件に耐えた。これは実装完了報告であり、実効果またはStable採用の最終判断ではない。
+    preserved_dimensions:
+      - pre-role ingress
+      - Motive/Outcome separation
+      - one-question-at-a-time
+      - plural claims、privacy、unknown
+      - safety exception
+      - semantic validation boundary
+    rejected_claims:
+      - schema validationが動機の真正性を証明する。
+      - Greenfieldなら常にInnovatorを選ぶ。
+      - 全既存workflowを直ちに自動Gate化する。
+    revisions:
+      - Innovatorの入力不足時の暫定仮説規則を、Ingress対象外またはreadyの場合に限定した。
+      - 汎用CLI validateを再利用し、専用の強制コマンドは追加しなかった。
+  pivot:
+    trigger: "not_applicable: Integratorの仮説を置換せず実装した。"
+    learned_structure:
+      - pre-role機能はrole templateではなくprotocol、router、composerの接点で成立する。
+      - stateの構造検証とmotiveの意味的理解は異なる責務である。
+    pivot_seeds:
+      - workflow-runへのoptional ingress digest
+      - comparison run metrics
+    next_hypothesis: "not_applicable: 現仮説の意味的再監査へ渡す。"
+  epistemic_remainder:
+    residuals:
+      - observation: 言語化前の違和感はsource fragment文字列または参照にした時点で一部変形する。
+        schema_limit: JSON Schemaは言葉になる前の身体的・文脈的Noiseを直接保持できない。
+        provenance: Greenfield Ingress implementation and prior audit
+        review_when: motive_partialから始まる実runを観測したとき。
+    dissent:
+      - position: query firstより暫定仮説提示への反応から動機を発見する方が有効な場合がある。
+        holder: Auditor adversarial simulation
+        unresolved_because: 比較runがまだないため、実装はopt-inに留めた。
+  next_step:
+    objective: 実装差分をAuditorで再監査し、Contractとschema/API/routerの間に意味的driftがないかを確認する。
+    constraints:
+      - test成功をIngress仮説成立の証明にしない。
+      - package versionを変更しない。
+      - 実run前にautomatic mandatory gateへ昇格しない。
+    expected_output:
+      - Engineer成果物へのDual-Stress Audit
+      - drift、revisable defect、unknownの区別
+      - Auditor-to-Integrator Handoff
+    unresolved_questions:
+      - schemaのready条件は運用上十分に狭いか。
+      - existing_context booleansは将来digest参照へ置換すべきか。
+      - comparison run後にautomatic workflow gateへ昇格するか。
