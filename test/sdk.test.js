@@ -212,11 +212,14 @@ test('loads and composes the pre-role Greenfield Ingress contract', () => {
   });
   assert.match(prompt, /# Loaded Protocol/u);
   assert.match(prompt, /# Greenfield Ingress Contract/u);
+  assert.match(prompt, /# Machine-readable Ingress Schema/u);
+  assert.match(prompt, /ingress-record\.schema/u);
   assert.match(prompt, /# Existing Ingress Record/u);
   assert.match(prompt, /# Known Context/u);
   assert.match(prompt, /# Current Task/u);
   assert.doesNotMatch(prompt, /# Loaded Role/u);
-  assert.ok(prompt.indexOf('# Greenfield Ingress Contract') < prompt.indexOf('# Known Context'));
+  assert.ok(prompt.indexOf('# Greenfield Ingress Contract') < prompt.indexOf('# Machine-readable Ingress Schema'));
+  assert.ok(prompt.indexOf('# Machine-readable Ingress Schema') < prompt.indexOf('# Known Context'));
 });
 
 test('validates Greenfield Ingress states without claiming motive authenticity', () => {
@@ -228,6 +231,26 @@ test('validates Greenfield Ingress states without claiming motive authenticity',
   readyWithoutMotive.ingress.motive_record.status = 'unknown';
   readyWithoutMotive.ingress.motive_record.claims = [];
   assert.equal(sdk.validate('ingress-record', readyWithoutMotive).valid, false);
+
+  const readyWithUnknownBasis = structuredClone(valid.value);
+  readyWithUnknownBasis.ingress.motive_record.claims[0].basis = 'unknown';
+  delete readyWithUnknownBasis.ingress.motive_record.claims[0].confirmed_by;
+  delete readyWithUnknownBasis.ingress.motive_record.claims[0].confirmed_at;
+  assert.equal(sdk.validate('ingress-record', readyWithUnknownBasis).valid, false);
+
+  const deferredOutcome = structuredClone(valid.value);
+  deferredOutcome.ingress.outcome_envelope = { status: 'deferred' };
+  assert.equal(sdk.validate('ingress-record', deferredOutcome).valid, true);
+
+  const emptyPartialOutcome = structuredClone(valid.value);
+  emptyPartialOutcome.ingress.outcome_envelope = { status: 'partial' };
+  assert.equal(sdk.validate('ingress-record', emptyPartialOutcome).valid, false);
+  emptyPartialOutcome.ingress.outcome_envelope.purpose = '観測済みの目的だけを保持する。';
+  assert.equal(sdk.validate('ingress-record', emptyPartialOutcome).valid, true);
+
+  const incompleteSpecifiedOutcome = structuredClone(valid.value);
+  incompleteSpecifiedOutcome.ingress.outcome_envelope = { status: 'specified' };
+  assert.equal(sdk.validate('ingress-record', incompleteSpecifiedOutcome).valid, false);
 
   const incompleteQuery = structuredClone(valid.value);
   incompleteQuery.ingress.state = 'query_required';
@@ -242,6 +265,16 @@ test('validates Greenfield Ingress states without claiming motive authenticity',
   incompleteException.ingress.motive_record.claims = [];
   incompleteException.ingress.query = { status: 'unavailable', missing_fields: ['generative_tension'] };
   assert.equal(sdk.validate('ingress-record', incompleteException).valid, false);
+
+  const unsafeNoFollowUp = structuredClone(incompleteException);
+  unsafeNoFollowUp.ingress.exception = {
+    reason: '緊急の危害停止を優先する。',
+    recorded_at: '2026-09-06T00:00:00Z',
+    follow_up_required: false
+  };
+  assert.equal(sdk.validate('ingress-record', unsafeNoFollowUp).valid, false);
+  unsafeNoFollowUp.ingress.exception.follow_up_required = true;
+  assert.equal(sdk.validate('ingress-record', unsafeNoFollowUp).valid, true);
 
   const pluralRecord = structuredClone(valid.value);
   pluralRecord.ingress.motive_record.status = 'redacted';

@@ -1,0 +1,112 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: human-steward
+  reason: "最終監査のadvance勧告を受け、Greenfield Ingressをopt-in Stable probeとしてmainへmergeし、実run観測へ移る。"
+  inquiry:
+    problem_tension: "比較実験にはStableからロードできる入口が必要だが、mergeを効果実証やmandatory化と誤認してはならない。"
+    current_question: "PR #3をどの境界と再評価条件でmainへ接続するか。"
+    distinct_dimensions:
+      - dimension: "operational adoption without epistemic closure"
+        significance: "使える状態へ接続しても、仮説の真偽は閉じない。"
+      - dimension: "opt-in reversibility"
+        significance: "既存workflowを拘束せず、比較結果から改訂・撤回できる。"
+      - dimension: "preserved alternative"
+        significance: "hypothesis-probe-first案を平均化せず将来の別Worldlineとして残す。"
+    flattening_risks:
+      - "Stableという語を完成・正解と解釈する。"
+      - "実run前に全projectへ適用する。"
+  hypothesis:
+    statement: "修復済みGreenfield Ingressをopt-in Stable probeとしてmainへmergeすれば、外部projectで問題設定先取りと人間負荷を観測できる。"
+    core_claims:
+      - "merge対象はPR #3の実装とself-audit記録である。"
+      - "automatic mandatory gateとversion releaseは含まない。"
+      - "実効果はunknownのまま比較runへ渡す。"
+    mechanism: "PR #3をmergeし、次の適格Greenfield作業でIngress state、質問turn、修正された推測、離脱・違和感、lineage recoveryを記録する。"
+    assumptions:
+      - assumption: "main接続により外部projectが同じartifactを参照できる。"
+        status: supported
+      - assumption: "比較観測から次の判断に十分な情報が得られる。"
+        status: unknown
+    scope:
+      applies_to:
+        - "unflatten-protocol main上のopt-in Greenfield Ingress"
+      does_not_apply_to:
+        - "全taskへの強制、package release、効果証明"
+  hypothetical_world:
+    description: "Greenfield IngressはStable hostに存在するが、適用条件を満たすprojectだけが選択的に使い、結果により再審査される。"
+    consequences:
+      primary:
+        - "外部projectからContract、schema、composerをロードできる。"
+      secondary:
+        - "query-firstの効果と摩擦を観測できる。"
+      tertiary:
+        - "必要なら改訂、撤回、または別Worldlineへの種分化が可能になる。"
+    opportunities:
+      - "完全新規projectで最初のcomparison runを行う。"
+  evaluation:
+    falsifiers:
+      - "適用が全taskへ儀式化する。"
+      - "質問負荷が差異保存を継続的に上回る。"
+      - "schema validが意味的成功として運用される。"
+      - "未知fieldが再びplaceholderで埋められる。"
+    evidence:
+      supporting:
+        - "最終Auditor verdictはadvance。"
+        - "4件の修復反証、26 tests、package verificationが通過。"
+      contradicting: []
+      unknown:
+        - "実run効果、query burden、lineage recovery"
+    tests_completed:
+      - "@aud implementation audit"
+      - "@int repair decision"
+      - "@eng repair and regression"
+      - "@aud final semantic audit"
+    tests_remaining:
+      - "実Greenfield comparison run"
+  decision:
+    status: advance
+    authority: operational_decision
+    decided_by: integrator
+    rationale: "実装欠陥は修復され、残る未知はStable probeを配置して初めて観測できる。採用範囲をopt-inに限定し、mainへmergeする。"
+    preserved_dimensions:
+      - "Motive-First"
+      - "pre-role sovereignty"
+      - "Motive/Outcome separation"
+      - "unknown、privacy、plurality、安全follow-up"
+      - "query-firstへのDissent"
+    rejected_claims:
+      - "Greenfield Ingressの効果は証明済みである。"
+      - "query-firstが唯一の正しい入口である。"
+      - "全既存workflowを直ちにmandatory化する。"
+    revisions: []
+  pivot:
+    trigger: "not_applicable: scoped advanceである。"
+    learned_structure:
+      - "Stableは完成版だけでなく、外部比較に必要な再開可能probeを置く場所にもなれる。"
+    pivot_seeds:
+      - "hypothesis-probe-first Worldline"
+      - "field-level epistemic status"
+    next_hypothesis: "実runでquery-firstが平坦化を減らさない場合、別の尖った入口仮説へPivotする。"
+  epistemic_remainder:
+    residuals:
+      - observation: "言語化前の動機は現在のstructured schemaに完全には入らない。"
+        schema_limit: "観測済みの言語・参照だけを保存する。"
+        provenance: "final audit lineage"
+        review_when: "partial motiveの実run、または強い違和感が報告されたとき。"
+    dissent:
+      - position: "Motive Queryより、尖った暫定仮説を先に提示して反応から動機を発見する方がよい場合がある。"
+        holder: "Auditor adversarial simulation"
+        unresolved_because: "query-firstへ統合せず、別Worldline候補として比較可能性を残す。"
+  next_step:
+    objective: "PR #3をmainへmergeし、次の適格Greenfield作業でcomparison observationを開始する。"
+    constraints:
+      - "mergeを効果実証と表現しない。"
+      - "automatic mandatory gateまたはversion releaseを行わない。"
+      - "3件の適格run完了、最初の重大な摩擦、または意味的境界侵犯のいずれか早い時点で再審査する。"
+    expected_output:
+      - "merged Stable probe"
+      - "各runのIngress recordと観測記録"
+      - "再審査時のAuditor report"
+    unresolved_questions:
+      - "最初の適格Greenfield projectはどれか。"

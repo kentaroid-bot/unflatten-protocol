@@ -50,6 +50,8 @@ Unflattenの不変条件、反証およびPivotは[`protocol.md`](protocol.md)�
 
 Outcome EnvelopeはMotive Recordではありません。形態または仕上がり水準が変わっても、動機が維持される場合があります。`specified | partial | deferred | revised`を明示し、初期値を不変の勝利条件にしません。
 
+`partial`または`deferred`では、まだ観測されていないfieldを省略できます。`partial`は少なくとも一つの観測済みfieldを持ち、何も決まっていない場合は`deferred`を使います。`unknown`、仮の一般論または推測で欄を埋めてはいけません。`specified`は全fieldを持ち、`revised`は全fieldに加えて変更理由を記録します。
+
 ## State Machine
 
 ```text
@@ -73,6 +75,8 @@ greenfield_detected
 - `query_required`: 動機の重要部分が不足し、具体的なMotive Queryが一つ提示されている。
 - `hold`: 回答が拒否または取得不能で、canonical生成を開始しない。
 - `safety_exception_logged`: 人身、安全、incident responseまたは期限付き危害防止を優先し、Ingressの不足と事後確認義務を記録する。
+
+`safety_exception_logged`の`follow_up_required`は常に`true`です。緊急対応後にIngressが完了した場合は、例外を免除へ変えるのではなく、recordを別の通常stateへ更新します。
 
 `partial`または`redacted`は自動的な失敗ではありません。何が分かり、何が伏せられ、何がunknownかを後続roleが判断できることが重要です。
 

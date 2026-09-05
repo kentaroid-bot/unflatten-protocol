@@ -47,7 +47,7 @@
         },
         "outcome_envelope": {
           "type": "object",
-          "required": ["status", "purpose", "audience", "artifact_forms", "finish_level", "constraints", "completion_evidence"],
+          "required": ["status"],
           "properties": {
             "status": { "enum": ["specified", "partial", "deferred", "revised"] },
             "purpose": { "$ref": "#/$defs/nonEmptyString" },
@@ -58,6 +58,29 @@
             "completion_evidence": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyString" }, "uniqueItems": true },
             "revision_note": { "$ref": "#/$defs/nonEmptyString" }
           },
+          "allOf": [
+            {
+              "if": { "properties": { "status": { "const": "partial" } } },
+              "then": {
+                "anyOf": [
+                  { "required": ["purpose"] },
+                  { "required": ["audience"] },
+                  { "required": ["artifact_forms"] },
+                  { "required": ["finish_level"] },
+                  { "required": ["constraints"] },
+                  { "required": ["completion_evidence"] }
+                ]
+              }
+            },
+            {
+              "if": { "properties": { "status": { "const": "specified" } } },
+              "then": { "required": ["purpose", "audience", "artifact_forms", "finish_level", "constraints", "completion_evidence"] }
+            },
+            {
+              "if": { "properties": { "status": { "const": "revised" } } },
+              "then": { "required": ["purpose", "audience", "artifact_forms", "finish_level", "constraints", "completion_evidence", "revision_note"] }
+            }
+          ],
           "additionalProperties": false
         },
         "query": {
@@ -89,7 +112,14 @@
               "motive_record": {
                 "properties": {
                   "status": { "enum": ["documented", "declared", "partial", "redacted"] },
-                  "claims": { "minItems": 1 }
+                  "claims": {
+                    "minItems": 1,
+                    "contains": {
+                      "type": "object",
+                      "required": ["basis"],
+                      "properties": { "basis": { "enum": ["author_confirmed", "direct_record", "inferred"] } }
+                    }
+                  }
                 }
               },
               "query": { "properties": { "status": { "enum": ["not_needed", "answered"] } } }
@@ -117,7 +147,12 @@
         },
         {
           "if": { "properties": { "state": { "const": "safety_exception_logged" } } },
-          "then": { "required": ["exception"] }
+          "then": {
+            "required": ["exception"],
+            "properties": {
+              "exception": { "properties": { "follow_up_required": { "const": true } } }
+            }
+          }
         },
         {
           "if": { "properties": { "motive_record": { "properties": { "status": { "const": "unknown" } } } } },
@@ -170,4 +205,3 @@
   },
   "additionalProperties": false
 }
-

@@ -1,0 +1,181 @@
+audit_target:
+  hypothesis: "修復済みGreenfield Ingressは、未知を捏造せず保持し、安全例外後の系譜を回収できるopt-in Stable probeとして比較実験へ進める。"
+  core_premises:
+    - "role選択前に動く。"
+    - "MotiveとOutcomeを分離する。"
+    - "partial/deferred/unknownをgeneric文字列で埋めない。"
+    - "構造検証は意味的真実性を認定しない。"
+    - "安全例外は緊急対応後のIngress復帰を失わない。"
+  mechanism: "status別JSON Schema条件、non-unknown basis contains、follow-up true制約、schema内蔵pre-role composerをregression testsで接続する。"
+  distinct_dimensions:
+    - "pre-role problem-setting sovereignty"
+    - "non-fabricated incompleteness"
+    - "privacy and plural motive claims"
+    - "safety return path"
+    - "static/semantic authority separation"
+
+steelman_setup:
+  - "外部projectはGreenfield条件を満たす場合だけ明示的にcomposerを呼ぶ。"
+  - "未定Outcomeはdeferred、部分観測はpartialとして、未観測fieldを省略する。"
+  - "readyは観測由来のclaimを持つが、そのclaimの真実性は後続監査へ開かれている。"
+  - "安全例外は危害停止を優先し、その後必ず通常Ingressへ戻る。"
+  - "実runで効果が否定されればmandatory化せず改訂または別WorldlineへPivotできる。"
+
+dual_stress:
+  logical_systemic:
+    - test: "4件の再現反証"
+      result: "deferred空Outcomeはvalid、unknown basisだけのreadyとfollow-up false安全例外はinvalid、composerはschemaを含む。4件すべて修復された。"
+      falsifier: "いずれかのbehaviorが修復前へ戻る。"
+    - test: "state distinction"
+      result: "partialは少なくとも一つの観測fieldを要求し、何も観測されていないdeferredと区別される。specified/revisedには完全fieldが必要である。"
+      falsifier: "partialとdeferredが構造上同一になる、またはdeferredがplaceholderを要求する。"
+    - test: "authority capture"
+      result: "validatorはshapeを検査するだけで、composerもschema検証を動機の真正性・十分性と主張しない。composeRolePromptは自動blockされない。"
+      falsifier: "ready/schema validが意味的採択または全workflowの強制停止を決める。"
+  cognitive_physical:
+    - test: "interview burden"
+      result: "Contractは既知情報再利用、一度に一問、partial/deferred、非開示を維持する。長い一括フォームは導入されていない。実際の離脱率は未観測である。"
+      falsifier: "運用時に一括質問、再質問または全field回答が常態化する。"
+    - test: "privacy exposure"
+      result: "restricted referenceとredacted claimをreadyに含められ、public raw motiveは必須でない。"
+      falsifier: "readyのためにsource contentの公開を要求する。"
+    - test: "urgent harm race"
+      result: "safety_exception_loggedは緊急対応を先行させつつfollow_up_required:trueを構造的に要求する。"
+      falsifier: "Ingress待ちで危害停止が遅れる、または例外後の回収が永久省略される。"
+
+evidence_and_noise:
+  supporting:
+    - "4件のbehavior regressionが期待どおり通る。"
+    - "既存を含む26 testsが通過する。"
+    - "packageへContract、schema、composer実装が収録される。"
+    - "全Handoffと本audit schemaが静的検証可能である。"
+  contradicting: []
+  unknown:
+    - "実projectでpre-role flatteningを減らす程度"
+    - "query burdenとabandonment"
+    - "boilerplate motive、誤ったready判定、lineage recovery率"
+  noise_signals:
+    - "query-firstが創作の勢いを止める可能性は残るため、hypothesis-probe-first案を混ぜず比較対象として保持する。"
+
+findings:
+  - classification: unresolved_uncertainty
+    finding: "実runでの意味的効果と人間負荷は未観測である。"
+    rationale: "現在のデータ不足はStable probeの配置を棄却する根拠ではないが、プロトコルが成功したという主張も許さない。"
+
+repair_boundary: []
+
+pivot_seeds:
+  - "query-firstとhypothesis-probe-firstの別Worldline比較"
+  - "field-level epistemic status"
+  - "optional ingress digest in workflow history"
+
+final_verdict: advance
+
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: "限定修復後に致命的矛盾と修正可能な実装欠陥は確認されず、意味的効果をunknownのままStable probeとして接続判断できる。"
+  inquiry:
+    problem_tension: "実効果は未観測だが、比較実験を行うには外部projectがロードできるStable入口が必要である。"
+    current_question: "修復済みGreenfield Ingressをmainへmergeし、実project comparisonへ進めるか。"
+    distinct_dimensions:
+      - dimension: "probe adoption is not truth certification"
+        significance: "Stableへ置く判断と仮説成立を分離する。"
+      - dimension: "pre-role sovereignty"
+        significance: "問題設定先取り前の入口を保持する。"
+      - dimension: "reopenable alternatives"
+        significance: "query-first以外のWorldlineを将来比較できる。"
+    flattening_risks:
+      - "mergeを効果実証と表現する。"
+      - "将来automatic mandatory gateへ無条件昇格する。"
+  hypothesis:
+    statement: "修復済みIngressをopt-in Stable probeとしてmergeすれば、実projectで意味的効果と人間負荷を観測できる。"
+    core_claims:
+      - "opt-inを維持する。"
+      - "実効果はunknownとして残す。"
+      - "比較結果で改訂、撤回、分岐できる。"
+    mechanism: "PR #3をStable mainへ接続し、次の新規projectでIngress recordと観測結果を残す。"
+    assumptions:
+      - assumption: "mainへ置くことで外部projectから再現可能にロードできる。"
+        status: supported
+      - assumption: "実runが十分な意味的観測を返す。"
+        status: unknown
+    scope:
+      applies_to:
+        - "PR #3のGreenfield Ingress実装とself-audit記録"
+      does_not_apply_to:
+        - "automatic mandatory gate、release、効果実証宣言"
+  hypothetical_world:
+    description: "Greenfield Ingressは利用可能だが強制されず、使用runと不使用runを別の石として比較できる。"
+    consequences:
+      primary:
+        - "外部projectからpre-role composerとschemaをロードできる。"
+      secondary:
+        - "query burdenとlineage recoveryを観測できる。"
+      tertiary:
+        - "結果に応じてStable改訂または別Worldlineを選べる。"
+    opportunities:
+      - "次の完全新規projectを最初のcomparison caseにする。"
+  evaluation:
+    falsifiers:
+      - "merge後にmandatory化される。"
+      - "schema validを意味的成功として報告する。"
+      - "実runで質問負荷が差異保存を一貫して上回る。"
+    evidence:
+      supporting:
+        - "最終Dual-Stress Auditはadvance。"
+        - "26 testsとpackage verificationが通過。"
+      contradicting: []
+      unknown:
+        - "実run効果"
+    tests_completed:
+      - "final semantic implementation audit"
+      - "full static regression and package verification"
+    tests_remaining:
+      - "Integrator merge decision"
+      - "実project comparison"
+  decision:
+    status: advance
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: "実装上の反証は解消され、人間負荷と意味的効果は明示的unknownとして再評価可能である。Stable probeへの接続を推奨する。"
+    preserved_dimensions:
+      - "Motive-First"
+      - "pre-role Greenfield Ingress"
+      - "Motive/Outcome separation"
+      - "non-fabricated incompleteness"
+      - "privacy、plurality、安全follow-up"
+    rejected_claims:
+      - "実効果は証明済みである。"
+      - "query-firstが唯一の正解である。"
+    revisions: []
+  pivot:
+    trigger: "not_applicable: advance recommendationである。"
+    learned_structure:
+      - "Stable採用を比較可能なprobe配置として限定できる。"
+    pivot_seeds:
+      - "hypothesis-probe-first Worldline"
+    next_hypothesis: "not_applicable: merge後comparisonを行う。"
+  epistemic_remainder:
+    residuals:
+      - observation: "言葉になる前の動機はstructured recordに完全には入らない。"
+        schema_limit: "Schemaは観測済み表現のみを扱う。"
+        provenance: "final implementation audit"
+        review_when: "partial motiveを扱う実run時。"
+    dissent:
+      - position: "質問より先に尖った仮説を見せる経路も育成すべきである。"
+        holder: "Auditor adversarial simulation"
+        unresolved_because: "query-firstへ平均化せず別Worldline候補として残す。"
+  next_step:
+    objective: "IntegratorがPR #3のmergeまたはHoldを決定し、mergeする場合は実project comparisonを次の観測へ指定する。"
+    constraints:
+      - "mergeを実効果証明としない。"
+      - "automatic mandatory gateへ昇格しない。"
+      - "DissentとResidualを保持する。"
+    expected_output:
+      - "final operational decision"
+      - "mergeまたはHold"
+      - "review trigger"
+    unresolved_questions:
+      - "最初のcomparison projectと観測項目を何にするか。"

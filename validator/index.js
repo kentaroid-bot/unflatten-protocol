@@ -56,7 +56,11 @@ function composeIngressPrompt(task, options = {}) {
     '# Loaded Protocol',
     loadProtocol(),
     '# Greenfield Ingress Contract',
-    loadIngressContract()
+    loadIngressContract(),
+    '# Machine-readable Ingress Schema',
+    read(manifest.schemas['ingress-record']),
+    '# Output Requirement',
+    '必要な対話を行う場合を除き、最終的なIngress Recordは上記schemaに適合するJSONまたはYAMLだけで返してください。動機の真正性や十分性をschema検証済みと主張してはいけません。'
   ];
   if (options.record) parts.push('# Existing Ingress Record', stringifyInput(options.record));
   if (options.context) parts.push('# Known Context', stringifyInput(options.context));

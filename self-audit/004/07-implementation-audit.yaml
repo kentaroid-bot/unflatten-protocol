@@ -1,0 +1,228 @@
+audit_target:
+  hypothesis: "独立したIngress Contract、schema、pre-role composer、router guidanceをStable SDKへ追加すれば、既存workflowを破壊せずGreenfield Motive Queryを正規の一手にできる。"
+  core_premises:
+    - "Greenfield Ingressはrole選択前にある。"
+    - "Motive RecordとOutcome Envelopeを分離し、partial/deferred/unknownを捏造せず保持する。"
+    - "静的検証は状態と構造だけを検査し、動機の意味的十分性を認定しない。"
+    - "安全例外は緊急対応を止めず、事後確認義務を失わない。"
+  mechanism: "docs/ingress.mdを正本とし、manifest登録schema、composeIngressPrompt、AGENTS router、Innovator境界、fixture/testsを接続する。"
+  distinct_dimensions:
+    - "pre-role problem-setting sovereignty"
+    - "MotiveとOutcomeの非同一性"
+    - "unknown、partial、redacted、deferredの非捏造表現"
+    - "安全例外後の系譜回復"
+    - "構造検証と意味的監査の権限分離"
+
+steelman_setup:
+  - "利用者はrole選択前にcomposeIngressPromptを明示的に呼び、返されたrecordをingress-record schemaで検証する。"
+  - "Schemaは意味的な十分性を証明せず、欠落、state、query、exceptionの明示だけを保証する。"
+  - "Outcome Envelopeは初期配送仕様ではなく改訂可能な観測境界として使う。"
+  - "partial motiveは言語化前のsource fragmentから開始でき、後続turnで更新される。"
+  - "安全例外はurgent action後に必ずIngressへ戻る。"
+
+dual_stress:
+  logical_systemic:
+    - test: "deferred Outcomeの非捏造性"
+      result: "outcome_envelope.statusをdeferredにして内容fieldを省略するとschema invalidになる。現Schemaはpurposeとfinish_level等を全状態で要求し、未定時のplaceholderまたは推測を誘発する。"
+      falsifier: "deferredまたはpartial状態が、未観測fieldを捏造せずvalidに記録できない。"
+    - test: "readyの観測根拠"
+      result: "motive_record.statusがdeclaredであれば、唯一のclaimのbasisをunknownにしてもreadyがvalidになる。readyが少なくとも一つの観測可能なclaimを要求していない。"
+      falsifier: "根拠unknownのclaimだけでcanonical生成へ進める。"
+    - test: "pre-role composerの自己完結性"
+      result: "composeIngressPromptはContractを含むが、manifest登録されたmachine-readable schemaを含まない。LLMが正確なrecord shapeを別途ロードしないと、直後のvalidatorへ接続できない。"
+      falsifier: "SDKの標準composerだけではschema適合recordの生成条件を観測できない。"
+    - test: "既存workflowへの非破壊性"
+      result: "composeRolePromptとworkflow-run schemaは変更されず、Ingressはopt-in APIに留まる。既存26 testsも通過している。"
+      falsifier: "既存role promptがIngress不足を理由に自動停止する。"
+  cognitive_physical:
+    - test: "未定Outcomeを埋める圧力"
+      result: "deferredでも全field必須のため、依頼者がまだ決めていない完成像をAIがgeneric文字列で埋める誘因がある。これは一括intakeを避ける設計意図と衝突する。"
+      falsifier: "作業開始前にpurpose、audience、form、finish level、completion evidenceを形式上すべて埋めなければならない。"
+    - test: "安全例外後の忘却"
+      result: "safety_exception_loggedでfollow_up_required:falseがschema validになる。docsのfollow_up_ingressと事後確認義務を機械境界が保持していない。"
+      falsifier: "緊急対応を理由に生成起点の回収を永久省略できる。"
+    - test: "query burden"
+      result: "one-question-at-a-timeと既知情報の再質問禁止は文書・routerに保持されている。ただし実runでの離脱率と負荷は未観測である。"
+      falsifier: "標準運用が一度に複数質問を要求する、または既知情報を再質問する。"
+    - test: "privacy boundary"
+      result: "複数claim、redacted、restricted_referenceがschemaで表現でき、raw motive公開は要求されない。"
+      falsifier: "readyへ進むためにpublicなsource contentが必須になる。"
+
+evidence_and_noise:
+  supporting:
+    - "composeIngressPromptはLoaded Roleを含まず、pre-role位置を保持する。"
+    - "Motive RecordとOutcome Envelopeはschema上で別objectである。"
+    - "plural claimsとrestricted referenceのpositive testが通る。"
+    - "既存を含む26 testsが通り、opt-in境界が保たれる。"
+  contradicting:
+    - "deferred Outcomeで内容fieldを省略するとschema invalidになる。"
+    - "ready recordの唯一のclaimがbasis: unknownでもschema validになる。"
+    - "safety exceptionのfollow_up_required:falseがschema validになる。"
+    - "composeIngressPromptにmachine-readable ingress schemaが含まれない。"
+  unknown:
+    - "実projectでpre-role flatteningを減らす程度"
+    - "Motive Queryの離脱率と認知負荷"
+    - "partial/redacted recordがboilerplate bypassになる頻度"
+  noise_signals:
+    - "deferredと宣言しながら未知fieldを埋めさせるSchemaは、unknownを保存するふりをして一般的なproject purposeを生成させる危険がある。"
+
+findings:
+  - classification: revisable_defect
+    finding: "Outcome Envelopeの全fieldがstatusに関係なく必須で、deferred/partialが実質的に機能しない。"
+    rationale: "specified/revisedだけ完全fieldを要求し、partial/deferredは観測済みfieldだけを持てる条件分岐へ修正できる。"
+  - classification: revisable_defect
+    finding: "readyがbasis: unknownのclaimだけでも成立する。"
+    rationale: "ready時に少なくとも一つのnon-unknown basis claimをcontainsで要求できる。意味的十分性までは認定しない。"
+  - classification: revisable_defect
+    finding: "安全例外が事後Ingress不要として記録できる。"
+    rationale: "safety_exception_loggedではfollow_up_requiredをtrueへ固定し、完了後は別stateへ遷移させる。"
+  - classification: revisable_defect
+    finding: "composeIngressPromptが出力schemaを含まず、生成と検証の標準経路が自己完結しない。"
+    rationale: "audit composerと同様にmachine-readable schemaを埋め込み、JSON/YAML recordだけを返す指示を追加できる。"
+  - classification: unresolved_uncertainty
+    finding: "one-question-at-a-timeの実効果は未観測である。"
+    rationale: "実装欠陥の修正後も、Stable採用は仮説の実証ではなく比較run可能なprobeの採用に留まる。"
+
+repair_boundary:
+  - "Outcome Envelopeはstatusのみ必須とし、specified/revisedで完全field、revisedでrevision_noteを要求する。"
+  - "partial/deferredでは未観測fieldを省略可能にし、placeholderで埋める必要をなくす。"
+  - "readyはnon-unknown basis claimを少なくとも一つ要求する。"
+  - "safety_exception_loggedではfollow_up_required: trueを要求する。"
+  - "composeIngressPromptへmachine-readable ingress schemaとrecord-only出力指示を含める。"
+  - "上記の各反証例をregression testへ追加する。"
+  - "automatic mandatory gate、semantic scoring、Handoff required変更、version bumpは行わない。"
+
+pivot_seeds:
+  - "field-level epistemic statusを持つMotive Claim"
+  - "workflow-runへのoptional ingress digest"
+  - "query-firstとhypothesis-probe-firstの比較Worldline"
+
+final_verdict: revise
+
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: Greenfield Ingress実装の中核とpre-role境界は維持されたが、unknown/deferred、安全follow-up、composer-schema接続に限定修復が必要である。
+  inquiry:
+    problem_tension: 実装はMotive-Firstを宣言しているが、一部schema制約が未知をplaceholderで埋めさせ、readyと安全例外の意味を弱めている。
+    current_question: 4件の構造的driftを修正して同じPRへ進めるか、それとも実runまでStable採用を保留するか。
+    distinct_dimensions:
+      - dimension: pre-role sovereignty
+        significance: roleや仮説が動機を先取りしない位置を維持する。
+      - dimension: non-fabricated incompleteness
+        significance: partial/deferred/unknownをgeneric文字列で埋めずに表現する。
+      - dimension: safety follow-up lineage
+        significance: 緊急対応後も生成起点の回収義務を失わない。
+      - dimension: composable generation-validation path
+        significance: composerが生成すべきrecord shapeを明示し、validatorへ直接接続できる。
+    flattening_risks:
+      - "未定Outcomeを一般的な目的や完成像で埋める。"
+      - "basis unknownだけのrecordをreadyと誤認する。"
+      - "緊急例外を系譜回収の永久免除にする。"
+  hypothesis:
+    statement: "4件の限定修復を行えば、Greenfield Ingressはunknownを捏造せず保持するopt-in Stable probeとして再監査可能になる。"
+    core_claims:
+      - "pre-role composerを維持する。"
+      - "MotiveとOutcomeを分離する。"
+      - "partial/deferredは欠落fieldを許す。"
+      - "readyには観測根拠が必要である。"
+      - "安全例外後にはfollow-upが必要である。"
+    mechanism: "schemaのstatus条件、composerのschema埋込み、negative/positive testsだけを限定修正する。"
+    assumptions:
+      - assumption: "限定修復は既存workflowの互換性を壊さない。"
+        status: supported
+      - assumption: "実runなしでもprobeとしてStableへ置く価値がある。"
+        status: unknown
+    scope:
+      applies_to:
+        - "schema/ingress-record.schema.json"
+        - "validator/index.js composeIngressPrompt"
+        - "test/sdk.test.js"
+        - "必要なdocs説明"
+      does_not_apply_to:
+        - "automatic mandatory gate"
+        - "semantic motive scoring"
+        - "package release"
+  hypothetical_world:
+    description: "未定情報は省略されたままrecordに残り、role選択へ進むreadyには観測根拠があり、安全例外は必ず後続Ingressを持つ。"
+    consequences:
+      primary:
+        - "deferred/partialが実際の欠落を保持できる。"
+      secondary:
+        - "record生成とschema検証を一つのSDK経路で接続できる。"
+      tertiary:
+        - "実project comparison runで意味的効果を測定できる。"
+    opportunities:
+      - "query-firstとhypothesis-probe-firstを別の明確なWorldlineとして比較する。"
+  evaluation:
+    falsifiers:
+      - "deferred Outcomeが内容fieldなしでinvalidのままである。"
+      - "readyがunknown basis claimだけでvalidのままである。"
+      - "safety follow-up falseがvalidのままである。"
+      - "composerがschemaを含まない。"
+    evidence:
+      supporting:
+        - "pre-role、privacy、Motive/Outcome分離、opt-in境界は実装済みである。"
+      contradicting:
+        - "4件の再現可能なdriftが存在する。"
+      unknown:
+        - "実run効果"
+    tests_completed:
+      - "Dual-Stress implementation audit"
+      - "4件のschema/composer behavior reproduction"
+    tests_remaining:
+      - "Integrator scope decision"
+      - "限定修復後のfull regression"
+      - "実project comparison"
+  decision:
+    status: revise
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: 中核は実装されているが、unknownを埋める圧力と安全follow-up欠落はMotive-Firstの内部矛盾であり、局所修復後に再評価すべきである。
+    preserved_dimensions:
+      - "Greenfield Ingress"
+      - "Motive/Outcome separation"
+      - "pre-role routing"
+      - "privacy and plurality"
+      - "opt-in compatibility"
+    rejected_claims:
+      - "現Schemaのpartial/deferredは未定を十分に表現できる。"
+      - "basis unknownのみでもreadyでよい。"
+      - "安全例外のfollow-upは任意でよい。"
+    revisions:
+      - "Outcome statusごとのrequired fieldを分離する。"
+      - "readyへnon-unknown claim条件を追加する。"
+      - "safety follow-upをtrueへ固定する。"
+      - "composerへschemaを埋め込む。"
+  pivot:
+    trigger: "not_applicable: 中核を保つ限定reviseである。"
+    learned_structure:
+      - "optionalな未知を必須文字列で表すとplaceholder flatteningが起きる。"
+      - "例外は理由だけでなく復帰義務まで状態機械に持たせる必要がある。"
+    pivot_seeds:
+      - "field-level epistemic status"
+      - "hypothesis-probe-first alternative"
+    next_hypothesis: "not_applicable: 修復済み仮説をhypothesis.statementに記録した。"
+  epistemic_remainder:
+    residuals:
+      - observation: "言語化前の動機はfieldをoptionalにしても完全には保存できない。"
+        schema_limit: "構造化されたrecordは観測された言語・参照だけを扱う。"
+        provenance: "implementation re-audit"
+        review_when: "partial motiveから実projectを開始したとき。"
+    dissent:
+      - position: "Motive Queryで止めず、尖った暫定仮説を提示して反応を観測する経路も必要である。"
+        holder: "Auditor adversarial simulation"
+        unresolved_because: "比較runがないため今回のrepair scopeには混ぜない。"
+  next_step:
+    objective: "4件の修復を同じPRへ入れるかIntegratorが判断し、承認する場合はEngineerへ限定scopeを渡す。"
+    constraints:
+      - "中核とopt-in境界を変更しない。"
+      - "semantic scoringを追加しない。"
+      - "実run効果を証明済みと扱わない。"
+    expected_output:
+      - "Integrator operational decision"
+      - "修復scopeまたはhold条件"
+    unresolved_questions:
+      - "Motive Claimの各fieldにもepistemic statusが将来必要か。"
+      - "Stable mergeをcomparison run前に行うか。"
