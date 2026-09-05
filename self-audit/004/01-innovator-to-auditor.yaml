@@ -1,0 +1,131 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: "innovator"
+  to_role: "auditor"
+  reason: "OpenClawがIssue #2で提案したMotive-First Gateを、生成前の平坦化防止、儀式化、停止、認知負荷の両面から監査する。"
+
+  inquiry:
+    problem_tension: "NZA実証では公開資料に原問の圧縮断片しかないままrole cycleが完走し、生成作業の起点で失われた動機を現行protocolが事前検出できなかった。"
+    current_question: "新規仮説またはWorldlineの生成前にMotive Packetを必須入力とし、不在時のMotive Queryを正規の一手にすれば、起点平坦化を防げるか。"
+    distinct_dimensions:
+      - dimension: "成果物の目的ではなく問いを生成した動機を先に通行させる。"
+        significance: "仮説形成後の系譜監査では回収できない生成起点の差異を守るため。"
+      - dimension: "動機を尋ねること自体を進行として記録する。"
+        significance: "unknownを無難な推測で埋めず、停止を失敗と誤認しないため。"
+      - dimension: "文書化された圧縮記述と原問を同一視しない。"
+        significance: "Introduction等の要約が真の生成起点だという誤認を防ぐため。"
+      - dimension: "儀式化を避け、新規生成だけへ限定する。"
+        significance: "軽微修正や既存Worldlineの作業へ毎回質問負荷を課さないため。"
+    flattening_risks:
+      - "Motive Queryを一般的な背景確認のbest practiceへ薄める。"
+      - "人間が回答した動機を唯一の歴史的真実として固定する。"
+      - "Packetがないことを理由に、unknownを既存カテゴリで補う。"
+
+  hypothesis:
+    statement: "新規仮説・新規WorldlineではMotive Packetを@inoの開始条件とし、観測できない場合の最初の出力を仮説ではなくMotive Queryに限定すれば、生成起点での平坦化を防げる。"
+    core_claims:
+      - "Motive Packetを新規生成のfirst-class inputにする。"
+      - "Packet不在時はunknownを宣言し、Motive Queryを正規の一手として残す。"
+      - "圧縮済み文書を原問そのものと自動認定しない。"
+      - "新規生成以外へGateを一律適用しない。"
+      - "@lin自体をroot roleへ昇格させない。"
+    mechanism: "@ino起動時にoriginal_question、generative_tension、source_fragments、desired_differenceを確認し、不足時は仮説形成を止めてStewardまたは記録保持者へ問い合わせる。回答はHuman Confirmation付きPacketとして以後のHandoffへ同行させる。"
+    assumptions:
+      - assumption: "生成開始前に動機の不在を検出できる。"
+        status: "unknown"
+      - assumption: "Motive Queryへの回答は後続仮説の平坦化を減らす。"
+        status: "unknown"
+      - assumption: "既存@linのMotive PacketとOrigin Boundaryを入力構造として再利用できる。"
+        status: "supported"
+    scope:
+      applies_to:
+        - "新規仮説の最初の@ino hand"
+        - "新規Worldlineの生成"
+      does_not_apply_to:
+        - "軽微修正"
+        - "既存Worldline内の反証"
+        - "既に判断済み範囲の実装"
+        - "@linのroot role昇格"
+
+  hypothetical_world:
+    description: "新しい問いを生成する前に、その問いを必要にした緊張と原問の観測境界が明示され、不明ならAIはもっともらしい仮説を埋めず質問を盤上へ置く。"
+    consequences:
+      primary:
+        - "Human Confirmation付きMotive Packetが成果物から遡れる。"
+        - "動機不明がunknownとして可視化される。"
+      secondary:
+        - "role cycleを跨いでも原問と圧縮記述の差を比較できる。"
+      tertiary:
+        - "複数projectで、生成時の平坦化が後工程へ伝播する頻度を観測できる。"
+    opportunities:
+      - "NZAのfoundational motiveをHuman Stewardから新たに記録する。"
+      - "Motive Queryをworkflow上の正規状態としてSDK検証する。"
+
+  evaluation:
+    falsifiers:
+      - "Gate導入後も生成成果のDistinct Dimensionsまたは動機追跡性が改善しない。"
+      - "動機不明の新規生成が実運用でほとんど発生しない。"
+    evidence:
+      supporting:
+        - "NZA trialではv4 Introductionの圧縮断片だけでrole cycleが完走した。"
+        - "@linはOrigin Boundaryとpre_ingress_statusを既に区別する。"
+      contradicting: []
+      unknown:
+        - "Gateの儀式化率"
+        - "人間の回答待ちによる中断率"
+        - "Human Confirmationが複数・競合動機を扱えるか"
+    tests_completed:
+      - "NZA trialにおける動機欠落の観測"
+    tests_remaining:
+      - "Auditor Dual-Stress Audit"
+      - "複数の新規生成taskでのGate比較実験"
+
+  decision:
+    status: "not_evaluated"
+    authority: "not_evaluated"
+    decided_by: "innovator"
+    rationale: "Issue #2は作用機序、scope、反証条件を提示したが、Gateの採否や実装を判断していない。"
+    preserved_dimensions:
+      - "Motive-First"
+      - "Motive Query as a move"
+      - "Origin Boundary"
+      - "Human Confirmation"
+      - "新規生成へのscope限定"
+    rejected_claims: []
+    revisions: []
+
+  pivot:
+    trigger: "NZA trialで、後工程のrole cycleが完走しても生成前の動機欠落を検出できないと判明した。"
+    learned_structure:
+      - "Lineageの後方監査だけではpre-ingress flatteningを防げない。"
+      - "質問して待つことも盤上の有効な進行になり得る。"
+    pivot_seeds:
+      - "Motive-First Gate"
+      - "Motive Query workflow state"
+    next_hypothesis: "新規生成前にMotive Packetの有無を検査すれば、pre-ingress flatteningを後方検出から前方防止へ移せる。"
+
+  epistemic_remainder:
+    residuals:
+      - observation: "NZAの真の原問は現在の公開資料から観測できない。"
+        schema_limit: "圧縮済みIntroductionから生成前の経験と問いを逆算できない。"
+        provenance: "kentaroid-bot/unflatten-protocol Issue #2"
+        review_when: "Human Stewardが原問、緊張、source fragment、desired differenceを確認したとき。"
+    dissent: []
+
+  next_step:
+    objective: "Motive-First Gateを最強形にしたうえで、dependency inversion、confabulation、複数動機、privacy、deadlock、認知負荷へ晒す。"
+    constraints:
+      - "実験件数が少ないことだけで棄却しない。"
+      - "Motive Queryを一般的な背景確認へ薄めない。"
+      - "Human Confirmationを自動的な歴史的真実認定にしない。"
+    expected_output:
+      - "Counter-Factual Steelman"
+      - "Dual-Stress Audit"
+      - "Gate stateと修復境界"
+      - "epistemic recommendation"
+      - "Auditor Handoff"
+    unresolved_questions:
+      - "Stable @inoがGuest @linのdata definitionへ依存してよいか。"
+      - "複数の当事者が異なる動機を確認した場合にどう保持するか。"
+      - "機密動機を公開repositoryでどう通行させるか。"
+
