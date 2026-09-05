@@ -1,0 +1,111 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: engineer
+  reason: Auditorのrevise勧告を採用し、No Gray Stonesを弱めず明確さと確実性を分離する限定修復を行う。
+  inquiry:
+    problem_tension: 平均化拒否が根拠なき断定へ転化すると、unknown保持とEvidence Has Priorityを損なう。
+    current_question: 囲碁比喩と平均化拒否を維持しながら、明確さを確信度からどう分離するか。
+    distinct_dimensions:
+      - dimension: 明確な仮説と確定的断定を区別する。
+        significance: unknownのままでも前提・機構・反証を明示できるため。
+      - dimension: 役割を固定陣営にしない。
+        significance: 学習と反証によって以前の手を変更できるため。
+      - dimension: 局所的明示性と全体的多元性を両立する。
+        significance: 平均化せず複数案を保持する中核であるため。
+    flattening_risks:
+      - 修復によってNo Gray Stonesを一般的な多様性論へ弱める。
+      - 誤読防止のため囲碁比喩を削除する。
+  hypothesis:
+    statement: 決断的を明示的へ修正し、明確さと確実性、役割と陣営を分離すれば、No Gray Stonesはunknownを保ったまま平均化を拒否できる。
+    core_claims:
+      - 折り合わない仮説を平均化しない。
+      - unknownを断定へ変えない。
+      - "@inoと@audを固定された賛否へ割り当てない。"
+      - Distributed Cultivationと有限reviewを維持する。
+    mechanism: docs/worldlines.mdの該当文を限定修正し、docs/protocol.mdにも明確さは確実性ではないという正本境界を追加する。
+    assumptions:
+      - assumption: 二文の境界追加で誤読を十分に減らせる。
+        status: unknown
+    scope:
+      applies_to:
+        - docs/protocol.md
+        - docs/worldlines.md
+        - 必要なREADME表現
+      does_not_apply_to:
+        - SDKとschema
+        - 育成CLI
+        - instance identity
+  hypothetical_world:
+    description: 各Worldlineは確信を捏造せず、前提、作用機序、証拠状態、unknown、反証条件を明示して盤面へ置かれる。
+    consequences:
+      primary:
+        - 不確実なまま尖った仮説を保持できる。
+      secondary:
+        - 各roleが学習に応じて手を変更できる。
+      tertiary:
+        - 多元性が無根拠な断定の集合へ退行しない。
+    opportunities:
+      - 第三者による誤読観測
+  evaluation:
+    falsifiers:
+      - 修復後も「明確」が確定的結論を要求する。
+      - 修復によって平均化拒否が失われる。
+    evidence:
+      supporting:
+        - Auditorは中核を維持可能と判断した。
+      contradicting:
+        - 現在の「局所的には決断的」は誤読可能である。
+      unknown:
+        - 実利用者の解釈。
+    tests_completed:
+      - Auditor Dual-Stress Audit
+    tests_remaining:
+      - 文書照合
+      - 全SDK回帰
+  decision:
+    status: revise
+    authority: operational_decision
+    decided_by: integrator
+    rationale: Auditorの限定修復を採用する。No Gray Stonesを正本不変条件として維持しつつ、アンチ平均化はアンチ不確実性ではないことを明文化する。
+    preserved_dimensions:
+      - No Gray Stones
+      - Epistemic Board
+      - Distributed Cultivation
+      - nuanceとunknown
+      - 有限review
+    rejected_claims:
+      - 局所的明確さには確定的結論が必要である。
+      - "@inoと@audは固定された賛否陣営である。"
+    revisions:
+      - 決断的を明示的へ変更する。
+      - 明確さと確実性の区別を追加する。
+      - roleは自分の以前の手を変更・棄却できると追加する。
+  pivot:
+    trigger: Auditorがアンチ平均化とアンチ不確実性の混同可能性を発見した。
+    learned_structure:
+      - 強さは確信度でなく差異と失敗条件の明確さにある。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: No Gray Stonesという名称自体の身体的印象は文書だけでは確定できない。
+        schema_limit: 読者の比喩解釈を静的検証できない。
+        provenance: AuditorのNoise assessment。
+        review_when: 第三者利用時。
+    dissent:
+      - position: 名称を変更すべき可能性がある。
+        holder: auditor
+        unresolved_because: 実利用者の誤読を未観測である。
+  next_step:
+    objective: 指定された限定修復を文書へ反映し、能力境界と中核原理が維持されることを確認する。
+    constraints:
+      - No Gray Stonesの名称と囲碁比喩を維持する。
+      - 未実装能力を追加しない。
+      - SDK挙動を変更しない。
+    expected_output:
+      - 修復済み文書
+      - 構造・回帰検証
+      - 最終Integrator判断用の実装報告
+    unresolved_questions:
+      - 第三者育成を第二世代として開始する時期。

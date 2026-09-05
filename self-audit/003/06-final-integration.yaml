@@ -1,0 +1,128 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: other
+  reason: No Gray StonesとDistributed Cultivationの文書化が監査修復と回帰検証を通過したため、正本へ接続する。
+  inquiry:
+    problem_tension: LLMが対立を無難な中間案へ平均化する一方、平均化拒否を根拠なき断定へ変えてはならない。
+    current_question: 修復済み原理とWorldline運用記録を公式化し、何を次の実験へ残すか。
+    distinct_dimensions:
+      - dimension: 局所的明示性と全体的多元性。
+        significance: 各仮説を弱めず複数を併存させるため。
+      - dimension: 明確さと確実性の分離。
+        significance: unknownを断定へ変えないため。
+      - dimension: cloneごとの分散成長。
+        significance: 同じ祖先から複数系譜を育てるため。
+    flattening_risks:
+      - No Gray Stonesを一般的な多様性論へ薄める。
+      - 囲碁比喩を白黒思考として運用する。
+      - 未実装の育成能力を完成済みと扱う。
+  hypothesis:
+    statement: 修復済みNo Gray Stonesを正本不変条件とし、Epistemic BoardとDistributed CultivationをWorldline運用文書として公式化できる。
+    core_claims:
+      - 折り合わない仮説を意味的に平均化しない。
+      - 黒白は真偽・善悪・固定陣営ではない。
+      - unknown、nuance、正当な第三案を保持する。
+      - 分岐には固有機構、反証、由来、有限reviewを要求する。
+      - pull、clone、forkは独立した生育環境になり得る。
+    mechanism: protocol正本へNo Gray Stonesを追加し、worldlines文書で盤面、孵化、分散育成、増殖防止、実装境界を定義する。
+    assumptions:
+      - assumption: 文書境界が第三者の二値主義的誤読を防ぐ。
+        status: unknown
+      - assumption: 現行SDKは複数Guestの最小基盤を持つ。
+        status: supported
+    scope:
+      applies_to:
+        - docs/protocol.md
+        - docs/worldlines.md
+        - README.md
+        - File-hierarchy.md
+        - self-audit/003
+      does_not_apply_to:
+        - 育成CLI
+        - lineage_idとinstance_id
+        - SDK挙動変更
+        - 自動spin-out
+  hypothetical_world:
+    description: 明示的だが確信を捏造しない複数Worldlineが各cloneで成長し、還流、休眠または系譜付きspin-outを選べる。
+    consequences:
+      primary:
+        - LLMの自動折衷を拒否する。
+      secondary:
+        - 分散環境ごとの経験差を保持する。
+      tertiary:
+        - protocol familyが系譜グラフとして発展する。
+    opportunities:
+      - 第三者育成を第二世代の実験にする。
+      - 最小育成CLIを実観測に基づき設計する。
+  evaluation:
+    falsifiers:
+      - unknownへ断定を要求する。
+      - roleが固定賛否陣営として動く。
+      - 低差異Worldlineが無期限に増殖する。
+      - 未実装能力を現行機能として案内する。
+    evidence:
+      supporting:
+        - Auditorの限定修復が反映された。
+        - SDKテスト24件、npm pack、文書照合が成功した。
+        - 現行能力と未実装能力が分離されている。
+      contradicting: []
+      unknown:
+        - 第三者の比喩解釈
+        - LLM出力への実効果
+        - 分散個体identity
+    tests_completed:
+      - Innovator仮説形成
+      - Auditor Dual-Stress Audit
+      - Engineer修復と回帰検証
+    tests_remaining:
+      - 第三者による育成実験
+  decision:
+    status: advance
+    authority: operational_decision
+    decided_by: integrator
+    rationale: 中核の平均化拒否を維持しつつ、明確さと確実性、役割と陣営、現行能力と将来能力が分離された。文書変更を正本へ接続し、実効果は次の世代で検証する。
+    preserved_dimensions:
+      - No Gray Stones
+      - Epistemic Board
+      - Distributed Cultivation
+      - unknownとnuance
+      - Anti-Proliferation Boundary
+    rejected_claims:
+      - 明示性には確定的結論が必要である。
+      - upstreamは唯一の真理である。
+      - 現行CLIで育成が完結する。
+    revisions: []
+  pivot:
+    trigger: 黒白を混ぜる代わりに盤面へ配置するというユーザーの囲碁比喩。
+    learned_structure:
+      - 対立は意味的平均化でなく空間的併存によって処理できる。
+      - global pluralityはlocal ambiguityを必要としない。
+      - 強さは確信度でなく差異と反証条件の明確さにある。
+    pivot_seeds:
+      - 分散個体identity
+      - 育成CLI
+      - 盤面の生成的配置の観測
+    next_hypothesis: 第三者が同じ祖先からWorldlineを育てると、単一環境では生まれないプロトコル種分化が観測できる。
+  epistemic_remainder:
+    residuals:
+      - observation: 盤面全体の美しさは単一scoreで表現できない。
+        schema_limit: 現行SDKは複数系譜の配置が生む生成能力を評価しない。
+        provenance: ユーザーの囲碁比喩とself-audit/003。
+        review_when: 複数Worldlineの実run時。
+    dissent:
+      - position: No Gray Stonesという名称自体が二値主義を誘発する可能性がある。
+        holder: auditor
+        unresolved_because: 第三者反応が未観測であるため、名称を維持して観測する。
+  next_step:
+    objective: 文書と監査系譜をcommit・pushし、第三者育成を次の世代開始条件として待つ。
+    constraints:
+      - SDK機能を追加済みと誤認させない。
+      - 育成CLIは第三者の障壁を観測してから実装する。
+      - instance identityは分散系譜を再接続する要件が現れた時に設計する。
+    expected_output:
+      - Git commitとpush
+      - commit hash
+      - 第三者育成という次のreview trigger
+    unresolved_questions:
+      - 最初の第三者育成者と実案件。

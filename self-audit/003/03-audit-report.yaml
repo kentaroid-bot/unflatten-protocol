@@ -1,0 +1,178 @@
+audit_target:
+  hypothesis: No Gray StonesとDistributed Cultivationは、対立を平均化せず複数の明確なWorldlineへ外部化し、局所的明確さと全体的多元性を両立させる。
+  core_premises:
+    - 黒白は真偽・善悪・固定陣営ではない。
+    - nuance、unknown、交渉、正当な統合を禁止しない。
+    - 独立Worldlineには固有機構、反証、由来、有限reviewが必要である。
+    - cloneやforkは異なる生育環境になり得る。
+    - upstreamは唯一の真理ではなく共通祖先またはStable Hostである。
+  mechanism: 対立を一文内で平均化せず、追跡可能な仮説、反証、判断またはWorldlineとして盤面へ配置する。
+  distinct_dimensions:
+    - 局所的明確さと全体的多元性
+    - 二値主義ではないNo Gray Stones
+    - 意味的平均化から空間的併存への転換
+    - 分散成長と系譜付き種分化
+steelman_setup:
+  - 各Worldlineは最も強い形で前提、作用機序、反証条件を持つ。
+  - 非通約な案は共通KPIを捏造せず、有限期間だけ並走する。
+  - 新しい第三案は独自機構を持つ場合に新しい一手として許される。
+  - clone間の差異は親commitと系譜記録から追跡される。
+dual_stress:
+  logical_systemic:
+    - test: 二値主義への転化
+      result: 文書は黒白を真偽・善悪・固定陣営から分離し、nuance、unknown、第三案を明示的に許す。名称だけからの誤読余地はあるが、中核論理は二値主義ではない。
+      falsifier: 不確実な主張が灰色として禁止されるか、二候補以外を置けなくなる。
+    - test: 分岐による判断回避
+      result: Anti-Proliferation Boundaryと三世代reviewが、言い換えだけの分岐と無期限並走を拒否する。
+      falsifier: 固有機構、反証、期限のないWorldlineが判断回避のため有効化される。
+    - test: 明確さと確実性の混同
+      result: protocol本文は不確実性を外部化すると述べる一方、worldlines文書の「局所的には決断的」という表現は、証拠がunknownでも断定を要求する規則として読める。Unflattenのunknown保持と緊張する。
+      falsifier: evidenceがunknownのWorldlineに、明確さを理由として確定的結論を要求する。
+    - test: 現行能力の誇張
+      result: Current Implementation Boundaryは複数Guest、純粋な状態遷移、未実装CLI、未実装instance identityを分離している。第三者がCLIだけで育成できるとは主張していない。
+      falsifier: 未実装の書き込みCLI、identity、分散同期を利用可能機能として案内する。
+  cognitive_physical:
+    - test: 囲碁比喩による対立固定
+      result: 役割を黒白へ固定してはいないが、利用者が@inoを賛成、@audを反対と単純化する可能性は残る。
+      falsifier: 役割が仮説内容にかかわらず常に賛成側・反対側へ固定される。
+    - test: Worldline増殖負荷
+      result: 有限reviewはあるが、Host全体のGuest数上限や資源budgetは未実装である。現時点では概念上の不確実性として保持できる。
+      falsifier: 低差異Worldlineが増殖し、人間がreview不能になる。
+evidence_and_noise:
+  supporting:
+    - protocolはNo Gray Stonesを二値主義から明示的に分離する。
+    - worldlines文書は増殖防止条件と現行実装境界を持つ。
+    - packageのdocs globにより新文書は配布対象になる。
+  contradicting:
+    - 「局所的には決断的」は明確な主張と根拠なき確信を区別しない。
+  unknown:
+    - 実際のLLM出力で平均化が減る程度
+    - 第三者が囲碁比喩をどう解釈するか
+    - 複数cloneを再接続するidentity
+  noise_signals:
+    - 「灰色を置かない」「決断的」が組み合わさると、unknownを許さない圧力として身体的に読まれうる。
+findings:
+  - classification: revisable_defect
+    finding: 局所的明確さが局所的確実性または強制的断定として読める。
+    rationale: 中核は仮説の前提・機構・反証・unknownを明示することであり、証拠以上に確信することではない。「決断的」を「明示的」に直し、明確さと確実性を分離すれば中核を保って修復できる。
+  - classification: unresolved_uncertainty
+    finding: 多数の分散Worldlineによる人間のreview負荷は未観測である。
+    rationale: Host全体の資源budgetは将来必要になり得るが、現行Guest一件では判断できず、現在データ不足だけで構想を棄却すべきではない。
+repair_boundary:
+  - 「局所的には決断的」を「局所的には明示的」へ修正する。
+  - 明確さは前提、作用機序、証拠状態、反証条件を曖昧にしないことであり、unknownを断定へ変換することではないと追記する。
+  - "@inoと@audは固定陣営や賛否担当ではなく、どちらも以前の手を変更・棄却できると明記する。"
+  - No Gray Stones、Epistemic Board、Distributed Cultivation、Anti-Proliferation Boundaryは維持する。
+pivot_seeds: []
+final_verdict: revise
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: 中核は維持可能だが、明確さを確実性や強制断定と誤読させる一表現を正本化前に修復する必要があるため。
+  inquiry:
+    problem_tension: 平均化を拒否する原理が、証拠を越えた断定や固定陣営へ転化すればEvidence Has Priorityとunknown保持を損なう。
+    current_question: 明確さと確実性を分離する限定修復後、No Gray Stonesを正本不変条件として採択するか。
+    distinct_dimensions:
+      - dimension: 明確な仮説と根拠なき確信を区別する。
+        significance: unknownを保ちながら作用機序を明示するため。
+      - dimension: 対立を平均化せず盤面へ配置する。
+        significance: 複数の非通約な可能性を弱めず保持するため。
+      - dimension: cloneごとの分散成長を認める。
+        significance: 同一祖先から複数の認識系譜を育てるため。
+    flattening_risks:
+      - 修復でNo Gray Stonesを一般的な多様性尊重へ薄める。
+      - 誤読可能性を理由に囲碁比喩そのものを削除する。
+  hypothesis:
+    statement: 明確さを確実性から分離すれば、No Gray Stonesはunknownを保ちつつ意味的平均化を拒否できる。
+    core_claims:
+      - 折り合わない仮説を平均化しない。
+      - unknownを断定へ変えない。
+      - 役割を固定陣営にしない。
+      - 複数Worldlineに有限reviewを要求する。
+    mechanism: worldlines文書の表現を限定修復し、明示性の定義と役割の可変性を追加する。
+    assumptions:
+      - assumption: 修復はNo Gray Stonesの中心原理を弱めない。
+        status: supported
+      - assumption: 囲碁比喩の実利用上の誤読率は低い。
+        status: unknown
+    scope:
+      applies_to:
+        - docs/worldlines.md
+        - 必要なREADME表現
+      does_not_apply_to:
+        - Worldline SDK
+        - 育成CLI
+        - instance identity
+  hypothetical_world:
+    description: 各Worldlineは確信度を捏造せず、前提・機構・unknown・反証条件を明示する。複数の明示的Worldlineが盤面全体で併存する。
+    consequences:
+      primary:
+        - 不確実性を保った強い仮説が成立する。
+      secondary:
+        - 役割は学習に応じて手を変えられる。
+      tertiary:
+        - 分散系譜が単一の確実性へ収束せず発展する。
+    opportunities:
+      - 第三者育成による誤読テスト
+  evaluation:
+    falsifiers:
+      - 修復後も明確さが断定を要求する。
+      - 修復で平均化拒否が失われる。
+    evidence:
+      supporting:
+        - 欠陥は一表現と説明境界の不足に限定される。
+      contradicting:
+        - 現在の「局所的には決断的」は誤読可能である。
+      unknown:
+        - 実利用者の解釈
+    tests_completed:
+      - Dual-Stress Audit
+    tests_remaining:
+      - 限定修復後の文書照合
+  decision:
+    status: revise
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: 二値主義と能力誇張は文書内で防がれているが、明確さと確実性の混同はUnflattenのunknown保持へ直接触れるため限定修復を推奨する。
+    preserved_dimensions:
+      - No Gray Stones
+      - Epistemic Board
+      - Distributed Cultivation
+      - nuanceとunknown
+      - 有限review
+    rejected_claims:
+      - 局所的明確さには確定的結論が必要である。
+    revisions:
+      - 決断的を明示的へ変更する。
+      - 明確さは確実性ではないと追記する。
+      - 役割は固定陣営ではないと追記する。
+  pivot:
+    trigger: ""
+    learned_structure:
+      - アンチ平均化はアンチ不確実性ではない。
+      - 強い仮説とは確信の強さでなく、差異と失敗条件の明確さである。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 盤面全体の美しさは単一scoreで表現できない。
+        schema_limit: 現行SDKは複数系譜間の生成的配置を評価しない。
+        provenance: ユーザーの囲碁比喩。
+        review_when: 複数Worldlineの実run時。
+    dissent:
+      - position: No Gray Stonesという名称自体が二値主義を誘発する可能性がある。
+        holder: auditor
+        unresolved_because: 説明境界はあるが実利用者の反応を未観測である。
+  next_step:
+    objective: 限定修復を採否判断し、採用する場合は文書を修正して検証する。
+    constraints:
+      - 囲碁比喩と平均化拒否を削除しない。
+      - unknownとnuanceを明示的に保存する。
+      - 未実装能力を追加主張しない。
+    expected_output:
+      - operational decision
+      - 修復済み文書
+      - 最終検証
+    unresolved_questions:
+      - 第三者育成テストをいつ第二世代として開始するか。

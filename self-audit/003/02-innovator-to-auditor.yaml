@@ -1,0 +1,133 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: innovator
+  to_role: auditor
+  reason: No Gray Stones、Epistemic Board、Distributed Cultivationを正本原理とWorldline運用文書へ変換したため、二値主義・分岐逃避・能力誇張を監査する。
+  inquiry:
+    problem_tension: LLMは折り合わない強い仮説を一文へ収め、両者の作用機序を失った無難な折衷案を生成しやすい。
+    current_question: 対立を複数の明確なWorldlineへ外部化する原理は、nuanceを失う白黒思考や判断回避へ転化せず、分散成長を可能にするか。
+    distinct_dimensions:
+      - dimension: 局所的な明確さと全体的な多元性を両立する。
+        significance: 各仮説を弱めなくても複数案を保持できるため。
+      - dimension: 黒白は真偽・善悪・固定陣営ではなく明確な手を表す。
+        significance: 囲碁比喩を二値主義へ誤読させないため。
+      - dimension: 対立を意味的に平均化せず空間的な配置へ変換する。
+        significance: 不確実性を曖昧な文章でなく追跡可能な関係として表現するため。
+      - dimension: cloneごとの経験差をプロトコルの種分化として扱う。
+        significance: upstreamへの強制再統合なしに複数系譜を育てるため。
+    flattening_risks:
+      - No Gray Stonesを妥協・nuance・第三案の全面禁止へ変える。
+      - Worldlineを判断しないための無期限な両論併記にする。
+      - 分散成長をGit forkの言い換えだけにする。
+  hypothesis:
+    statement: 折り合わない仮説を平均化せず、前提・作用機序・反証条件を持つ別Worldlineとして配置すれば、LLMは局所的に決断的かつ全体的に多元的になれる。
+    core_claims:
+      - 対立を処理したように見せるためだけの平均化を禁止する。
+      - nuance、unknown、交渉、正当な統合案は禁止しない。
+      - 独立Worldlineには固有機構、観測信号、反証、由来、有限reviewを要求する。
+      - pull、clone、fork環境は独立した生育環境になり得る。
+      - upstreamは唯一の真理ではなく共有可能なStable Hostまたは共通祖先である。
+    mechanism: docs/protocol.mdでNo Gray Stonesを定義・不変条件化し、docs/worldlines.mdで盤面、三世代孵化、分散育成、種分化、増殖防止、現行能力境界へ変換する。
+    assumptions:
+      - assumption: 空間化された複数Worldlineは一文内の平均化圧力を弱める。
+        status: unknown
+      - assumption: 現行SDKは一Host内の複数Guestとcloneごとの分岐を最小限支えられる。
+        status: supported
+    scope:
+      applies_to:
+        - docs/protocol.md
+        - docs/worldlines.md
+        - README.md
+        - File-hierarchy.md
+      does_not_apply_to:
+        - 育成CLI実装
+        - lineage_idとinstance_idのschema実装
+        - 分散同期
+        - 自動GitHub操作
+  hypothetical_world:
+    description: "`@ino`と`@aud`は明確な手を打ち、`@int`は混色せず接続・継続・分岐・終局を判断する。各cloneは異なる経験を与え、同じ祖先から複数repositoryが出生する。"
+    consequences:
+      primary:
+        - 折衷案を作るための認知負荷が減り、各仮説の機構が明瞭になる。
+      secondary:
+        - 複数の非通約Worldlineが相互に弱め合わず並走する。
+      tertiary:
+        - protocolが単一version列ではなく系譜グラフとして発展する。
+    opportunities:
+      - 第三者による第二世代育成
+      - 異なる生育環境間の系譜比較
+      - 最小育成CLI
+  evaluation:
+    falsifiers:
+      - 文書が曖昧さやunknownを悪として扱う。
+      - 新しい第三案が常に灰色として拒絶される。
+      - 分岐要件が弱く、言い換えだけでWorldlineが増える。
+      - 未実装CLIやinstance identityを現行機能として主張する。
+      - upstreamが暗黙の唯一審判として残る。
+    evidence:
+      supporting:
+        - No Gray Stones本文は黒白を真偽・善悪・固定陣営から明示的に分離した。
+        - 独自機構と反証条件を持つ第三案は新しい一手として許可した。
+        - Anti-Proliferation Boundaryは分岐に固有前提、機構、信号、反証、由来、有限reviewを要求する。
+        - Current Implementation Boundaryは未実装CLIとinstance identityを明示した。
+      contradicting: []
+      unknown:
+        - 囲碁比喩が実利用者に二値主義として読まれる頻度。
+        - 複数Worldlineが実際のLLM出力をどの程度変えるか。
+        - 分散個体を再接続するidentity設計。
+    tests_completed:
+      - 文書内の能力境界照合
+    tests_remaining:
+      - Auditor Dual-Stress Audit
+      - 第三者育成実験
+  decision:
+    status: not_evaluated
+    authority: not_evaluated
+    decided_by: innovator
+    rationale: 新しい原理と運用文書を形成したが、真偽と正本接続はまだ評価していない。
+    preserved_dimensions:
+      - No Gray Stones
+      - Epistemic Board
+      - Distributed Cultivation
+      - nuanceとunknown
+      - 有限review
+      - 系譜付きspin-out
+    rejected_claims:
+      - 黒白は真偽または善悪を表す。
+      - すべての中間案は平坦化である。
+      - 現行CLIだけで第三者育成が完結する。
+    revisions: []
+  pivot:
+    trigger: グレーでない出力という要求を、一つの強い回答ではなく複数の明確なWorldlineの盤面として再構成した。
+    learned_structure:
+      - global pluralityはlocal ambiguityを必要としない。
+      - 正当な第三案は平均値ではなく独自機構を持つ新しい一手である。
+      - cloneは同一成果物の複製ではなく異なる経験を与える環境になれる。
+    pivot_seeds:
+      - lineage_idとinstance_id
+      - semantic topologyの観測方法
+      - review候補だけを生成する育成CLI
+    next_hypothesis: 分散個体identityを導入すれば、同じGuestから育った複数系譜を衝突なく再接続できる。
+  epistemic_remainder:
+    residuals:
+      - observation: 盤面全体の美しさは単一の勝敗、成熟度またはSharpness scoreで表現できない。
+        schema_limit: 現行SDKは個々の状態と由来を検証するが、複数系譜の配置が生む生成能力を測らない。
+        provenance: ユーザーの囲碁比喩とNo Gray Stones仮説。
+        review_when: 複数Worldlineを同じ問いに対して実行できたとき。
+    dissent:
+      - position: No Gray Stonesという名称は、説明境界があっても白黒思考を誘発しうる。
+        holder: innovator adversarial self-simulation
+        unresolved_because: 実利用者による解釈をまだ観測していない。
+  next_step:
+    objective: 文書を最強形で読み、二値主義、分岐兵器化、認知帯域、能力誇張の両面から監査する。
+    constraints:
+      - 現在の実証不足だけで棄却しない。
+      - 囲碁比喩の毒を無難な多様性論へ薄めない。
+      - 未実装機能を支持証拠にしない。
+    expected_output:
+      - Dual-Stress Audit
+      - 誤読防止と増殖防止のrepair boundary
+      - Integratorへのepistemic recommendation
+    unresolved_questions:
+      - No Gray Stonesは正本不変条件に置く強度を持つか。
+      - Distributed Cultivationは現行能力記述として十分に限定されているか。

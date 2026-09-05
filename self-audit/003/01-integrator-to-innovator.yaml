@@ -1,0 +1,122 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: innovator
+  reason: 三世代Worldline実装後の対話から、No Gray Stonesと分散的なプロトコル育成という新しい原理が現れたため、正本化前に仮説世界を形成する。
+  inquiry:
+    problem_tension: LLMは対立する強い仮説を一つの文章へ収めようとして、両者の作用機序を失った折衷案へ収縮する。
+    current_question: 明確な複数判断を弱めず併存させ、pullした各環境で独立に成長・種分化できる認識環境をどう定義するか。
+    distinct_dimensions:
+      - dimension: 局所的な明確さと全体的な多元性を同時に成立させる。
+        significance: 一つの回答内で平均化しなくても、システム全体では複数案を保持できるため。
+      - dimension: 黒白は真偽や陣営ではなく、その時点で引き受けた明確な仮説・反証を表す。
+        significance: No Gray Stonesを二値主義や対立煽動へ誤読させないため。
+      - dimension: cloneを静的コピーではなく異なる経験を与える生育環境として扱う。
+        significance: 同一祖先から複数のプロトコル系譜が生成されうるため。
+      - dimension: 一つを選ぶことと他の存在を消すことを分離する。
+        significance: 非通約な成熟枝を無理に統合せずspin-outできるため。
+    flattening_risks:
+      - No Gray Stonesを白黒思考や中間案禁止へ縮約する。
+      - 複数Worldlineを判断回避のための両論併記にする。
+      - Git forkという既存機能の言い換えだけで済ませ、認識系譜と評価文法を失う。
+  hypothesis:
+    statement: 対立を意味的に平均化せず、明確な仮説と反証を別々のWorldlineとして空間化すれば、LLMは局所的に決断的でありながら全体として多元的な出力を生成できる。
+    core_claims:
+      - 折り合わない仮説を自動的な折衷案へ変換しない。
+      - 各Worldlineは独自の前提、作用機序、反証条件を持つ。
+      - nuance、unknown、正当な統合は禁止しない。
+      - 分岐には有限reviewと由来を要求し、判断回避の無限分岐にしない。
+      - pull、clone、fork先も独立した生育環境になれる。
+    mechanism: No Gray Stonesを正本の反平坦化原理として定義し、Worldline文書で盤面、孵化、分散成長、種分化、還流を一つのlifecycleとして記述する。
+    assumptions:
+      - assumption: 明確な仮説を別Worldlineへ分離すると、LLMの平均化圧力を減らせる。
+        status: unknown
+      - assumption: 現行registryとparent provenanceは複数系譜の最小基盤になる。
+        status: supported
+    scope:
+      applies_to:
+        - docs/protocol.mdの原理定義
+        - docs/worldlines.mdの概念・運用記録
+        - READMEとFile-hierarchyの入口
+      does_not_apply_to:
+        - 育成CLIの実装
+        - lineage_idまたはinstance_idのschema追加
+        - 自動リポジトリ作成
+  hypothetical_world:
+    description: LLMは対立を曖昧な一回答へ平均化せず、黒と白の明確な手として複数Worldlineへ配置する。各cloneは異なる経験を与える生育環境となり、系譜は還流または独立できる。
+    consequences:
+      primary:
+        - 各仮説が内部では明確な結論と反証条件を持つ。
+      secondary:
+        - 非通約な仮説が全体では併存し、相互作用が盤面として読める。
+      tertiary:
+        - 単一公式版を頂点としないprotocol familyが形成される。
+    opportunities:
+      - 第三者による第二世代育成実験
+      - 分散したWorldline間の系譜比較
+      - 将来の育成CLI
+  evaluation:
+    falsifiers:
+      - No Gray Stonesが不確実性やnuanceを禁止する白黒思考として作用する。
+      - Worldline分岐が判断を避けるためだけに増殖する。
+      - pullした利用者がNode.js内部実装を理解しないと一切育成できない。
+      - 同一IDの分散系譜を再接続する際に由来衝突を識別できない。
+    evidence:
+      supporting:
+        - 現行IntegratorはDecision Without Averagingを既に要求する。
+        - 現行Worldlineは三世代上限、review、spin-out provenanceを持つ。
+        - registryは一つのHost内に複数Guestを保持できる。
+      contradicting:
+        - 現在のCLIはWorldlineの閲覧までで、育成操作を提供しない。
+        - 分散した同一Guest個体を区別するinstance identityは未実装である。
+      unknown:
+        - 複数Worldline出力がLLMの平均化をどの程度減らすか。
+        - 利用者が盤面比喩をどう解釈するか。
+    tests_completed: []
+    tests_remaining:
+      - Auditorによる二値主義・分岐逃避・認知負荷の監査
+      - 第三者育成テスト
+  decision:
+    status: advance
+    authority: operational_decision
+    decided_by: integrator
+    rationale: 新しい原理を正本採択せず、評価前の仮説形成へ進める。
+    preserved_dimensions:
+      - 灰色へ平均化しない
+      - 白黒を真偽ではなく明確な手として扱う
+      - 盤面全体としての多元性
+      - cloneごとの分散成長
+      - 系譜付きの出生と還流
+    rejected_claims: []
+    revisions: []
+  pivot:
+    trigger: ユーザーが三世代孵化を、inoとaudが白黒の石を打ち盤面に模様を生成する構造として再記述した。
+    learned_structure:
+      - 対立の解決方法は意味的平均化だけでなく空間的併存でもよい。
+      - global pluralityはlocal ambiguityを必要としない。
+    pivot_seeds:
+      - No Gray Stones
+      - Epistemic Board
+      - Distributed Cultivation
+    next_hypothesis: 対立を平均化せずWorldlineへ空間化することで、明確さと多元性を両立できる。
+  epistemic_remainder:
+    residuals:
+      - observation: 盤面の美しさは単一の勝敗やschema scoreでは表現できない。
+        schema_limit: 現行SDKは状態と由来を検証するが、複数系譜の相互作用が作る全体模様を評価しない。
+        provenance: ユーザーの囲碁比喩。
+        review_when: 複数Worldlineが実際に並走したとき。
+    dissent: []
+  next_step:
+    objective: No Gray Stones、Epistemic Board、Distributed Cultivationを、誤読防止境界と観測可能な帰結を持つ仮説へ展開する。
+    constraints:
+      - 二値主義を肯定しない。
+      - nuanceとunknownを消去しない。
+      - 未実装機能を現行能力として記述しない。
+    expected_output:
+      - 概念定義
+      - Worldline lifecycle
+      - 現在可能なことと将来実装の分離
+      - AuditorへのHandoff
+    unresolved_questions:
+      - 同一Guestの分散個体をどう識別するか。
+      - 盤面全体の価値を単一スコアなしにどう観測するか。

@@ -105,6 +105,8 @@ npx unflatten role @aud
 
 未批准のプロトコル候補は、通常ロールへ混入させず、Stable Host内のGuest Worldlineとして明示的にロードできます。各Worldlineは最大3世代の完全な役割サイクル後にreviewを必要とし、`promote | spin_out | archive | terminate`をIntegratorが判断します。例外的な追加観測は`extend_once`で1回だけ許可できますが、第4世代は作りません。
 
+ここで目指すのは、対立する仮説を混ぜて無難なグレーへすることではありません。明確な仮説と反証を別々の石として置き、局所的な明確さと盤面全体の多元性を両立させます。この原理を **No Gray Stones** と呼びます。pull、clone、forkされた環境も独立した生育環境となり、同じ祖先から複数のWorldlineを育てられます。概念、世代、分散育成、現行実装の境界は[`docs/worldlines.md`](docs/worldlines.md)を参照してください。
+
 ```js
 const unflatten = require('unflatten-protocol');
 

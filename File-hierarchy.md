@@ -11,6 +11,7 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 ├── docs/
 │   ├── protocol.md                     # Unflattenの定義と不変条件の正本
 │   ├── handoff.md                      # Handoff Contractの正本
+│   ├── worldlines.md                   # No Gray Stones、孵化、分散育成、種分化
 │   ├── agent-roles/                    # 既存エージェント向け互換パス（正本へのリンク）
 │   │   ├── innovator.md
 │   │   ├── auditor.md
@@ -61,7 +62,9 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │       ├── manifest.json               # 第1世代の状態、親commit、内部評価文法
 │       └── epistemic-lineage-steward.md # Guest role（@lin）
 ├── self-audit/                         # このリポジトリ自身を通した役割別記録
-│   └── 001/
+│   ├── 001/
+│   ├── 002/
+│   └── 003/
 └── test/
     └── sdk.test.js                     # ローダー、schema、監査境界のテスト
 ```
