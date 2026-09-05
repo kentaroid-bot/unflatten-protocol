@@ -13,7 +13,10 @@ const {
   createWorkflowRun,
   transitionWorkflow,
   verifyWorkflowRun,
-  composeWorkflowPrompt
+  composeWorkflowPrompt,
+  listWorldlines,
+  resolveWorldline,
+  loadWorldlineRole
 } = require('./index');
 
 function fail(message, code = 1) {
@@ -35,6 +38,15 @@ try {
       break;
     case 'role':
       process.stdout.write(loadRole(args[0]));
+      break;
+    case 'worldlines':
+      process.stdout.write(`${JSON.stringify(listWorldlines(), null, 2)}\n`);
+      break;
+    case 'worldline':
+      process.stdout.write(`${JSON.stringify(resolveWorldline(args[0]), null, 2)}\n`);
+      break;
+    case 'worldline-role':
+      process.stdout.write(loadWorldlineRole(args[0], args[1]));
       break;
     case 'prompt':
       process.stdout.write(composeRolePrompt(args[0], readFile(args[1])));
@@ -85,7 +97,7 @@ try {
       break;
     }
     default:
-      fail('Usage: unflatten <roles | role ROLE | prompt ROLE TASK_FILE | validate SCHEMA FILE | inspect FILE | audit-prompt ARTIFACT [CONTEXT] | handoff-patch BASE PATCH | run-start RUN_ID HANDOFF [DEVIATION_REASON] | run-transition RUN HANDOFF [DEVIATION_REASON] | run-prompt RUN TASK [CONTEXT] | run-verify RUN>');
+      fail('Usage: unflatten <roles | role ROLE | worldlines | worldline ID | worldline-role ID ROLE | prompt ROLE TASK_FILE | validate SCHEMA FILE | inspect FILE | audit-prompt ARTIFACT [CONTEXT] | handoff-patch BASE PATCH | run-start RUN_ID HANDOFF [DEVIATION_REASON] | run-transition RUN HANDOFF [DEVIATION_REASON] | run-prompt RUN TASK [CONTEXT] | run-verify RUN>');
   }
 } catch (error) {
   fail(error.stack || error.message);

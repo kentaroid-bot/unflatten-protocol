@@ -1,0 +1,216 @@
+audit_target:
+  hypothesis: Origin Boundary付きの非決定的なEpistemic Lineage Stewardを追加すれば、観測範囲外を捏造せず、役割横断の動機喪失と評価文法の早期統合を可視化できる。
+  core_premises:
+    - 系譜は結論ではなく、問いを生んだ関係とその変形を追跡する。
+    - 観測上の起点を真の生成起点と仮定しない。
+    - 動機は変形可能であり、反証済みの結論を延命しない。
+    - 比較不能な評価文法へ単一KPIを作らない。
+    - 新ロールは採否やParallel Runの開始・終了を決めない。
+  mechanism: Motive Packet、Origin Boundary、隣接Transit分類、Evaluation Grammar Map、有限Parallel Run Draftを作り、advisory_observationとして後続ロールへ渡す。
+  distinct_dimensions:
+    - Semantic EquivalenceとGenerative Equivalenceの区別
+    - generative origin、declared origin、observation horizonの区別
+    - 非通約な評価文法の有限並走
+    - ルール自体を作る遊びとしてのAI利用
+    - 失敗を次の挑戦とルール変更の材料にすること
+steelman_setup:
+  - 起点資料と隣接Handoffがある場合、変形ごとに保持・追加・削除・反転を比較できる。
+  - 上流資料がない場合は隠れた動機を推定せず、観測範囲外をunknownとして保持する。
+  - 文字列類似度ではなく、次の発見を可能にした関係によって系譜を評価する。
+  - 各Worldlineは独自の内部信号を持ち、共通化するのは安全境界、期限、停止条件に限る。
+  - 新ロールは真偽・優劣を決めず、AuditorとIntegratorの権限を保つ。
+dual_stress:
+  logical_systemic:
+    - test: 既存Handoffとの機能重複
+      result: 既存Handoffは一時点の状態を保存するが、複数の隣接Handoffにまたがる生成関係と評価文法の非通約性を専任で比較しない。候補ロールには現時点で識別可能な固有機能がある。
+      falsifier: 通常Handoffの記入だけでOrigin Boundary、隣接Transit、非通約性判断を同等に作成できる。
+    - test: 起点の真偽と由来の分離
+      result: 定義はgenerative originとdeclared originを分けたが、generative_originに当事者確認、直接記録、モデル推論、unknownのどれを根拠とするかのstatusとprovenanceがない。自己適用記録もHI thinkingをGenerative originと断定しながら、文書化前の全経験は観測不能としている。
+      falsifier: origin claimの根拠が区別されず、観測資料が真の生成起点として記録される。
+    - test: 状態語彙の一貫性
+      result: pre_ingress_statusはobserved、compressed、unknown、not_applicableと定義される一方、本文はpre_ingress_unknownを状態名のように使い、Transit分類には未定義のpre_ingress_compressionを使う。状態モデルは一意ではない。
+      falsifier: 同じ観測が文書ごとに異なる状態名へ分類され、後続ロールが正規化できない。
+    - test: 権限集中と中央審判化
+      result: manifestはadvisory_observationだけを許し、役割定義は真偽、優劣、採否、Parallel Runの開始・終了を禁止する。現在の差分に中央審判化は確認されない。
+      falsifier: 役割出力が他ロールを拘束するか、系譜分類が運用上の採否を自動発生させる。
+    - test: Parallel Runの無期限Hold化
+      result: 期間またはevent budget、内部信号、共有境界、停止条件、延長上限が必須であり、単なる先送りへの退行を防ぐ構造がある。
+      falsifier: 期限、停止条件、Worldline固有信号のない並走案が適合扱いされる。
+    - test: 自動検証可能性
+      result: SDKはrole load、alias、advisory authorityを検証するが、Motive Packet、Origin Boundary、Transit Chainの意味構造はSchema化されていない。候補scopeでは未実装と明示されているため中核矛盾ではないが、自動検証済みとは主張できない。
+      falsifier: Markdown出力だけを根拠に、Origin Boundaryの完全性が静的に保証されたと主張する。
+  cognitive_physical:
+    - test: Cognitive Bandwidth Exhaustion
+      result: 入力と出力項目が多く、常時起動すると系譜管理が探索本体を上回る可能性がある。一方、Activation Conditionsと解散条件により通常作業から分離されている。実運用負荷は未観測である。
+      falsifier: 実利用で記録負荷によりMotive Packetが空文化するか、役割自体が省略される。
+    - test: Source-scarcity pressure
+      result: 上流資料がない場合に推測しない規則はあるが、origin claimの根拠statusがないため、もっともらしい起源物語を生成する圧力を完全には遮断していない。
+      falsifier: 短いIssueだけから、明示されていない人間側の動機を保存済み事実として出力する。
+    - test: The Sterile Logic Vibe
+      result: 専門語と記録量は増えるが、今回回収されたゲームメイキング、楽しみ、挑戦という人間側動機は役割を単なる監査台帳にしない対抗力になる。なお実利用者の身体的反応は未観測である。
+      falsifier: 利用者が問いを深めるより記録欄を埋めることへ注意を奪われ、役割を継続的に回避する。
+    - test: Physical Latency and safety
+      result: 新ロールは運用判断を行わず、Parallel Runでは共有安全境界を要求するため、緊急判断を直接遅延させる権限は持たない。
+      falsifier: 安全上の停止がLineage保存やParallel Run完了を理由に保留される。
+evidence_and_noise:
+  supporting:
+    - HI thinkingとIssueの比較により、Issue以後の役割フローへ責任を誤帰属せずpre-ingress compressionを特定できた。
+    - 既存Handoffだけでは保持されていなかった人間側のゲームメイキング動機を、上流資料から回収できた。
+    - 候補ロールはadvisory_observation、Withheld Powers、解散条件を明示する。
+    - SDKテスト19件、manifest検証、Handoff構造検証は成功した。
+    - 生のHI thinkingはローカルに留め、正本と一次探索資料を分離した。
+  contradicting:
+    - 現在のOrigin Boundaryはorigin claimの証拠種別と確度を持たず、観測資料を真の生成起点と呼びうる。
+    - pre-ingressに関する状態名が三つの表現へ分岐し、分類体系が閉じていない。
+  unknown:
+    - 上流資料がない通常運用での誤復元率
+    - 独立ロール追加と通常Handoff拡張の認知負荷比較
+    - Motivation TransitとParallel Run準備を一役へ置く長期的妥当性
+    - 実プロジェクトでのLineage Break検出精度
+  noise_signals:
+    - Origin Boundary追加後もGenerative originという強い名称が、観測できない真の起源を把握した感覚を生む。
+    - 役割の出力形式が大きく、創造的作業より記録の完全性を優先させる圧力が残る。
+findings:
+  - classification: revisable_defect
+    finding: Origin claimに根拠種別と由来がなく、観測資料と真の生成起点を再び混同できる。
+    rationale: 今回はユーザーがHI thinkingの作成目的を確認したためIssueの直接的上流資料とは判断できるが、それが人間の全生成起点であるとは判断できない。documented source、author attestation、model inference、unknownを分ければ中核を保ったまま修復できる。
+  - classification: revisable_defect
+    finding: pre-ingress状態語彙が一貫していない。
+    rationale: status enum、本文上のunknown名、Transit分類名が一致せず、将来Schema化した際に同じ状態が複数値へ分裂する。単一の状態モデルへ正規化できる。
+  - classification: unresolved_uncertainty
+    finding: 独立ロールの認知負荷が通常Handoff拡張より小さいかは未検証である。
+    rationale: 固有機能は識別できるが、反復運用の実測がなく、ロール追加の長期便益は確定できない。
+  - classification: unresolved_uncertainty
+    finding: Motive PacketとOrigin Boundaryはまだ静的に自動検証できない。
+    rationale: 今回のscopeではSchema実装を除外しているため致命的矛盾ではないが、SDKの自動検証能力としては未達である。
+repair_boundary:
+  - generative_originを単一文字列として断定せず、documented_source、origin_claim、basis、provenanceを分ける。basisはauthor_confirmed、direct_record、inferred、unknownの閉じた語彙にする。
+  - inferredは探索候補として保持できるが、保存済み動機や生成起点の事実として扱わない。
+  - pre_ingress_statusをobserved、compressed、unknown、not_applicableへ統一し、pre_ingress_unknownとpre_ingress_compressionを別の状態名として使用しない。
+  - 自己適用記録ではHI thinkingをdocumented generative sourceとし、ユーザー確認をauthor_confirmed provenanceとして記録する。真の心理的・経験的起源はobservation horizon外として残す。
+  - Origin Boundaryの最小出力を短く固定し、詳細なTransit分析はActivation Conditions成立時だけ要求する。
+  - 修正後もGenerative Equivalence、正当なPivot、非通約性、非決定権限、ゲームメイキングの人間側動機を維持する。
+pivot_seeds: []
+final_verdict: revise
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: Epistemic Lineage Steward候補のDual-Stress Auditで、致命的矛盾はないが公式化前に二つの修正可能な欠陥が確認されたため。
+  inquiry:
+    problem_tension: 系譜保全役が観測上の資料を真の生成起点と誤認すれば、動機を捏造しないための機構自身が起源物語を作る。
+    current_question: Origin claimの証拠種別とpre-ingress状態語彙を修復したうえで、候補ロールを限定採択へ進めるか。
+    distinct_dimensions:
+      - dimension: 観測資料と真の生成起点を分離する。
+        significance: 保存可能範囲を越えて動機保存を過大申告しないため。
+      - dimension: 意味一致と生成関係一致を区別する。
+        significance: 結論が同じでも将来分岐を失う平坦化を検出するため。
+      - dimension: 人間側のゲームメイキング、楽しみ、挑戦の動機を保持する。
+        significance: 系譜管理を効率化のための監査事務へ変質させないため。
+    flattening_risks:
+      - 欠陥を理由に独立した系譜監視の必要性まで棄却する。
+      - Origin Boundaryを単なる出典欄へ縮小する。
+      - 認知負荷を理由にすべてを通常Handoffへ押し戻す。
+  hypothesis:
+    statement: Origin claimの根拠種別と状態語彙を修復すれば、Epistemic Lineage Stewardは観測範囲外を捏造せず、固有の系譜監視機能を維持できる。
+    core_claims:
+      - 系譜は結論ではなく生成関係を追跡する。
+      - 観測上の起点を真の生成起点と同一視しない。
+      - 正当な学習とPivotを妨げない。
+      - 比較不能な評価文法を単一尺度へ統合しない。
+      - 採択とParallel Run運用はIntegratorへ留保する。
+    mechanism: origin claimへbasisとprovenanceを付け、pre_ingress_statusを閉じた語彙へ統一し、最小Origin Boundaryを候補ロールと自己適用記録へ反映する。
+    assumptions:
+      - assumption: 修復は候補ロールの中核を変更せず、起源認定の精度だけを上げる。
+        status: supported
+      - assumption: 独立ロールの長期便益は反復利用で確認できる。
+        status: unknown
+    scope:
+      applies_to:
+        - prompt-templates/extensions/epistemic-lineage-steward.md
+        - self-audit/002/03-lineage-response.md
+        - self-audit/002/04-lineage-to-integrator.yaml
+        - self-audit/002/05-lineage-to-auditor.yaml
+        - 関連するSDKテスト
+      does_not_apply_to:
+        - Motive PacketとParallel Runの正式Schema実装
+        - docs/HI thinking/のGit公開
+  hypothetical_world:
+    description: 各origin claimは何を観測し誰が確認したかを伴い、観測不能な起源はunknownのまま残る。役割は有限の出力で隣接変形と非通約性だけを監視する。
+    consequences:
+      primary:
+        - 起源資料と起源そのものの混同が減る。
+      secondary:
+        - 後から上流資料が現れた際に該当区間だけを再評価できる。
+      tertiary:
+        - 系譜記録の信頼境界を外部プロジェクト間で比較できる。
+    opportunities:
+      - 将来のMotive Packet schemaでorigin provenanceを第一級フィールドにする。
+  evaluation:
+    falsifiers:
+      - 修正後もモデル推論がauthor-confirmed originとして記録される。
+      - 同じpre-ingress状態に複数の正規名が残る。
+      - 修復により生成関係、非通約性、ゲームメイキングの動機が削除される。
+    evidence:
+      supporting:
+        - 候補ロールには既存Handoffと区別可能な機能と明示的な権限制限がある。
+      contradicting:
+        - 現在のorigin claimと状態語彙には上記二欠陥がある。
+      unknown:
+        - 実利用時の認知負荷
+        - 独立ロールの長期便益
+    tests_completed:
+      - Counter-Factual Steelman
+      - 論理・システムおよび認知・身体のDual-Stress Audit
+      - SDKテスト19件と構造検証
+    tests_remaining:
+      - 修復後の再監査
+      - 上流資料なし入力による誤復元テスト
+  decision:
+    status: revise
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: 独立ロールの中核と非決定的権限は維持可能で、致命的矛盾はない。一方、origin claimの根拠欠落と状態語彙の不一致は、系譜捏造防止という中核に直接触れるため、公式化前の修復を推奨する。
+    preserved_dimensions:
+      - Generative Equivalence
+      - Origin Boundary
+      - 非通約な評価文法
+      - 非決定的権限
+      - 人間側のゲームメイキングと挑戦
+    rejected_claims:
+      - 現在のOrigin Boundaryだけで起源認定の過大申告を完全に防げる。
+      - 現在のpre-ingress語彙が実装可能なほど一意である。
+    revisions:
+      - origin claimへbasisとprovenanceを追加する。
+      - pre_ingress_statusを一つの閉じた語彙へ統一する。
+      - 自己適用記録のGenerative origin表現をdocumented generative sourceへ修正する。
+  pivot:
+    trigger: ""
+    learned_structure:
+      - 観測境界だけでなく、起源主張そのものの証拠型が必要である。
+      - unknownは起源の欠落を埋める値ではなく、保存成功の主張範囲を限定する。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 文書化前の身体感覚、経験、偶然の連想は、当事者確認があっても完全にはデータ化できない。
+        schema_limit: テキスト中心のSDKは生成起点の全体を直接観測できない。
+        provenance: HI thinkingとIssueの比較、およびユーザーによる作成目的の確認。
+        review_when: 非言語的動機を保存する実プロジェクト要件が現れたとき。
+    dissent:
+      - position: Motivation TransitとParallel Run準備は将来別ロールへ分割すべき可能性がある。
+        holder: auditor
+        unresolved_because: 一回の自己適用では認知負荷と権限集中の実測が足りない。
+  next_step:
+    objective: Auditorのrevise勧告を採用するかIntegratorが判断し、採用する場合は限定修復をEngineerへ渡す。
+    constraints:
+      - 欠陥修復を理由に候補ロールの中核を通常の出典管理へ平坦化しない。
+      - 公式化とGit pushは修復後の再監査まで行わない。
+      - 生のHI thinkingはローカル一次資料のまま保持する。
+    expected_output:
+      - operational decision
+      - 採択する修復範囲
+      - EngineerまたはLineage StewardへのHandoff
+    unresolved_questions:
+      - 最小Origin Boundaryの必須フィールドをどこまでにするか。
+      - 独立ロールの認知負荷をどの実利用単位で再評価するか。

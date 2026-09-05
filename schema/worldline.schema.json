@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unflatten.dev/schema/worldline.schema.json",
+  "title": "Unflatten Guest Protocol Worldline",
+  "type": "object",
+  "required": [
+    "id",
+    "kind",
+    "status",
+    "lineage_generation",
+    "generation_limit",
+    "parent",
+    "roles",
+    "evaluation_grammar",
+    "shared_boundaries",
+    "generation_records",
+    "review"
+  ],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "kind": { "const": "guest_worldline" },
+    "status": {
+      "enum": [
+        "active",
+        "runnable",
+        "dormant",
+        "review_required",
+        "promoted",
+        "spun_out",
+        "archived",
+        "terminated"
+      ]
+    },
+    "lineage_generation": { "type": "integer", "minimum": 1, "maximum": 3 },
+    "generation_limit": { "const": 3 },
+    "parent": {
+      "type": "object",
+      "required": ["repository", "commit", "worldline", "relation"],
+      "properties": {
+        "repository": { "type": "string", "format": "uri" },
+        "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "worldline": { "type": "string", "minLength": 1 },
+        "relation": { "const": "guest_of" }
+      },
+      "additionalProperties": false
+    },
+    "roles": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["alias", "template", "authority"],
+        "properties": {
+          "alias": { "type": "string", "pattern": "^@[a-z]+$" },
+          "template": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._-]+\\.md$"
+          },
+          "authority": { "const": "advisory_observation" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "evaluation_grammar": {
+      "type": "object",
+      "required": ["success_signals", "failure_signals"],
+      "properties": {
+        "success_signals": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "failure_signals": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "shared_boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "generation_records": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["generation", "status", "roles_completed", "evidence"],
+        "properties": {
+          "generation": { "type": "integer", "minimum": 1, "maximum": 3 },
+          "status": { "const": "completed" },
+          "roles_completed": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": { "enum": ["innovator", "auditor", "integrator"] },
+            "uniqueItems": true
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": ["required_at_generation", "allowed_outcomes", "extensions_used", "max_extensions", "decisions"],
+      "properties": {
+        "required_at_generation": { "const": 3 },
+        "allowed_outcomes": {
+          "type": "array",
+          "const": ["promote", "spin_out", "archive", "terminate", "extend_once"]
+        },
+        "extensions_used": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "max_extensions": { "const": 1 },
+        "decisions": {
+          "type": "array",
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["outcome", "authority", "decided_by", "rationale", "evidence"],
+            "properties": {
+              "outcome": { "enum": ["promote", "spin_out", "archive", "terminate", "extend_once"] },
+              "authority": { "const": "operational_decision" },
+              "decided_by": { "const": "integrator" },
+              "rationale": { "type": "string", "minLength": 1 },
+              "evidence": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "string", "minLength": 1 }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "extension_pending": { "type": "boolean" },
+        "extension_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "spin_out": {
+      "type": "object",
+      "required": ["repository", "parent_repository", "parent_commit", "parent_worldline", "divergence_reason"],
+      "properties": {
+        "repository": { "type": "string", "format": "uri" },
+        "parent_repository": { "type": "string", "format": "uri" },
+        "parent_commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "parent_worldline": { "type": "string", "minLength": 1 },
+        "divergence_reason": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "review_required" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": { "lineage_generation": { "const": 3 } }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": { "enum": ["promoted", "spun_out", "archived", "terminated"] }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": { "lineage_generation": { "const": 3 } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "spun_out" } },
+        "required": ["status"]
+      },
+      "then": { "required": ["spin_out"] },
+      "else": { "not": { "required": ["spin_out"] } }
+    }
+  ],
+  "additionalProperties": false
+}

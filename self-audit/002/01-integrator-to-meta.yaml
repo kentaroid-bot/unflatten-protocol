@@ -1,0 +1,114 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: meta-protocol-designer
+  reason: Innovatorの提案が既存ロール間で失われる生成動機と評価文法の分岐を発見し、新しい役割境界の設計が必要になったため。
+  inquiry:
+    problem_tension: 各成果物が単独では正しくても、役割を横断する間に元の動機が最大公約数へ変質し、比較不能な仮説が共通尺度へ押し込まれる。
+    current_question: 生成動機の通行と、評価文法が異なる世界線の並走を、既存ロールへ権限集中させずどう保護するか。
+    distinct_dimensions:
+      - dimension: 結論だけでなく、問いを生成した構成過程と動機の解像度を保存する。
+        significance: 1(1+1)を2へ圧縮するような、意味は近いが生成経路を失う変形を検出するため。
+      - dimension: 共通尺度を持たない仮説世界を、優劣判定や平均化なしに並走可能にする。
+        significance: 評価基準そのものの革新を既存審判席へ従属させないため。
+    flattening_risks:
+      - 動機保存を単なる原文コピーや文字列類似度へ縮約する。
+      - Parallel Runを決断延期または多数決の前処理にする。
+      - 一つの新ロールへ監査、運用判断、終了判断を集中させる。
+  hypothesis:
+    statement: 生成動機の系譜と評価文法の分岐だけを保全する非決定的ロールを追加すれば、役割横断の平坦化と審判席なき仮説の早期統合を同じ機構で防げる。
+    core_claims:
+      - 原文保存だけでなく、何が問いを生成したかという構成関係を追跡する。
+      - 仮説の結論は保護対象ではなく、動機の変形は明示的に記録する。
+      - 評価文法が比較不能なら、共通指標を捏造せず世界線をFork候補として保持する。
+      - 新ロールはParallel Runを提案できるが、開始・終了を決定しない。
+    mechanism: 隣接Handoff間のMotive Packetを比較し、Lineage Breakを分類し、評価文法の非可換性を検出した場合に期限・観測条件付きParallel Run ContractをIntegratorへ提案する。
+    assumptions:
+      - assumption: 生成動機は、原問、思考実験、望む差異、変形履歴の組として表現できる。
+        status: unknown
+      - assumption: 評価文法の比較不能性と、単なる意見対立を区別できる。
+        status: unknown
+    scope:
+      applies_to:
+        - 複数ロールを横断する仮説形成、監査、実装、統合
+        - 評価基準そのものが競合する複数仮説
+      does_not_apply_to:
+        - 単一成果物の通常監査
+        - Parallel Runの運用上の開始・終了決定
+  hypothetical_world:
+    description: 各仮説は生成動機と評価文法の系譜を持つWorldlineとして渡され、比較不能な体系は期限付きで並走し、差異を失わずIntegratorへ戻る。
+    consequences:
+      primary:
+        - 役割横断で起きる静かな動機変質が可視化される。
+      secondary:
+        - Audit Meshの異質性をprovider数ではなく、生成系譜と評価文法の差異として記録できる。
+      tertiary:
+        - 新しい評価基準が既存尺度で淘汰される前に独自の知的生産を示せる。
+    opportunities:
+      - Motivation Transit Check
+      - Parallel Run Contract
+      - Worldlineごとの知的生産履歴
+  evaluation:
+    falsifiers:
+      - 新ロールの出力がInnovatorの要約またはAuditorの再監査と区別できない。
+      - 動機保存が原文固定となり、正当な学習と変形を妨げる。
+      - Parallel Runが停止条件のない先送りになる。
+      - 新ロールがどの世界線を生存させるか決定する。
+    evidence:
+      supporting:
+        - Innovatorが水素エンジン対案から最大公約数のハイブリッド車へ退避する役割横断の失敗を具体例として提示した。
+        - 既存Handoffはproblem_tensionを持つが、原問と生成過程を不変な由来として分離していない。
+      contradicting: []
+      unknown:
+        - Motive Packetの最小構造
+        - 非可換な評価文法の判定方法
+    tests_completed:
+      - 既存core/meta roleとのBetrayal Point比較
+    tests_remaining:
+      - Innovatorの動機ブロックを用いた敵対的通行シミュレーション
+      - Parallel RunがHoldへ退行しないかの監査
+  decision:
+    status: advance
+    authority: operational_decision
+    decided_by: integrator
+    rationale: 既存ロールを修正する前に、生成系譜だけを保全し運用権限を持たない一時ロールをMeta-Protocol Designerで設計するLimited Connectionを採択する。
+    preserved_dimensions:
+      - 構成過程としての動機
+      - 審判席を共有しない評価体系の並走
+      - Audit Meshの異質性Residual
+    rejected_claims:
+      - providerが異なれば監査経路は十分に異質である。
+      - Parallel Runの生存を新ロール自身が判定する。
+    revisions:
+      - 新ロールの必要性、非権限、解散条件を先に定義する。
+  pivot:
+    trigger: ""
+    learned_structure:
+      - 意味保存と生成過程保存は異なる。
+      - 評価対象の差異と評価文法の差異は異なる。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: Worldlineの生存や知的生産量を誰がどの内部尺度で観測するかは未定義である。
+        schema_limit: 現行Handoffは複数の非可換な評価文法を並列に記述する専用構造を持たない。
+        provenance: Innovator Proposal 2とAudit Meshの異質性問題。
+        review_when: 新ロールがParallel Run Contractの観測構造を定義したとき。
+    dissent:
+      - position: 生存と世代交代は知的価値ではなく資源・権力の優位を選ぶ可能性がある。
+        holder: Integrator
+        unresolved_because: 外部生存を真理条件にせず、各Worldline内部の知的生産と境界条件をどう分離するか未設計である。
+  next_step:
+    objective: 生成動機と評価文法の系譜だけを保護する、単独ロード可能で非決定的な新ロールを設計する。
+    constraints:
+      - Innovator、Auditor、Integrator、Engineerの権限を奪わない。
+      - 原文一致や単一スコアで動機保存を判定しない。
+      - Parallel Runの開始・終了を決定しない。
+      - 恒久ロール化を前提にしない。
+    expected_output:
+      - Betrayal PointとProtected Distinct Dimension
+      - 完全な役割定義
+      - manifest接続案
+      - 解散・再評価条件
+    unresolved_questions:
+      - 一つのロールでMotivation TransitとParallel Run準備を扱うことは権限過多か。

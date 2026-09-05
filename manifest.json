@@ -73,11 +73,14 @@
       "engineer": ["auditor", "integrator"]
     }
   },
+  "worldlines": "worldlines/registry.json",
   "schemas": {
     "protocol-manifest": "schema/protocol-manifest.schema.json",
     "handoff": "schema/handoff-contract.schema.json",
     "state-history": "schema/state-history.schema.json",
     "audit-report": "schema/audit-report.schema.json",
-    "workflow-run": "schema/workflow-run.schema.json"
+    "workflow-run": "schema/workflow-run.schema.json",
+    "worldline-registry": "schema/worldline-registry.schema.json",
+    "worldline": "schema/worldline.schema.json"
   }
 }

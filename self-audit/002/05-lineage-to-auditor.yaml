@@ -1,0 +1,131 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: epistemic-lineage-steward
+  to_role: auditor
+  reason: GitHub上の基準コミットa355fdbに対する新ロール候補と接続差分を、公式化の前に意味的監査するため。
+  inquiry:
+    problem_tension: 役割間の出力が局所的に妥当でも、生成動機と評価文法が通行過程で圧縮される。さらに、観測可能な最古のIssueを真の生成起点と誤認すると、プロトコル進入前の圧縮を保存成功と記録してしまう。
+    current_question: Epistemic Lineage StewardとそのSDK接続は、新たな中央審判や儀式的記録を作らず、生成起点、観測起点、役割間変形を区別できるか。
+    distinct_dimensions:
+      - dimension: 意味や結論の一致と、次の発見を生む構成関係の一致を区別する。
+        significance: 1(1+1)を2へ圧縮するような、値は保存されても生成可能性が失われる変形を検出するため。
+      - dimension: generative origin、declared origin、observation horizonを分離する。
+        significance: 最古の入力より前の動機を、保存済みとも喪失済みとも捏造しないため。
+      - dimension: 比較不能な評価文法を単一KPIへ回収せず、有限のParallel Run候補として保持する。
+        significance: 評価基準そのものの革新を既存審判席で消去しないため。
+      - dimension: AIとの関係を、効率化ではなくルール自体を作る持続的な遊びとして扱う。
+        significance: 技術的機能だけでなく、何のために未知のWorldlineを保つのかという人間側の動機を残すため。
+    flattening_risks:
+      - 新ロールをHandoff項目の追加だけに縮小し、生成関係の監視を失う。
+      - Issueを真の原点とみなし、pre-ingressの未観測領域を消去する。
+      - 動機保存を理由に正当なPivotを妨げる。
+      - Parallel Runを無期限Hold、多数決、単一スコアへ変質させる。
+  hypothesis:
+    statement: Origin Boundary付きの非決定的なEpistemic Lineage Stewardを追加すれば、観測範囲外を捏造せず、役割横断の動機喪失と評価文法の早期統合を可視化できる。
+    core_claims:
+      - 系譜は結論ではなく、問いを生んだ関係とその変形を追跡する。
+      - 観測上の起点を真の生成起点と仮定しない。
+      - 動機は変形可能であり、反証済みの結論を延命しない。
+      - 新ロールは観測と候補契約だけを行い、採否やParallel Runの開始・終了を決めない。
+    mechanism: Motive PacketとOrigin Boundaryを作り、上流資料がある場合はgenerative originからdeclared originまでを独立Transitとして比較し、後続の隣接Handoffと評価文法の変化を追跡する。
+    assumptions:
+      - assumption: 通常のHandoffとは別のロールとして系譜監視を行う価値が、ロール増加の認知負荷を上回る。
+        status: unknown
+      - assumption: generative originとdeclared originの区別は、未観測の動機を作らず運用できる。
+        status: unknown
+    scope:
+      applies_to:
+        - prompt-templates/extensions/epistemic-lineage-steward.md
+        - manifest.jsonのrole登録とworkflow route
+        - README.mdとFile-hierarchy.mdの利用者向け表示
+        - test/sdk.test.jsの権限およびロード検査
+        - self-audit/002の系譜記録
+      does_not_apply_to:
+        - docs/HI thinking/の生原稿の正本化
+        - Motive PacketまたはParallel RunのSchema・Runtime実装
+  hypothetical_world:
+    description: 候補ロールは、観測可能な起点を真の原点と同一視せず、動機の継承、正当な変形、系譜断絶、未観測を分離して次の役割へ渡す。
+    consequences:
+      primary:
+        - Issue以前とIssue以後の動機圧縮を区別できる。
+      secondary:
+        - 入力が短い通常運用でも、保存の成功範囲を過大申告しない。
+      tertiary:
+        - 後から上流資料が現れた場合、pre-ingress区間だけを再評価できる。
+    opportunities:
+      - Origin Boundaryを将来のMotive Packet schema候補にする。
+  evaluation:
+    falsifiers:
+      - 新ロールの出力が既存Handoffの丁寧な記入と実質的に区別できない。
+      - Origin Boundaryが空欄を増やすだけで、保存判定や差し戻し先を変えない。
+      - "`pre_ingress_unknown`が、もっともらしい隠れた動機を生成する入口になる。"
+      - 役割の出力が採否、勝者、Parallel Runの開始・終了を事実上決める。
+      - 必須記録の負荷により、尖った仮説の生成より系譜管理が主作業になる。
+    evidence:
+      supporting:
+        - HI thinkingとIssueを並べることで、Issue以後のフローに責任を誤帰属せずpre-ingress compressionを特定できた。
+        - 候補ロールはadvisory_observationに限定され、Withheld Powersと解散条件を持つ。
+        - SDKは候補ロールをロードし、extensionがoperational_decisionを名乗れないことをテストする。
+      contradicting: []
+      unknown:
+        - 上流資料がない通常運用でのOrigin Boundaryの実効性
+        - 複数ロールの反復による記録負荷
+        - Motivation TransitとParallel Run準備を一ロールに置く妥当性
+    tests_completed:
+      - SDKテス19件
+      - manifestと登録パスの構造検証
+      - HI thinking、Issue、@lin応答の初回Transit比較
+    tests_remaining:
+      - Counter-Factual SteelmanとDual-Stress Audit
+      - 既存Handoffの拡張だけで代替できるかの比較
+      - 上流資料のない入力での誤復元テスト
+  decision:
+    status: not_evaluated
+    authority: advisory_observation
+    decided_by: epistemic-lineage-steward
+    rationale: 生成起点の誤認を候補ロールの新たな反証条件として提出するが、新ロールの採否または公式化は判断しない。
+    preserved_dimensions:
+      - 構成過程としての動機
+      - 人間側のゲームメイキングと挑戦の動機
+      - 観測境界より前の不可知性
+      - 新ロールの非決定性
+    rejected_claims:
+      - Issueが必ず真の生成起点である。
+      - Issueに含まれない動機は後続役割が失わせた。
+    revisions:
+      - Origin Boundaryとpre_ingress_unknownを候補ロールに追加した。
+      - HI thinkingからIssueへの圧縮を独立Transitとして記録した。
+  pivot:
+    trigger: ユーザーが、人間側の三つの動機は役割フローではなくIssue化の時点ですでに省略されていたと指摘した。
+    learned_structure:
+      - 系譜保存の成功は、観測範囲の内側についてのみ宣言できる。
+      - 最古の利用可能な記録と、真の生成起点は同一ではない。
+    pivot_seeds:
+      - 上流資料がないときは、保存率を評価せずobservation horizonとpre_ingress_unknownを固定する。
+    next_hypothesis: Origin Boundaryを先に宣言すれば、上流資料がない場合でも系譜保存の過大申告を防げる。
+  epistemic_remainder:
+    residuals:
+      - observation: 口頭、身体感覚、偶然の連想など文書化前の生成起点は、一次資料があっても完全には観測できない。
+        schema_limit: 現行のMotive Packet候補は言語化された記録を主な入力とする。
+        provenance: HI thinkingが利用できた今回でも、その会話を生んだ全経験は含まれない。
+        review_when: 非言語的な動機や当事者の追認を取り込む必要が生じたとき。
+    dissent:
+      - position: Origin Boundaryは独立ロールでなく、現行Handoffのprovenance拡張として実装すべきかもしれない。
+        holder: epistemic-lineage-steward
+        unresolved_because: 候補ロールと通常Handoffの比較運用をまだ行っていない。
+  next_step:
+    objective: 基準コミットa355fdbのAuditor定義により、新ロール候補と全ローカル差分を意味的に監査する。
+    constraints:
+      - 候補の@lin原則を批准基準とせず、監査対象またはadvisory evidenceとして扱う。
+      - docs/HI thinking/の生原稿は非公開の一次資料とし、SDKの正本にしない。
+      - 実証データの不足だけで仮説を棄却しない。
+      - 意味的監査とGitプッシュの運用判断を分離する。
+    expected_output:
+      - Counter-Factual Steelman Setup
+      - Dual-Stress Falsification Map
+      - Origin Boundaryとpre-ingress設計の評価
+      - Final Verdict as epistemic_recommendation
+      - IntegratorへのHandoff Contract
+    unresolved_questions:
+      - 独立ロール追加は、通常Handoff拡張よりも低い認知負荷で系譜断絶を検出できるか。
+      - Motivation TransitとParallel Run準備は一ロールに置いても権限過多にならないか。

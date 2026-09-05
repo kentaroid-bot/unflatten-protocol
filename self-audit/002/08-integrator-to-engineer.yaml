@@ -1,0 +1,143 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: engineer
+  reason: Auditorのrevise勧告を採用し、Epistemic Lineage Stewardをrootへ直接統合せず、v1 Stable Host内の三世代限定Guest Worldlineとして可逆に実装するため。
+  inquiry:
+    problem_tension: 全面採択と棄却の二択では、新ルールの自己適用を観測できないか、未批准ルールを正本へ混入させる。候補には隔離された実行可能性と有限の判断時点が必要である。
+    current_question: rootの安定版規則を維持しながら、修復済み@linを明示的にロードでき、三世代後にpromote、spin_out、archive、terminateを判断できる最小Host/Guest境界をどう実装するか。
+    distinct_dimensions:
+      - dimension: v1 Hostの運用主権とv2 Guestの内部評価文法を分離する。
+        significance: 旧ルールと新ルールの相互上書きを防ぐため。
+      - dimension: デフォルト選択とWorldlineの存在継続を分離する。
+        significance: 選ばれない仮説を知的に無価値とみなさないため。
+      - dimension: origin claimに証拠型と由来を持たせる。
+        significance: 観測資料を真の生成起点として捏造しないため。
+      - dimension: 三世代を完全な検証サイクルとして有限化する。
+        significance: 無期限Holdと分岐爆発を防ぐため。
+    flattening_risks:
+      - Guestをroot manifestの通常roleへ戻す。
+      - Worldlineを単なるGit branch名へ縮約する。
+      - generationをコミット数や修正回数で自動加算する。
+      - spin_outを敗北または非採択として記録する。
+  hypothesis:
+    statement: Worldline registry、隔離Guest manifest、明示loader、三世代状態機械を最小実装すれば、@lin候補を正本化せず実行検証できる。
+    core_claims:
+      - rootのprotocol、core roles、通常role registryはa355fdbの意味基準を維持する。
+      - "@linはGuest namespaceから明示的にロードされ、通常のrole一覧へ暗黙に混入しない。"
+      - Guestはadvisory_observation以外の権限を持たない。
+      - generationは完了したInnovator、Auditor、Integratorサイクルの記録によってのみ進む。
+      - generation 3到達時は自動昇格せず、Integrator reviewを要求する。
+      - 非通約な成熟枝は親commitと分岐理由を持つ新リポジトリ候補になれる。
+    mechanism: rootにworldline registry/schema/loaderだけを追加し、@linとその候補仕様はworldlines配下へ隔離する。状態遷移と世代上限を決定的テストで検証する。
+    assumptions:
+      - assumption: rootへHost機構を追加することは、Guestの認識規則をrootへ採択することとは異なる。
+        status: supported
+      - assumption: 一つの完全サイクルを世代単位として機械的に確認できる。
+        status: unknown
+    scope:
+      applies_to:
+        - worldline registryとschema
+        - Guest manifestと@lin role template
+        - SDKのlist、resolve、loadおよびgeneration transition
+        - CLIのworldline参照
+        - testsと利用説明
+        - Origin Boundaryの監査修復
+      does_not_apply_to:
+        - "@linのroot rolesへの正式登録"
+        - Motive Packet全体の正式Handoff schema化
+        - 自動GitHubリポジトリ作成
+        - 三世代の実run完了
+  hypothetical_world:
+    description: stable rootは複数Guestを名前空間で保持し、各Guestは三世代まで独自文法で実行される。成熟時には一つをデフォルトへ昇格するか、複数を由来付き新リポジトリへ分化できる。
+    consequences:
+      primary:
+        - 未批准の@linをroot roleと混同せず試せる。
+      secondary:
+        - 分岐の状態と親子関係をSDKで検証できる。
+      tertiary:
+        - 将来のprotocol familyを由来グラフとして交換できる。
+    opportunities:
+      - 外部プロジェクトでのGuest Worldline実験
+      - spin-out manifest
+  evaluation:
+    falsifiers:
+      - sdk.listRolesがGuest roleを通常roleとして返す。
+      - Guest loaderがroot外または宣言外assetを読み込む。
+      - generation 3を越えてactive状態へ遷移できる。
+      - originのinferred claimがauthor_confirmedとして通過する。
+      - spin_out関係が親commitなしで有効になる。
+    evidence:
+      supporting:
+        - Auditorは独立roleの固有機能と権限制限を確認した。
+        - 現行SDKはmanifest、role loader、schema検証、workflow transitionを持ち拡張点がある。
+      contradicting:
+        - 現在のlocal diffは@linをroot manifestへ直接登録している。
+        - Origin Boundaryの根拠型とpre-ingress語彙は未修復である。
+      unknown:
+        - 実run時の認知負荷
+        - 三世代後の選択基準
+    tests_completed:
+      - Auditor Dual-Stress Audit
+      - 現行SDKテスト19件
+    tests_remaining:
+      - Guest隔離テスト
+      - registry/schema境界テスト
+      - 世代上限とspin-out provenanceテスト
+      - 修復後の意味的再監査
+  decision:
+    status: revise
+    authority: operational_decision
+    decided_by: integrator
+    rationale: "@linのroot直接統合は採択せず、Auditorの二修復を適用したうえで三世代限定Guest WorldlineとしてLimited Connectionを実装する。これにより新規性の実行観測と旧正本による批准を分離する。"
+    preserved_dimensions:
+      - Generative Equivalence
+      - Origin Boundaryとorigin provenance
+      - 非通約な評価文法
+      - 三世代の有限孵化
+      - 非選択枝のspin-out可能性
+    rejected_claims:
+      - 現在の@linをroot通常roleとして直ちに公式化する。
+      - 三世代後に唯一の真理を選出する。
+      - 全Worldlineへ常時実行資源を与える。
+    revisions:
+      - root manifestから@lin通常role登録とrouteを外す。
+      - "@linをGuest Worldline namespaceへ移す。"
+      - Origin claimへbasisとprovenanceを追加する。
+      - pre_ingress_status語彙を統一する。
+      - 三世代registryと明示loaderを追加する。
+  pivot:
+    trigger: 全面採択判断が旧ルールによる平坦化と新ルールによる自己批准の間で循環する問題。
+    learned_structure:
+      - stable defaultとexperimental existenceは別の接続状態である。
+      - リポジトリ内孵化とリポジトリ間種分化を一つの系譜として扱える。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 三世代が成熟に十分かはまだ分からない。
+        schema_limit: generation countは知的成熟そのものを測定しない。
+        provenance: ユーザーの三世代孵化案とAuditor addendum。
+        review_when: Guestが第一世代を完了し、記録量と変形量を観測したとき。
+    dissent:
+      - position: Motivation TransitとParallel Run準備は将来別Guestへ分割すべき可能性がある。
+        holder: auditor
+        unresolved_because: 一回の自己適用しかなく、役割負荷を比較できない。
+  next_step:
+    objective: root安定版と@lin Guestを隔離する最小のNested Protocol Worldline機構を実装し、反証条件を自動テストする。
+    constraints:
+      - rootのcore role本文とdocs/protocol.mdを変更しない。
+      - Guest assetはregistryで宣言したroot配下からのみロードする。
+      - generation 3で必ずreview_requiredへ移る。
+      - spin_outは親repository、commit、worldline、divergence_reasonを必須にする。
+      - Git pushは再監査と最終Integrator判断まで行わない。
+    expected_output:
+      - worldline registryとschema
+      - 隔離された@lin Guest manifestとrole
+      - SDKとCLIの明示loader
+      - Origin Boundary修復
+      - 境界と反証条件のテスト
+      - EngineerからAuditorへのHandoff
+    unresolved_questions:
+      - Guest overlayを将来どこまで許可するか。
+      - 外部リポジトリへのspin-outを自動化するか。

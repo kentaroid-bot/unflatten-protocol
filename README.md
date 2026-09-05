@@ -101,6 +101,31 @@ npx unflatten roles
 npx unflatten role @aud
 ```
 
+## Experimental Protocol Worldlines
+
+未批准のプロトコル候補は、通常ロールへ混入させず、Stable Host内のGuest Worldlineとして明示的にロードできます。各Worldlineは最大3世代の完全な役割サイクル後にreviewを必要とし、`promote | spin_out | archive | terminate`をIntegratorが判断します。例外的な追加観測は`extend_once`で1回だけ許可できますが、第4世代は作りません。
+
+```js
+const unflatten = require('unflatten-protocol');
+
+unflatten.listWorldlines();
+const prompt = unflatten.composeWorldlineRolePrompt(
+  'epistemic-lineage-v2',
+  '@lin',
+  'このHandoffの動機通行を追跡する。'
+);
+```
+
+```sh
+npx unflatten worldlines
+npx unflatten worldline epistemic-lineage-v2
+npx unflatten worldline-role epistemic-lineage-v2 @lin
+```
+
+`@lin`（Epistemic Lineage Steward）は現在第1世代のGuestです。rootの`listRoles()`には表示されず、仮説の採否やParallel Runの開始・終了を決定しません。
+
+三世代後の`decideWorldline()`は、`authority: operational_decision`、`decided_by: integrator`、判断理由、証拠参照を必須とします。`extend_once`を選んだ場合も判断は上書きされず、最終判断と並ぶ最大2件の`review.decisions`として保存されます。静的検証はこの宣言構造を検査しますが、判断者の本人性や証拠の意味的品質までは証明しません。
+
 ## Validate a Handoff
 
 YAMLとJSONの両方を受け付けます。

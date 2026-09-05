@@ -21,6 +21,177 @@ test('loads every registered role', () => {
 test('resolves canonical and alternate aliases', () => {
   assert.equal(sdk.resolveRole('@ino').name, 'innovator');
   assert.equal(sdk.resolveRole('@out').name, 'exit-designer');
+  assert.throws(() => sdk.resolveRole('@lin'), /Unknown role/u);
+});
+
+test('loads lineage steward only through its guest worldline', () => {
+  const worldlines = sdk.listWorldlines();
+  assert.deepEqual(worldlines.map((entry) => entry.id), ['epistemic-lineage-v2']);
+  const role = sdk.resolveWorldlineRole('epistemic-lineage-v2', '@lin');
+  assert.equal(role.authority, 'advisory_observation');
+  const prompt = sdk.loadWorldlineRole('epistemic-lineage-v2', '@lin');
+  assert.match(prompt, /Generative Equivalence Is Not Semantic Equivalence/u);
+  assert.match(prompt, /Origin Boundary/u);
+  assert.match(prompt, /basis.*author_confirmed.*direct_record.*inferred.*unknown/u);
+  assert.match(prompt, /pre_ingress_status.*observed.*compressed.*unknown.*not_applicable/u);
+  assert.match(prompt, /decision\.authority.*advisory_observation/u);
+  assert.match(prompt, /Parallel Runを開始、延長、終了する権限/u);
+});
+
+test('composes a guest prompt without replacing the stable host protocol', () => {
+  const prompt = sdk.composeWorldlineRolePrompt(
+    'epistemic-lineage-v2',
+    '@lin',
+    '動機系譜を追跡する。'
+  );
+  assert.match(prompt, /# Stable Host Protocol/u);
+  assert.match(prompt, /# Guest Worldline Boundary/u);
+  assert.match(prompt, /Generation: 1\/3/u);
+  assert.match(prompt, /Authority: advisory_observation/u);
+});
+
+test('advances only complete generations and requires review at generation three', () => {
+  const initial = sdk.resolveWorldline('epistemic-lineage-v2');
+  delete initial.manifest;
+  delete initial.root;
+  assert.throws(
+    () => sdk.advanceWorldline(initial, { roles_completed: ['innovator'], evidence: ['partial'] }),
+    /requires innovator, auditor, and integrator/u
+  );
+  const second = sdk.advanceWorldline(initial, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    evidence: ['generation-2']
+  });
+  assert.equal(second.lineage_generation, 2);
+  assert.equal(second.status, 'active');
+  const third = sdk.advanceWorldline(second, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    evidence: ['generation-3']
+  });
+  assert.equal(third.lineage_generation, 3);
+  assert.equal(third.status, 'review_required');
+  assert.throws(
+    () => sdk.advanceWorldline(third, {
+      roles_completed: ['innovator', 'auditor', 'integrator'],
+      evidence: ['generation-4']
+    }),
+    /cannot advance|generation limit/u
+  );
+});
+
+test('spin-out preserves immutable parent provenance', () => {
+  const initial = sdk.resolveWorldline('epistemic-lineage-v2');
+  delete initial.manifest;
+  delete initial.root;
+  const second = sdk.advanceWorldline(initial, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    evidence: ['generation-2']
+  });
+  const third = sdk.advanceWorldline(second, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    evidence: ['generation-3']
+  });
+  assert.throws(
+    () => sdk.decideWorldline(third, 'spin_out', {}),
+    /Integrator operational_decision/u
+  );
+  const spunOut = sdk.decideWorldline(third, 'spin_out', {
+    authority: 'operational_decision',
+    decided_by: 'integrator',
+    rationale: '評価文法がstableと非通約なため独立させる。',
+    evidence: ['integrator-generation-3.yaml'],
+    repository: 'https://github.com/kentaroid-bot/epistemic-lineage-protocol',
+    divergence_reason: '評価文法がstableと非通約である。'
+  });
+  assert.equal(spunOut.status, 'spun_out');
+  assert.equal(spunOut.spin_out.parent_commit, initial.parent.commit);
+  assert.equal(spunOut.review.decisions.at(-1).outcome, 'spin_out');
+  assert.equal(sdk.validate('worldline', spunOut).valid, true);
+});
+
+test('allows one bounded review extension without creating generation four', () => {
+  const initial = sdk.resolveWorldline('epistemic-lineage-v2');
+  delete initial.manifest;
+  delete initial.root;
+  const second = sdk.advanceWorldline(initial, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    evidence: ['generation-2']
+  });
+  const third = sdk.advanceWorldline(second, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    evidence: ['generation-3']
+  });
+  assert.throws(() => sdk.decideWorldline(third, 'extend_once', {
+    authority: 'advisory_observation',
+    decided_by: 'epistemic-lineage-steward',
+    rationale: 'もっと観測したい。',
+    evidence: ['lineage-request.md']
+  }), /Integrator operational_decision/u);
+  const extended = sdk.decideWorldline(third, 'extend_once', {
+    authority: 'operational_decision',
+    decided_by: 'integrator',
+    rationale: '第三世代内で追加観測を一回だけ行う。',
+    evidence: ['integrator-extension.yaml']
+  });
+  assert.equal(extended.lineage_generation, 3);
+  assert.equal(extended.status, 'active');
+  assert.equal(extended.review.extensions_used, 1);
+  assert.throws(() => sdk.advanceWorldline(extended, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    evidence: ['not-generation-4']
+  }), /generation limit/u);
+  const reviewed = sdk.completeWorldlineExtension(extended, ['extended-observation']);
+  assert.equal(reviewed.status, 'review_required');
+  assert.equal(reviewed.lineage_generation, 3);
+  assert.equal(reviewed.review.decisions.length, 1);
+  assert.equal(reviewed.review.decisions[0].outcome, 'extend_once');
+  const archived = sdk.decideWorldline(reviewed, 'archive', {
+    authority: 'operational_decision',
+    decided_by: 'integrator',
+    rationale: '追加観測後も昇格条件を満たさないが、系譜価値を残す。',
+    evidence: ['integrator-final.yaml']
+  });
+  assert.deepEqual(archived.review.decisions.map((decision) => decision.outcome), ['extend_once', 'archive']);
+  assert.throws(() => sdk.decideWorldline(reviewed, 'extend_once', {
+    authority: 'operational_decision',
+    decided_by: 'integrator',
+    rationale: '二回目の延長。',
+    evidence: ['not-allowed.yaml']
+  }), /extension limit/u);
+});
+
+test('worldline schemas reject namespace escape and incomplete cycles', () => {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, 'worldlines/registry.json'), 'utf8'));
+  registry.worldlines.hostile = { manifest: '../outside.json' };
+  assert.equal(sdk.validate('worldline-registry', registry).valid, false);
+
+  const guest = sdk.resolveWorldline('epistemic-lineage-v2');
+  delete guest.manifest;
+  delete guest.root;
+  guest.roles['epistemic-lineage-steward'].template = '../auditor.md';
+  assert.equal(sdk.validate('worldline', guest).valid, false);
+  guest.roles['epistemic-lineage-steward'].template = 'epistemic-lineage-steward.md';
+  guest.generation_records[0].roles_completed = ['innovator', 'auditor'];
+  assert.equal(sdk.validate('worldline', guest).valid, false);
+
+  const premature = sdk.resolveWorldline('epistemic-lineage-v2');
+  delete premature.manifest;
+  delete premature.root;
+  premature.status = 'promoted';
+  assert.equal(sdk.validate('worldline', premature).valid, false);
+
+  const validGuest = sdk.resolveWorldline('epistemic-lineage-v2');
+  delete validGuest.manifest;
+  delete validGuest.root;
+  const third = sdk.advanceWorldline(sdk.advanceWorldline(validGuest, {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    evidence: ['generation-2']
+  }), {
+    roles_completed: ['innovator', 'auditor', 'integrator'],
+    evidence: ['generation-3']
+  });
+  third.status = 'promoted';
+  assert.equal(sdk.validate('worldline', third).valid, false);
 });
 
 test('validates the canonical YAML handoff fixture', () => {
@@ -38,7 +209,8 @@ test('validates the protocol manifest and every registered path exists', () => {
     sdk.manifest.handoff,
     ...Object.values(sdk.manifest.roles).map((role) => role.template),
     ...Object.values(sdk.manifest.engines),
-    ...Object.values(sdk.manifest.schemas)
+    ...Object.values(sdk.manifest.schemas),
+    sdk.manifest.worldlines
   ];
   for (const relativePath of paths) {
     assert.equal(fs.existsSync(path.join(ROOT, relativePath)), true, relativePath);

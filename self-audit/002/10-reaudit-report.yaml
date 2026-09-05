@@ -1,0 +1,209 @@
+audit_target:
+  hypothesis: Stable Host内の隔離Guest Worldlineと三世代状態機械により、@lin候補をroot正本化せず実行し、有限の審査後に昇格・分岐・保存・終了を選べる。
+  core_premises:
+    - rootのprotocol、core roles、通常role registryはGuestの認識規則に置換されない。
+    - "@linはGuest namespaceから明示的にロードされ、advisory_observation以外の権限を持たない。"
+    - generationはInnovator、Auditor、Integratorの完全サイクルと由来記録によってのみ進む。
+    - generation 3で自動昇格せず、Integrator reviewを要求する。
+    - 非通約な成熟枝は、親commitと分岐理由を保持してspin-outできる。
+  mechanism: rootにはregistry、schema、隔離loader、状態遷移だけを置き、Guest固有roleと評価文法はworldlines配下に置く。三世代後のreview outcomeはSDKで記録する。
+  distinct_dimensions:
+    - Stable Hostの主権とGuestの内部評価文法の分離
+    - デフォルト選択とWorldlineの存在継続の分離
+    - 世代を修正回数ではなく完全な役割サイクルとして数えること
+    - Origin Boundaryの証拠型と観測限界
+    - 複数の成熟枝が親子関係を失わず種分化できること
+steelman_setup:
+  - 全Guestは固有の成功・失敗信号を持ち、Hostと共有するのは安全・権限・資源・review境界だけである。
+  - 利用者はSDKの返す状態を自動的な真理認定と誤解せず、各世代で実際に三役の成果物を作る。
+  - 三世代は普遍的成熟尺度ではなく、判断を無期限に延期しないための有限な孵化窓として使われる。
+  - 非通約な枝を単一KPIで比較せず、複数spin-outも正規の結果として扱う。
+  - Hostの通常role loaderとGuest loaderは明示的に分かれ、Guest assetは宣言されたnamespace内だけから読まれる。
+dual_stress:
+  logical_systemic:
+    - test: Stable Hostの主権がGuestによって置換されるか
+      result: rootのrole registryとworkflow routeに@linはなく、通常のresolveRole('@lin')は失敗する。Guest promptはStable Host Protocolを先にロードし、Guestのauthorityをadvisory_observationに固定する。直接的な自己批准は確認されない。
+      falsifier: Guest roleがroot listRolesへ現れるか、Guest manifestがroot protocolまたはcore roleを上書きできる。
+    - test: Guest namespaceからのasset escape
+      result: registry pathとrole templateはschemaで限定され、safeResolveは絶対path、親directory、namespace root自身を拒む。テストは../によるescapeを拒否する。
+      falsifier: registryまたはGuest templateから宣言namespace外のファイルをロードできる。
+    - test: 三世代境界と無期限Hold
+      result: generation_limitは3に固定され、generation 3でreview_requiredとなる。extend_onceは世代を4へ進めず、一回の追加観測後に再びreview_requiredへ戻る。
+      falsifier: generation 4を生成できるか、extensionを複数回開始できるか、generation 3のactive状態を通常運用として維持できる。
+    - test: 世代完了の証拠性
+      result: roles_completedの完全集合と非空evidenceは構造検証されるが、evidenceは任意文字列であり、その内容が実際の三役成果物かは検証されない。実装報告はこの限界を明示しているため、静的証明の過大申告ではない。
+      falsifier: 存在しない参照や単なる文字列だけで公式generationを更新し、それを意味的審査完了の証明として扱う。
+    - test: 最終reviewの権限系譜
+      result: READMEとGuest shared boundaryはIntegrator判断を要求するが、decideWorldline APIはdecision authority、decided_by、判断根拠またはevidenceを入力・保存せず、任意の呼出者がpromote等のterminal stateを構築できる。文書上の主権が状態データへ通行していない。
+      falsifier: Integratorのoperational_decision記録なしにpromoted、spun_out、archived、terminatedが有効になる。
+    - test: spin-outの親子由来
+      result: spun_outには新repository、親repository、親commit、親worldline、divergence_reasonが必須であり、SDKはGuestのimmutable parentを転記する。
+      falsifier: 親commitまたは分岐理由なしのspin_outがschemaを通過する。
+  cognitive_physical:
+    - test: Cognitive Bandwidth Exhaustion
+      result: root通常作業ではGuestが暗黙起動しないため負荷は隔離される。ただし各世代の完全サイクルと由来記録が形式的儀式になる可能性は、実runなしには解消しない。
+      falsifier: 利用者が三役を実行せずroles_completedだけを埋める運用が反復する。
+    - test: Branch proliferation
+      result: 三世代reviewとterminal outcomeは無制限な枝の常時稼働を抑える。一方、registry全体のGuest数・資源budgetはまだ制限されず、多数の第一世代リポジトリを作る際の選択負荷は未設計である。
+      falsifier: dormantまたは低信号Guestが増え続け、review自体が実行不能になる。
+    - test: The Sterile Logic Vibe
+      result: Worldlineは不採択枝の存在を認め、唯一の正解を強制しないため、未知へ挑戦し続ける動機と両立する。ただし世代数を成熟スコアとして使うと、遊びがチェックリストへ変わる。
+      falsifier: generation 3到達だけを成熟・価値・真理の代理指標として運用する。
+    - test: Physical latency and safety
+      result: Guest shared boundaryは安全停止を系譜保存より優先し、@linに運用判断権を与えない。今回のSDKは外部操作を自動実行しないため、物理的raceを直接増やさない。
+      falsifier: review待ちまたは系譜保存を理由に安全停止や外部操作の中止が遅れる。
+evidence_and_noise:
+  supporting:
+    - rootのresolveRole('@lin')は失敗し、Guest専用loaderだけが@linを解決する。
+    - schemaとSDKテストはnamespace escape、generation 4、不完全なroles_completed、早期promotion、由来なしspin-outを拒否する。
+    - Origin Boundaryはdocumented_source、origin_claim、basis、provenance、observation_horizon、統一pre_ingress_statusへ修復された。
+    - npm dry-runはローカル原資料docs/HI thinkingを配布物へ含めない。
+    - 実装報告は静的検証が意味的審査を証明しないことをResidualとして保持した。
+  contradicting:
+    - terminal outcomeの状態にはIntegratorのoperational_decisionと根拠が保存されない。
+  unknown:
+    - 実際の第二・第三世代で三役サイクルが空文化する頻度
+    - 三世代という孵化窓の認知的妥当性
+    - 多数Guestを持つHostのreview負荷と資源配分
+  noise_signals:
+    - decideWorldlineという強いAPI名が、単なる状態変換を正当な主権判断として見せる。
+    - roles_completedの三語を揃えるだけで世代が進むため、儀式的合格印へ変わる圧力がある。
+findings:
+  - classification: revisable_defect
+    finding: 最終reviewのIntegrator主権が文書にしか存在せず、terminal outcomeへ判断者、authority、根拠、evidenceが保存されない。
+    rationale: Host／Guest分離や三世代という中核を変えず、review decision recordを必須化し、Integratorのoperational_decisionだけを受け付ければ修復できる。現状のままでは新ルールの自己批准を防ぐ境界に穴がある。
+  - classification: unresolved_uncertainty
+    finding: generation evidenceの意味的真正性は静的検証できない。
+    rationale: 任意文字列を証拠参照として受け付けるため完全サイクルを暗号学的・意味的には証明しない。ただし実装はこれを明示し、公式manifest変更をGit reviewへ残すため、Limited Connectionを直ちに自壊させる矛盾ではない。
+  - classification: unresolved_uncertainty
+    finding: Guest数と三世代reviewの人間側負荷は未観測である。
+    rationale: 今回はGuest一つだけであり、分岐増加時の認知帯域と資源budgetを評価できない。
+repair_boundary:
+  - "terminal outcomeを生成する際、authority: operational_decision、decided_by: integrator、非空rationale、非空evidenceを持つreview.decisionを必須にする。"
+  - APIを単なる無主体のdecideWorldlineとして見せず、Integrator decisionを記録する操作であることを引数とドキュメントに表す。
+  - extend_onceにも同じreview decision recordを要求し、追加観測の理由を残す。
+  - generation evidenceの意味的証明は今回の修復へ混入させず、実runで空文化が観測された場合にworkflow-run digest連携を再検討する。
+  - 修復後も三世代上限、Guest隔離、複数spin-out、Guest固有評価文法を維持する。
+pivot_seeds: []
+final_verdict: revise
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: Host／Guest機構に致命的矛盾はないが、三世代後のIntegrator主権が状態データへ記録されない修正可能な欠陥を確認したため。
+  inquiry:
+    problem_tension: 新ルールの自己批准を避けるためにIntegrator reviewを設けたが、判断主体と根拠を保存しなければ、API呼出し自体が批准の代替になってしまう。
+    current_question: terminal outcomeへIntegratorのoperational decision recordを必須化したうえでLimited Connectionを公式化するか。
+    distinct_dimensions:
+      - dimension: Stable Hostの主権とGuestの内部評価文法を分離する。
+        significance: Guestに自己批准させず、HostにもGuest内部の価値尺度を上書きさせないため。
+      - dimension: 三世代後の判断を主体・根拠・由来付きで保存する。
+        significance: 状態遷移と正当な運用判断を混同しないため。
+      - dimension: 複数の成熟枝を敗者扱いせずspin-out可能にする。
+        significance: 非通約な世界線の存在継続を守るため。
+    flattening_risks:
+      - 権限欠落を理由にWorldline構想全体を棄却する。
+      - Integrator記録を単なるboolean承認へ縮約する。
+      - 静的証拠限界を隠すため重い完全自動証明を早期導入する。
+  hypothesis:
+    statement: review decision recordを必須化すれば、Guestの自己批准を防ぎつつ三世代Worldline機構を限定接続できる。
+    core_claims:
+      - "@linは明示Guest loaderからのみ利用できる。"
+      - Guest固有評価文法はroot通常roleを置換しない。
+      - generation 3でreviewを要求し、第4世代を作らない。
+      - terminal outcomeはIntegratorのoperational decisionとして由来付きで記録する。
+      - 複数の成熟枝は親commitと分岐理由を持ってspin-outできる。
+    mechanism: worldline review schemaとSDK transitionへdecision recordを追加し、authority、decided_by、rationale、evidenceを検証する。
+    assumptions:
+      - assumption: review decision recordの追加はWorldlineの中核を変えず、既存の権限境界を実装へ通行させる。
+        status: supported
+      - assumption: generation evidenceの意味的真正性は実runとGit reviewで当面補える。
+        status: unknown
+    scope:
+      applies_to:
+        - schema/worldline.schema.json
+        - validator/worldlines.js
+        - test/sdk.test.js
+        - README.md
+      does_not_apply_to:
+        - generation evidenceの暗号学的証明
+        - 実際の第二・第三世代run
+        - 自動GitHubリポジトリ作成
+  hypothetical_world:
+    description: 各Guestは三世代を走り、最終状態と一回の延長はIntegratorの理由付き運用判断として保存される。非通約な複数枝は親commitを持つ別リポジトリへ分化できる。
+    consequences:
+      primary:
+        - Guest manifestだけの自己採択を防ぐ。
+      secondary:
+        - 後から誰がどの根拠で昇格・分岐・保存・終了したか監査できる。
+      tertiary:
+        - protocol family全体の判断系譜を比較できる。
+    opportunities:
+      - 将来の署名付きdecision record
+  evaluation:
+    falsifiers:
+      - operational_decisionなしでterminal outcomeまたはextend_onceが有効になる。
+      - 修復によってGuest固有評価文法や複数spin-out可能性が失われる。
+      - generation 4を作れる。
+    evidence:
+      supporting:
+        - Host／Guest隔離、三世代上限、Origin Boundary、spin-out provenanceの実装とテストは成功している。
+      contradicting:
+        - 現状のterminal outcomeは判断主体と根拠を保存しない。
+      unknown:
+        - 実run時のgeneration evidence品質
+        - 多数Guestの認知負荷
+    tests_completed:
+      - Counter-Factual Steelman
+      - Logical／SystemicとCognitive／PhysicalのDual-Stress Audit
+      - SDKテスト24件とnpm配布境界確認
+    tests_remaining:
+      - review decision record修復後の回帰テスト
+      - 最終Integrator判断
+  decision:
+    status: revise
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: Worldline構想と隔離実装は維持可能で致命的矛盾はない。一方、最終reviewの主権が状態データへ保存されない欠陥は自己批准防止という中核に触れるため、限定修復後の接続を推奨する。
+    preserved_dimensions:
+      - Stable Host／Guest分離
+      - 三世代の有限孵化
+      - 複数spin-out
+      - Origin provenance
+      - 非通約な評価文法
+    rejected_claims:
+      - 現在のdecideWorldline呼出しだけでIntegrator reviewを記録できる。
+      - 静的schemaが意味的審査の実施を証明する。
+    revisions:
+      - review decision recordをterminal outcomeとextend_onceへ必須化する。
+      - authority、decided_by、rationale、evidenceを保存・検証する。
+  pivot:
+    trigger: ""
+    learned_structure:
+      - 権限の文書化と、判断由来の状態への通行は別の要件である。
+      - 有限世代は自動的な正当性ではなく、判断を要求する割込み点である。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 三世代は判断時点を作るが、成熟そのものを測定しない。
+        schema_limit: generation countは知的変形の質や人間の納得を表現しない。
+        provenance: ユーザーの三世代案と今回のDual-Stress Audit。
+        review_when: 第二・第三世代の実runが完了したとき。
+    dissent:
+      - position: generation advancementにも検証済みworkflow-run digestを直ちに必須化すべきである。
+        holder: auditor
+        unresolved_because: 最小実験の認知負荷を増やし、実run前に証拠形式を固定する可能性がある。
+  next_step:
+    objective: Auditorの限定修復を採否判断し、採用する場合はreview decision recordを実装して最終検証する。
+    constraints:
+      - Guestをroot通常roleへ昇格しない。
+      - generation evidenceの意味的限界を明示し続ける。
+      - docs/HI thinkingをGitまたはnpmへ含めない。
+      - generation 4を導入しない。
+    expected_output:
+      - operational decision
+      - 採用する修復境界
+      - 最終接続または保留の判断
+    unresolved_questions:
+      - review decision evidenceをHandoff参照に限定するか、一般URIも許すか。

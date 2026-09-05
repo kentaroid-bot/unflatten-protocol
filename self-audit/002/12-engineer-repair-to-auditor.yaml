@@ -1,0 +1,123 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: engineer
+  to_role: auditor
+  reason: Integratorが採用したreview decision history修復を実装し、回帰検証が完了したため。
+  inquiry:
+    problem_tension: 無主体の状態遷移がIntegrator reviewを装える欠陥を、判断変形の系譜を失わず修復する必要がある。
+    current_question: 修復後のSDKは、Integrator判断なしの終端・延長と履歴上書きを拒否できるか。
+    distinct_dimensions:
+      - dimension: 状態遷移と運用判断の由来を分離する。
+        significance: SDK呼出しを主権判断と誤認しないため。
+      - dimension: 延長判断と最終判断を別レコードで保存する。
+        significance: 判断が変化した理由を失わないため。
+      - dimension: 第四世代を作らず第三世代内の追加観測として扱う。
+        significance: 三世代という有限境界を保つため。
+    flattening_risks:
+      - decision historyを最終状態だけへ圧縮する。
+      - 静的なdecided_byを本人性証明とみなす。
+      - テスト成功をWorldline仮説の成立とみなす。
+  hypothesis:
+    statement: 最大二件のreview.decisionsとstatus整合性検証により、無主体判断と履歴上書きを拒否できる。
+    core_claims:
+      - terminal outcomeとextend_onceはIntegrator operational decisionを必須とする。
+      - 一回の延長と最終判断を追記履歴で保存する。
+      - generation 4を作らない。
+      - Guest隔離と複数spin-out可能性を維持する。
+    mechanism: schemaへdecision recordを追加し、SDKが入力を正規化して追記する。custom invariantがextension count、terminal order、statusとlast outcomeの一致を検証する。
+    assumptions:
+      - assumption: 最大二件は一回の延長と一回の最終判断を表現する。
+        status: supported
+      - assumption: 静的decision recordは判断者本人を証明する。
+        status: contradicted
+    scope:
+      applies_to:
+        - worldline schema
+        - worldline SDK transition
+        - Guest初期manifest
+        - SDK tests
+        - README
+      does_not_apply_to:
+        - 暗号学的本人確認
+        - generation evidenceの意味監査自動化
+        - 実際の第二・第三世代run
+  hypothetical_world:
+    description: 三世代後の延長・昇格・分岐・保存・終了は理由と証拠を持つIntegrator判断として追記され、追加観測後も最初の判断が残る。
+    consequences:
+      primary:
+        - 無主体の終端状態が無効になる。
+      secondary:
+        - 延長前後の判断変形を監査できる。
+      tertiary:
+        - spin-out先へ判断系譜も継承できる。
+    opportunities:
+      - 将来の署名付き判断
+  evaluation:
+    falsifiers:
+      - decision recordなしでterminal outcomeまたはextend_onceが成功する。
+      - extension後の最終判断が延長判断を上書きする。
+      - terminal statusとlast outcomeが不一致でも有効になる。
+      - generation 4を生成できる。
+    evidence:
+      supporting:
+        - authorityまたはdecided_byが不正なextend_onceをテストで拒否した。
+        - spin_outはIntegrator decision recordと親由来を同時に保持する。
+        - extend_onceとarchiveの二判断が順序付きで残る。
+        - decisionなしのpromoted raw manifestをschemaと不変条件が拒否する。
+        - SDKテスト24件、Guest manifest検証、npm pack dry-run、git diff checkが成功した。
+      contradicting: []
+      unknown:
+        - declared integratorの本人性
+        - evidence参照の意味的品質
+        - 実run時の認知負荷
+    tests_completed:
+      - npm test 24件
+      - worldline manifest validation
+      - npm pack --dry-run
+      - git diff --check
+    tests_remaining:
+      - Auditorによる限定修復の再確認
+      - 実際の第二・第三世代run
+  decision:
+    status: advance
+    authority: implementation_report
+    decided_by: engineer
+    rationale: 採用された修復境界を実装し、指定された反証条件を決定的テストで拒否した。これは実装報告であり、公式接続の判断ではない。
+    preserved_dimensions:
+      - Stable Host／Guest分離
+      - 三世代の有限孵化
+      - 判断変形の系譜
+      - 複数spin-out
+      - 静的検証の意味的限界
+    rejected_claims:
+      - review.decisionsが本人性や証拠品質まで保証する。
+    revisions:
+      - review.decisionsを最大二件の追記履歴として追加した。
+      - terminal statusとlast outcomeの整合性を不変条件にした。
+  pivot:
+    trigger: ""
+    learned_structure: []
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 静的なdecision recordは判断の宣言系譜を保存するが、判断主体の本人性は証明しない。
+        schema_limit: JSON schemaとローカルSDKは署名または外部identityを検証しない。
+        provenance: Auditor findingとEngineer修復テスト。
+        review_when: 無人自動化が公式manifestを更新する要件が現れたとき。
+    dissent:
+      - position: generation evidenceをworkflow-run digestへ直ちに限定すべきである。
+        holder: auditor
+        unresolved_because: 実run前に証拠形式を固定しないというIntegrator判断が維持されている。
+  next_step:
+    objective: 限定修復がAuditor findingを閉じ、中核を損なっていないか確認して最終Integratorへ勧告する。
+    constraints:
+      - 静的検証を意味的証明とみなさない。
+      - docs/HI thinkingをGitまたはnpmへ含めない。
+      - generation 4を導入しない。
+    expected_output:
+      - 修復findingのclosedまたはopen判定
+      - epistemic recommendation
+      - 最終Integrator Handoff
+    unresolved_questions:
+      - 本人性検証を導入する運用trigger。

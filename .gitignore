@@ -1,3 +1,7 @@
 node_modules/
 *.tgz
 .DS_Store
+
+# Local source material used to reconstruct the motive behind Issue proposals.
+# Its curated lineage is recorded under self-audit/; the raw drafts are not SDK canon.
+/docs/HI thinking/

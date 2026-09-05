@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unflatten.dev/schema/worldline-registry.schema.json",
+  "title": "Unflatten Protocol Worldline Registry",
+  "type": "object",
+  "required": ["host", "worldlines"],
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "host": {
+      "type": "object",
+      "required": ["protocol_id", "protocol_version", "baseline_commit"],
+      "properties": {
+        "protocol_id": { "const": "unflatten-protocol" },
+        "protocol_version": { "type": "string", "minLength": 1 },
+        "baseline_commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
+      },
+      "additionalProperties": false
+    },
+    "worldlines": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["manifest"],
+        "properties": {
+          "manifest": {
+            "type": "string",
+            "pattern": "^worldlines/[A-Za-z0-9._-]+/manifest\\.json$"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

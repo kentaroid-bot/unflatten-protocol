@@ -9,6 +9,7 @@ const { detectFlattening } = require('./rules/detect-flattening');
 const { measureSharpness } = require('./rules/measure-sharpness');
 const { checkInvariants } = require('./rules/check-invariants');
 const { createWorkflowTools } = require('./workflow');
+const { checkWorldlineInvariants, createWorldlineTools } = require('./worldlines');
 
 const ROOT = path.resolve(__dirname, '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest.json'), 'utf8'));
@@ -89,7 +90,11 @@ function validate(schemaName, input) {
 
   const validator = buildValidator(schemaName);
   const schemaValid = validator(value);
-  const findings = schemaName === 'handoff' ? checkInvariants(value) : [];
+  const findings = schemaName === 'handoff'
+    ? checkInvariants(value)
+    : schemaName === 'worldline'
+      ? checkWorldlineInvariants(value)
+      : [];
   const nestedValidation = schemaName === 'audit-report' && schemaValid && value?.handoff
     ? validate('handoff', { handoff: value.handoff })
     : null;
@@ -157,6 +162,14 @@ const workflow = createWorkflowTools({
   parseInput
 });
 
+const worldlines = createWorldlineTools({
+  root: ROOT,
+  manifest,
+  validate,
+  parseInput,
+  loadProtocol
+});
+
 module.exports = {
   manifest,
   listRoles,
@@ -169,6 +182,14 @@ module.exports = {
   inspectArtifact,
   createAuditPrompt,
   auditArtifact,
+  listWorldlines: worldlines.listWorldlines,
+  resolveWorldline: worldlines.resolveWorldline,
+  resolveWorldlineRole: worldlines.resolveWorldlineRole,
+  loadWorldlineRole: worldlines.loadWorldlineRole,
+  composeWorldlineRolePrompt: worldlines.composeWorldlineRolePrompt,
+  advanceWorldline: worldlines.advanceWorldline,
+  decideWorldline: worldlines.decideWorldline,
+  completeWorldlineExtension: worldlines.completeWorldlineExtension,
   digest: workflow.digest,
   mergeHandoff: workflow.mergeHandoff,
   validateTransitionHandoff: workflow.validateTransitionHandoff,

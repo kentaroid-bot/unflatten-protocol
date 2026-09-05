@@ -1,0 +1,58 @@
+{
+  "$schema": "../../schema/worldline.schema.json",
+  "id": "epistemic-lineage-v2",
+  "kind": "guest_worldline",
+  "status": "active",
+  "lineage_generation": 1,
+  "generation_limit": 3,
+  "parent": {
+    "repository": "https://github.com/kentaroid-bot/unflatten-protocol",
+    "commit": "a355fdba8fa09166b639ec79e1501ddab1fe17e1",
+    "worldline": "stable-root",
+    "relation": "guest_of"
+  },
+  "roles": {
+    "epistemic-lineage-steward": {
+      "alias": "@lin",
+      "template": "epistemic-lineage-steward.md",
+      "authority": "advisory_observation"
+    }
+  },
+  "evaluation_grammar": {
+    "success_signals": [
+      "新しい区別と生成関係を由来付きで保持する",
+      "観測上の起点を真の生成起点と誤認しない",
+      "非通約なWorldlineを共通KPIなしで有限に並走準備する"
+    ],
+    "failure_signals": [
+      "隠れた動機を事実として捏造する",
+      "正当なPivotを原点への裏切りとして差し戻す",
+      "系譜分類が運用上の採否を決定する"
+    ]
+  },
+  "shared_boundaries": [
+    "証拠を捏造しない",
+    "反証済みの結論を動機保存の名で延命しない",
+    "安全上の停止を系譜保存より優先する",
+    "Parallel Runの開始と終了はIntegratorへ留保する"
+  ],
+  "generation_records": [
+    {
+      "generation": 1,
+      "status": "completed",
+      "roles_completed": ["innovator", "auditor", "integrator"],
+      "evidence": [
+        "self-audit/002/03-lineage-response.md",
+        "self-audit/002/06-audit-report.yaml",
+        "self-audit/002/08-integrator-to-engineer.yaml"
+      ]
+    }
+  ],
+  "review": {
+    "required_at_generation": 3,
+    "allowed_outcomes": ["promote", "spin_out", "archive", "terminate", "extend_once"],
+    "extensions_used": 0,
+    "max_extensions": 1,
+    "decisions": []
+  }
+}

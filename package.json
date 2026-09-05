@@ -13,10 +13,12 @@
     "File-hierarchy.md",
     "README.md",
     "manifest.json",
-    "docs",
+    "docs/*.md",
+    "docs/agent-roles",
     "prompt-templates",
     "schema",
-    "validator"
+    "validator",
+    "worldlines"
   ],
   "scripts": {
     "test": "node --test",

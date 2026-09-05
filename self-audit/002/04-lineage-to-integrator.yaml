@@ -1,0 +1,142 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: epistemic-lineage-steward
+  to_role: integrator
+  reason: Innovatorの二提案を生成系譜として接続し、Schema化と比較runの採択判断へ渡すため。
+  motivation:
+    original_question: AIに求めるのは最大公約数探しか、それともメタ世界に新しい言語の組み合わせを生み出すことか。
+    generative_tension: 局所的に正しい役割出力が連鎖全体では異質な対立を最大公約数へ変え、手続き違反なしに知的生産を失わせる。
+    source_fragments:
+      - 1(1+1)は値ではなく構成過程を保持する。
+      - ニュートンからアインシュタインへの変化は既存語の内部関係を組み替える。
+      - 柔道とアイススケートには単一の外部審判席がない。
+      - 水素エンジンへの応戦を避けハイブリッド車へ退避すると知的温度が失われる。
+      - AIとの関係を既存ルールの習得ではなく、自分で勝利条件を作るゲームとして扱う。
+      - 効率化の外部報酬より、未知への挑戦を楽しみ、最後までやりたがる側でいる。
+    desired_difference: 異質な仮過去と評価文法を人間とAIが内部から走らせ、現実になかった概念関係を生成し、失敗を材料にルール自体を作り直し続ける。
+    origin_boundary:
+      documented_source: docs/HI thinking/のユーザー作成によるIssue準備記録。
+      origin_claim: HI thinkingは今回のIssueの直接的な上流資料である。
+      basis: author_confirmed
+      provenance: ユーザーが本タスク上で作成目的を確認した。
+      declared_origin: GitHub Issueの@ino提案。
+      observation_horizon: 文書化されたHI thinkingから現在の役割フローまで。
+      pre_ingress_status: compressed
+  inquiry:
+    problem_tension: 現行Handoffは現在のproblem tensionを記録するが、原問と生成関係を再要約されない起点として分離せず、比較不能な評価文法の並走構造も持たない。
+    current_question: Motive Packet、Evaluation Grammar、Parallel Run Contractのどこまでを次のSDK改訂として採択するか。
+    distinct_dimensions:
+      - dimension: Semantic EquivalenceとGenerative Equivalenceを区別する。
+        significance: 結論が同じでも将来分岐が失われる平坦化を検出するため。
+      - dimension: 比較不能な評価文法を共通KPIなしで有限に並走させる。
+        significance: 評価基準そのものの革新を既存審判席へ従属させないため。
+    flattening_risks:
+      - Motive Packetを原文保存欄または文字列類似度へ縮約する。
+      - Issueを真の生成起点とみなし、観測開始前の圧縮や欠落可能性を消去する。
+      - Parallel Runを無期限Holdへ変える。
+      - 生存を市場採用率や資源量と同一視する。
+  hypothesis:
+    statement: Motive Packetを入力面、有限Parallel Runを実行面とするEpistemic Lineage層は、役割横断の動機喪失と評価文法の早期統合を同じ系譜機構で防げる。
+    core_claims:
+      - 動機は固定せず、変形前後と根拠を追跡する。
+      - 隣接Handoff単位でLineage Breakを検出する。
+      - 非可換な評価文法を外部共通尺度で競わせない。
+      - "@linは観測と契約案だけを出し運用判断しない。"
+    mechanism: 起点Motive Packet、隣接Transit分類、Evaluation Grammar Map、event budget付きParallel Run Draftを生成しIntegratorへ渡す。
+    assumptions:
+      - assumption: 生成関係は原問、source fragments、desired difference、変形履歴で実用上十分に表現できる。
+        status: unknown
+      - assumption: 3入力×3遷移の比較runで初期のLineage Breakを観測できる。
+        status: unknown
+    scope:
+      applies_to:
+        - 複数ロールを跨ぐ尖った仮説
+        - Audit Meshの経路異質性
+      does_not_apply_to:
+        - 仮説の最終採否
+        - Parallel Runの開始・終了決定
+  hypothetical_world:
+    description: 仮説はMotive Packetと評価文法を持つWorldlineとして通行し、比較不能な体系は共有安全境界だけを接続して有限に並走する。
+    consequences:
+      primary:
+        - 役割間の静かな動機変質を隣接点で発見できる。
+      secondary:
+        - Audit Meshの異質性をprovider数でなく生成系譜として記録できる。
+      tertiary:
+        - 新しい評価基準が既存KPIで早期淘汰される前に独自の知的生産を示せる。
+    opportunities:
+      - Motive Packet schema
+      - Parallel Run Contract schema
+      - 役割連鎖のgolden lineage fixture
+      - Counterfactual History InjectorをWorldline生成器として接続する。
+  evaluation:
+    falsifiers:
+      - Motive Packetが原文再掲の儀式になり、Lineage Break検出へ使われない。
+      - 観測可能な最古の入力を生成起点と誤認し、それ以前の動機を保存済みと判定する。
+      - Parallel Runが停止条件のない先送りになる。
+      - 同一の外部スコアでWorldlineを順位付けする。
+      - "@linが採択または勝者を決定する。"
+    evidence:
+      supporting:
+        - Innovatorのsource fragmentsを失わず一つの生成関係としてMotive Packetへ変換できた。
+        - Composition-Preserving DiscoveryとOutcome-Compressing Coordinationを、最終価値では非比較、境界では接続可能と分離した。
+        - 3入力×3遷移、延長1回までのParallel Run Draftを作成した。
+        - 別稿のCounterfactual History Injector、Serializer、Semantic Remapping、MEEを生成・通行・内部変形・並走の四層へ分離した。
+      contradicting: []
+      unknown:
+        - 実runでの認知負荷
+        - Generative Equivalenceの意味監査に必要な複数経路
+    tests_completed:
+      - "@linによるInnovator提案の初回Transit分析"
+      - role load、alias、withheld authorityの自動テスト
+    tests_remaining:
+      - Auditorによる新ロールとContract DraftのDual-Stress Audit
+      - AuditorによるOrigin Boundaryとpre-ingress誤認の検査
+      - 3入力×3遷移の比較run
+  decision:
+    status: not_evaluated
+    authority: advisory_observation
+    decided_by: epistemic-lineage-steward
+    rationale: 系譜観測とParallel Run候補を提出するが、Schema化、実装、run開始の運用判断はIntegratorへ留保する。
+    preserved_dimensions:
+      - 構成過程としての動機
+      - 非可換な評価文法
+      - 有限で非多数決のParallel Run
+    rejected_claims:
+      - provider名の差だけで監査異質性を証明できる。
+      - 外部生存が知的価値を自動的に決定する。
+      - 単一MEEが全Worldlineの優位性と認識論的shiftを決定する。
+      - 署名なしhash chainが悪意ある全履歴再生成を防ぐ。
+    revisions:
+      - 生存をexternal persistenceとinternal generativityへ分離した。
+  pivot:
+    trigger: ""
+    learned_structure:
+      - Proposal 1と2は生成系譜層の入力面と実行面である。
+      - 最終価値で非比較でも共有安全境界では接続できる。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 生成系譜の異質性に十分な判定条件はまだない。
+        schema_limit: 静的digestは起点同一性を示せるが、生成関係の意味的独立性を証明しない。
+        provenance: Audit Meshの異質性Residualと@lin初回適用。
+        review_when: 複数Worldlineによる比較runの結果が得られたとき。
+    dissent:
+      - position: Motivation TransitとParallel Run準備は別ロールへ分割すべき可能性がある。
+        holder: Meta-Protocol Designer
+        unresolved_because: 初回適用では共通の生成系譜機構として扱えたが、反復時の認知負荷は未観測である。
+      - position: 生存は知的価値ではなく権力と資源を選ぶ可能性がある。
+        holder: Integrator
+        unresolved_because: internal generativityの観測基準はWorldlineごとに未検証である。
+  next_step:
+    objective: 新ロールをAuditorへ渡すか、Motive PacketとParallel Run ContractのSchema設計を限定採択するか判断する。
+    constraints:
+      - "@linへ運用権限を追加しない。"
+      - 文字列類似度や単一スコアを最終審判にしない。
+      - Parallel Runを無期限にしない。
+    expected_output:
+      - operational decision
+      - AuditorまたはEngineerへのHandoff
+    unresolved_questions:
+      - 新ロールを先に監査するか、最小Schema prototypeと同時に監査するか。

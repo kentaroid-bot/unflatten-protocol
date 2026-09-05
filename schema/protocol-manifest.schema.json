@@ -43,6 +43,7 @@
       },
       "additionalProperties": false
     },
+    "worldlines": { "type": "string", "pattern": "^worldlines/[A-Za-z0-9._/-]+\\.json$" },
     "schemas": {
       "type": "object",
       "required": ["handoff", "state-history", "audit-report"],

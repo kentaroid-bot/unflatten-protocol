@@ -1,0 +1,180 @@
+audit_target:
+  hypothesis: review decision history修復後の三世代Guest Worldlineは、Guestの自己批准を防ぎながら複数の成熟枝を由来付きで存続させられる。
+  core_premises:
+    - Guestはroot通常roleへ混入しない。
+    - 三世代後の延長・終端はIntegrator operational decisionを必要とする。
+    - 延長判断と最終判断は上書きせず保存する。
+    - 第四世代は作らない。
+    - 静的記録は本人性や意味的品質の証明を名乗らない。
+  mechanism: review.decisionsを最大二件の追記履歴とし、schemaとSDK不変条件が判断権限、順序、extension count、status整合性を検証する。
+  distinct_dimensions:
+    - Stable Host／Guest分離
+    - 状態と運用判断の分離
+    - 判断変形の系譜
+    - 有限孵化と複数spin-outの両立
+steelman_setup:
+  - IntegratorはGuest内部の真理ではなく、接続状態だけを判断する。
+  - extend_onceは第四世代でなく、第三世代reviewの追加観測である。
+  - 複数の非通約枝は単一勝者へ統合されず、spin-outできる。
+  - Git reviewが静的decided_byの本人性境界を当面補完する。
+dual_stress:
+  logical_systemic:
+    - test: 無主体terminal outcome
+      result: SDKはauthority、decided_by、rationale、evidenceの不足を拒否し、raw manifestもmatching latest decisionなしのterminal statusを拒否する。当初findingはclosedである。
+      falsifier: decisionなし、または非Integrator authorityでterminal statusが有効になる。
+    - test: 判断履歴の上書き
+      result: extend_onceと後続terminal outcomeは二つのdecisionとして順序付きで残り、terminal decisionは最後の一件に限られる。
+      falsifier: 最終判断が延長判断を削除するか、terminal decisionの後に別判断を追加できる。
+    - test: 中央審判化
+      result: decision recordは接続状態の権限だけを拘束し、Guest固有のsuccess signalを単一KPIへ変換しない。複数spin-outも維持される。
+      falsifier: Integrator decisionがGuest内部の真偽・価値を共通尺度で決定する。
+    - test: 世代境界
+      result: extension中もlineage_generationは3であり、advanceWorldlineはgeneration 4を拒否する。
+      falsifier: 追加観測が第四世代として記録される。
+  cognitive_physical:
+    - test: 記録負荷
+      result: 判断ごとに理由と証拠が必要だが最大二件であり、無期限の台帳増殖を起こさない。実runの負荷は未観測として残る。
+      falsifier: 判断記録が形式的定型句となり、実際の理由を保存しない。
+    - test: Sterile Logic Vibe
+      result: 三世代到達を勝利とせず、archiveやspin-outも正規結果として扱うため、一つの正解を選ぶゲームへ収縮していない。
+      falsifier: generation 3またはpromoteが知的価値の単一スコアとして運用される。
+evidence_and_noise:
+  supporting:
+    - 不正authorityのextend_onceは拒否される。
+    - decisionなしのpromoted manifestは無効になる。
+    - extend_onceとarchiveの二判断が保持される。
+    - generation 4、namespace escape、由来なしspin-outは拒否される。
+    - READMEは本人性と意味的品質を静的検証しないと明示する。
+  contradicting: []
+  unknown:
+    - 実runにおけるdecision rationaleの品質
+    - 多数Guest環境の認知負荷
+    - 三世代が十分な孵化窓か
+  noise_signals:
+    - 世代数を成熟度として読み替える誘惑は残るが、文書と状態機械は自動昇格を拒否している。
+findings:
+  - classification: unresolved_uncertainty
+    finding: declared integratorの本人性とevidenceの意味的品質は静的schemaでは証明されない。
+    rationale: 実装とREADMEは限界を明示し、現段階は人間のGit reviewを伴うためLimited Connectionの致命傷ではない。無人公式更新が導入される時点で再監査が必要である。
+  - classification: unresolved_uncertainty
+    finding: 三世代とdecision historyの人間側負荷は実run前には確定しない。
+    rationale: 過去データ不足を理由に候補を棄却せず、第二・第三世代で観測すべき領域として保持する。
+repair_boundary: []
+pivot_seeds: []
+final_verdict: advance
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: review decision history修復により当初の権限系譜findingが閉じ、残件は実runで観測すべき不確実性に限定されたため。
+  inquiry:
+    problem_tension: 未批准ルールを実行観測したいが、正本への混入、自己批准、無期限分岐を避けなければならない。
+    current_question: 修復済み三世代Guest WorldlineをStable HostへLimited Connectionとして公式化するか。
+    distinct_dimensions:
+      - dimension: Stable Host主権とGuest評価文法を分離する。
+        significance: 旧規則と新規則が互いを暗黙に上書きしないため。
+      - dimension: 三世代後の判断系譜を保存する。
+        significance: 状態遷移を無主体の批准にしないため。
+      - dimension: 非通約な複数枝をspin-out可能にする。
+        significance: 一つを選ぶことと他の存在を消すことを分離するため。
+    flattening_risks:
+      - 実装成功を仮説の真理認定へ変える。
+      - 三世代を成熟度スコアとして扱う。
+      - 不確実性を理由にWorldline構想を一般的なfeature flagへ縮約する。
+  hypothesis:
+    statement: 修復済みHost／Guest機構は、@linを正本化せず三世代の実行観測へ進める。
+    core_claims:
+      - "@linはGuest専用loaderからのみ利用する。"
+      - generation 3でIntegrator reviewを要求する。
+      - review decision historyを上書きしない。
+      - 複数spin-outを正規結果として許す。
+    mechanism: registry、Guest namespace、schema、SDK transition、decision historyをLimited Connectionとしてrootへ接続する。
+    assumptions:
+      - assumption: 人間のGit reviewが当面の判断主体確認を提供する。
+        status: supported
+      - assumption: 三世代が十分な孵化期間である。
+        status: unknown
+    scope:
+      applies_to:
+        - 現在のlocal diff
+        - epistemic-lineage-v2 Guest generation 1
+        - SDK worldline API
+      does_not_apply_to:
+        - "@linのroot role昇格"
+        - 第二・第三世代の成立認定
+        - npm publish
+        - 自動spin-outリポジトリ作成
+  hypothetical_world:
+    description: Stable Host内で候補世界線が最大三世代走り、理由付きreview後に昇格・分岐・保存・終了する。
+    consequences:
+      primary:
+        - 候補を正本と混同せず実行できる。
+      secondary:
+        - 判断変形と親子由来を追跡できる。
+      tertiary:
+        - 複数リポジトリからなるprotocol familyを育てられる。
+    opportunities:
+      - 実際の第二世代run
+  evaluation:
+    falsifiers:
+      - Guestがroot通常roleへ混入する。
+      - decision recordなしでterminal stateが有効になる。
+      - generation 4を作れる。
+      - spin-outで親由来が失われる。
+    evidence:
+      supporting:
+        - 当初findingを閉じるschema、SDK、testsが存在する。
+        - 全24テストと配布境界確認が成功した。
+      contradicting: []
+      unknown:
+        - 実run時の認知負荷と証拠品質
+    tests_completed:
+      - 限定Dual-Stress再監査
+      - SDK全回帰
+      - npm pack dry-run
+    tests_remaining:
+      - 第二・第三世代run
+      - 無人更新導入時のidentity監査
+  decision:
+    status: advance
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: 致命的矛盾と修正可能な未解決欠陥は確認されず、実装は静的検証の限界を明示している。残る不確実性を実runへ持ち越すLimited Connectionを推奨する。
+    preserved_dimensions:
+      - Stable Host／Guest分離
+      - 三世代の有限孵化
+      - 判断変形の系譜
+      - 複数spin-out
+      - Origin provenance
+    rejected_claims:
+      - 実装済みであることが@linの真理または正式昇格を意味する。
+      - 静的recordが本人性と意味的品質を証明する。
+    revisions: []
+  pivot:
+    trigger: ""
+    learned_structure: []
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 三世代は有限な判断時点であり、成熟の測定器ではない。
+        schema_limit: 世代数は知的変形の質を表現しない。
+        provenance: ユーザー案と二回のAuditor監査。
+        review_when: 第二・第三世代の実run完了時。
+    dissent:
+      - position: generation evidenceにworkflow-run digestを必須化すべきである。
+        holder: auditor
+        unresolved_because: 空文化の実観測前に証拠形式を固定しないため。
+  next_step:
+    objective: Limited Connectionの公式化可否を決定し、採択する場合は現在の変更をcommit・pushする。
+    constraints:
+      - docs/HI thinkingをGitまたはnpmへ含めない。
+      - "@linをroot roleへ昇格しない。"
+      - npm publishは行わない。
+      - 第二世代を自動的に開始しない。
+    expected_output:
+      - 最終operational decision
+      - commitとpushまたは明示的Hold
+      - 次世代review trigger
+    unresolved_questions:
+      - 第二世代を開始する具体的な実案件。

@@ -1,0 +1,120 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: 監査完了後にユーザーから、安定版v1の内部で候補v2を三世代だけGuest Worldlineとして走らせ、非通約な成熟枝は独立リポジトリへ種分化させる案が提示されたため。
+  inquiry:
+    problem_tension: 新ルールを旧ルールだけで評価すると新規性を消し、新ルールだけで自己批准すると循環する。さらに候補を無期限に保持すれば分岐と監査負荷が増え続ける。
+    current_question: v1の運用主権とv2の内部評価文法を分離し、三世代の有限孵化後に昇格、種分化、Archive、終了を判断できるか。
+    distinct_dimensions:
+      - dimension: Hostの運用境界とGuestの認識論的自律を分ける。
+        significance: v1をv2の真理審判にせず、安全と資源の境界だけを担わせるため。
+      - dimension: 安定版のデフォルト選択と、非選択Worldlineの生存を分ける。
+        significance: 一つを選ぶ運用上の必要が、他の評価文法の知的棄却にならないため。
+      - dimension: 三世代を有限の孵化期間とする。
+        significance: 無期限Holdと無限分岐を防ぎながら、反証後の変異と外部継承を観測するため。
+    flattening_risks:
+      - Guest Worldlineを単なるfeature flagまたはGit branchへ縮約する。
+      - 三世代後の選択を唯一の真理の選出とみなす。
+      - 複数リポジトリ化を判断失敗として扱う。
+  hypothesis:
+    statement: v1 Stable Hostが修復済みv2を三世代限定のGuest Worldlineとして実行すれば、旧ルールによる批准と新ルールによる自己適用を循環させず並走できる。
+    core_claims:
+      - v1は安全、資源、期限、ロード境界を管理し、v2内部の真偽や優劣を決めない。
+      - v2は独自の役割、評価文法、反証条件を持つ。
+      - 一世代は単なる修正回数でなく、仮説形成、監査、統合を含む完全な検証サイクルとする。
+      - 三世代後はpromote、spin_out、archive、terminate、例外的な一世代延長のいずれかを選ぶ。
+      - 非通約な複数枝は新リポジトリの第一世代として独立できる。
+    mechanism: Host registryが親commit、Guest manifest、世代数、状態、内部信号、共有境界、review trigger、分岐関係を記録し、SDKが明示的にGuestをロードする。
+    assumptions:
+      - assumption: 三世代で少なくとも成立、反証後の変異、外部継承を一度ずつ観測できる。
+        status: unknown
+      - assumption: Guestを別namespaceに隔離すれば、未批准ルールがHostの判断基準を上書きしない。
+        status: unknown
+    scope:
+      applies_to:
+        - 今回のEpistemic Lineage Steward候補
+        - 将来の非通約なプロトコル候補
+      does_not_apply_to:
+        - 明らかな安全境界違反を三世代まで実行し続けること
+        - すべての枝へ常時実行資源を与えること
+  hypothetical_world:
+    description: 安定版は一つのデフォルトを保ちながら、候補プロトコルを隔離されたWorldlineとして有限に実行し、成熟した非通約枝は由来リンク付きの新しいリポジトリへ分化する。
+    consequences:
+      primary:
+        - 候補を正式採択前に実行可能な形で観測できる。
+      secondary:
+        - 選ばれないWorldlineもrunnableまたはarchivedとして系譜を保持できる。
+      tertiary:
+        - リポジトリ群が単一の後継系列ではなく、由来を持つ認識論的生態系になる。
+    opportunities:
+      - protocol worldline registry
+      - Guest loader
+      - lineage relation manifest
+  evaluation:
+    falsifiers:
+      - Guestの規則がHostのAuditorまたはIntegratorを暗黙に上書きする。
+      - 世代数が単なる経過回数となり、反証と変形を含まない。
+      - 三世代後も理由なくactive状態を延長する。
+      - spin_out時に親commit、分岐理由、継承した動機とResidualが失われる。
+    evidence:
+      supporting:
+        - 既存IntegratorはLimited Connection、Fork、Exit、期限付き実験を扱える。
+        - 今回の候補はrootのcore roleを変更せず、独立roleとして実装できる。
+      contradicting: []
+      unknown:
+        - Guest loaderとregistryの最小実装
+        - 三世代の実運用負荷
+    tests_completed:
+      - 概念上のHost authorityとGuest evaluation grammarの分離
+    tests_remaining:
+      - Loader namespace隔離テスト
+      - 世代上限と状態遷移の構造検証
+      - 三世代の実行
+  decision:
+    status: hold
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: 新案は監査済み候補の公式化境界として有望だが、HostとGuestの隔離および世代状態遷移は未実装であり、認識上の成立はまだ判断しない。可逆な最小実装をIntegratorが運用判断する余地はある。
+    preserved_dimensions:
+      - 旧ルールによる批准
+      - 新ルールによる自己適用
+      - 有限の分岐生存
+      - 非通約枝の種分化
+    rejected_claims:
+      - すべての枝を常時activeにする。
+      - 三世代後に唯一の真理を選ぶ。
+    revisions: []
+  pivot:
+    trigger: 単一の採択判断が困難なとき、安定版の内部に候補版をエミュレーション的存在として置くというユーザー提案。
+    learned_structure:
+      - デフォルト選択と存在継続は別の判断である。
+      - プロトコルのParallel Runはリポジトリ境界を越えた種分化へ拡張できる。
+    pivot_seeds:
+      - 三世代の有限孵化とspin-out可能なNested Protocol Worldlines。
+    next_hypothesis: v1 Hostとv2 Guestをnamespaceとauthorityで分離すれば、自己批准を避けながら新ルールを実行検証できる。
+  epistemic_remainder:
+    residuals:
+      - observation: 世代交代が時間、実行回数、意味変形のどれで成立するかはプロジェクトごとに異なりうる。
+        schema_limit: 現在のWorkflow runは役割遷移を記録するがprotocol generationを持たない。
+        provenance: 三世代孵化案。
+        review_when: 最初のGuestが一サイクルを完了したとき。
+    dissent:
+      - position: 三世代は妥当な初期上限だが、すべてのWorldlineに普遍的な成熟期間ではない。
+        holder: auditor
+        unresolved_because: 実runがないため、一世代の負荷と情報量を測定できない。
+  next_step:
+    objective: Nested Protocol WorldlineをLimited Connectionとして実装するか、Integratorが運用判断する。
+    constraints:
+      - 06-audit-report.yamlの二つのrevisable defectを先に修復する。
+      - v1 core roleとprotocol本文をGuest規則で上書きしない。
+      - 三世代後のreviewを必須にする。
+      - spin_out時は親commitへ固定リンクする。
+    expected_output:
+      - selected connection state
+      - HostとGuestの権限境界
+      - Engineer向け実装範囲
+      - 停止、Archive、Fork条件
+    unresolved_questions:
+      - 一世代を機械的にどう検証するか。
+      - Guest assetsをoverlayとして持つか完全snapshotとして持つか。

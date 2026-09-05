@@ -1,0 +1,138 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: engineer
+  to_role: auditor
+  reason: 三世代限定Guest Worldlineの実装と境界テストが完了したため、正本へ接続する前に意味的再監査へ渡す。
+  inquiry:
+    problem_tension: 全面採択と棄却の二択では、新ルールを実行して観測できないか、未批准ルールを安定版へ混入させる。候補には隔離された実行可能性と有限の判断時点が必要である。
+    current_question: 実装したStable Host／Guest Worldline境界は、@linを正本化せずに試行可能にし、三世代後の判断と複数枝のspin-outを由来付きで制御できるか。
+    distinct_dimensions:
+      - dimension: v1 Hostの運用主権とv2 Guestの内部評価文法を分離する。
+        significance: 新ルールによる自己批准と旧ルールによる一律拒絶の両方を避けるため。
+      - dimension: デフォルト選択とWorldlineの存在継続を分離する。
+        significance: 選ばれない成熟仮説を知的失敗へ平坦化しないため。
+      - dimension: origin claimに証拠型と由来を持たせる。
+        significance: 観測資料を真の生成起点として捏造しないため。
+      - dimension: 三世代を完全な検証サイクルとして有限化する。
+        significance: 無期限Holdと分岐爆発を防ぐため。
+    flattening_risks:
+      - Guestをroot manifestの通常roleへ戻す。
+      - Worldlineを単なるGit branchまたはバージョン番号へ縮約する。
+      - generation recordの構造妥当性を意味的審査の実施証明とみなす。
+      - spin_outを敗北または非採択として記録する。
+  hypothesis:
+    statement: Worldline registry、隔離Guest manifest、明示loader、三世代状態機械により、@lin候補を正本化せず実行検証できる。
+    core_claims:
+      - rootのprotocol、core roles、通常role registryはGuestの認識規則に置換されない。
+      - "@linはGuest namespaceから明示的にロードされ、通常のrole一覧へ暗黙に混入しない。"
+      - Guestはadvisory_observation以外の権限を持たない。
+      - generationはInnovator、Auditor、Integratorの完了宣言とevidenceを持つ記録によってのみ進む。
+      - generation 3到達時は自動昇格せずreview_requiredになる。
+      - 非通約な成熟枝は親commitと分岐理由を持つ新リポジトリ候補になれる。
+    mechanism: rootにはGuestを隔離・検証・ロードするHost機構だけを追加し、@linと固有文法はworldlines配下へ閉じ込めた。状態遷移はschema、SDK不変条件、決定的テストで拘束する。
+    assumptions:
+      - assumption: rootへHost機構を追加することは、Guestの認識規則をrootへ採択することとは異なる。
+        status: supported
+      - assumption: roles_completedとevidenceの宣言は、完全サイクルの意味的実施を十分に証明する。
+        status: unknown
+    scope:
+      applies_to:
+        - worldline registryとschema
+        - Guest manifestと@lin role template
+        - SDKのlist、resolve、load、generation transition、review outcome
+        - CLIのworldline参照
+        - testsと利用説明
+        - Origin Boundaryの監査修復
+      does_not_apply_to:
+        - "@linのroot rolesへの正式登録"
+        - Motive Packet全体の正式Handoff schema化
+        - 自動GitHubリポジトリ作成
+        - generation evidenceの意味的自動証明
+        - 三世代の実run完了
+  hypothetical_world:
+    description: stable rootは複数Guestを名前空間で保持し、各Guestは最大三世代まで独自文法で実行される。成熟時には一つをデフォルトへ昇格するか、複数を由来付き新リポジトリへ分化できる。
+    consequences:
+      primary:
+        - 未批准の@linをroot roleと混同せず明示的に試せる。
+      secondary:
+        - 分岐の状態、世代上限、親子関係をSDKで検証できる。
+      tertiary:
+        - 将来のprotocol familyを由来グラフとして交換できる。
+    opportunities:
+      - 外部プロジェクトでのGuest Worldline実験
+      - 複数の第一世代リポジトリへのspin-out
+  evaluation:
+    falsifiers:
+      - sdk.listRolesがGuest roleを通常roleとして返す。
+      - Guest loaderがroot外またはGuest namespace外のassetを読み込む。
+      - generation 3を越えて通常世代を追加できる。
+      - originのinferred claimがauthor_confirmedとして記述される。
+      - spin_out関係が親commitまたはdivergence_reasonなしで有効になる。
+      - ローカル原資料がnpm配布物へ混入する。
+    evidence:
+      supporting:
+        - root manifestの通常rolesから@linを除外し、worldlines/registry.json経由の明示loaderへ移した。
+        - schemaとSDK不変条件が三世代上限、完全役割集合、review_required、spin-out provenanceを検証する。
+        - Origin Boundaryへbasis、provenance、observation_horizon、統一pre_ingress_statusを追加した。
+        - SDKテスト24件が成功し、namespace escape、不完全cycle、generation 4、早期promotionを拒否した。
+        - npm pack dry-runでdocs/HI thinkingが配布物に含まれないことを確認した。
+      contradicting: []
+      unknown:
+        - roles_completedとevidenceが実際の意味的監査を示すかは静的検証だけでは判定できない。
+        - 三世代が知的成熟に十分かは実run前には分からない。
+        - Guest overlayを増やした場合の認知負荷。
+    tests_completed:
+      - npm test 24件
+      - npm pack --dry-run
+      - manifest、registry、worldline schema validation
+      - git diff --check
+    tests_remaining:
+      - Auditorによる意味的再監査
+      - 実際の第二・第三世代run
+      - spin-outリポジトリ作成を伴う運用試験
+  decision:
+    status: advance
+    authority: implementation_report
+    decided_by: engineer
+    rationale: Integratorが指定したLimited Connectionを実装し、自動化可能な反証条件はテストで通過した。これは実装完了の報告であり、仮説の成立または公式採択を意味しない。
+    preserved_dimensions:
+      - Stable HostとGuest評価文法の分離
+      - Generative Equivalence
+      - Origin Boundaryとorigin provenance
+      - 三世代の有限孵化
+      - 非選択枝のspin-out可能性
+      - ユーザー原資料のlocal-only境界
+    rejected_claims:
+      - generation manifestだけで意味的審査の完了を証明できる。
+    revisions:
+      - packageのdocs包含を明示パターンへ狭め、local-only原資料を配布対象外にした。
+  pivot:
+    trigger: ""
+    learned_structure: []
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: 三世代が成熟に十分かはまだ分からない。
+        schema_limit: generation countと構造検証は知的成熟そのものを測定しない。
+        provenance: ユーザーの三世代孵化案とEngineer実装時の静的検証限界。
+        review_when: Guestが第二・第三世代を実際に完了し、変形量と判断品質を比較できるとき。
+    dissent:
+      - position: generation advancementにはHandoff内容のハッシュやworkflow-run参照まで必須にすべき可能性がある。
+        holder: engineer
+        unresolved_because: 最小Host/Guest実験の範囲を越え、既存workflowとの統合方式を先に固定するため。
+  next_step:
+    objective: 実装がHost主権、Guest隔離、有限世代、由来保存を意味的にも維持しているか再監査し、最終Integratorへ勧告する。
+    constraints:
+      - 構造テスト成功を意味的成功と同一視しない。
+      - root roleへ@linを戻さない。
+      - ユーザー原資料docs/HI thinkingをGitまたはnpmへ含めない。
+      - Git pushは最終Integrator判断まで行わない。
+    expected_output:
+      - Dual-Stress Audit
+      - advance、revise、replace、holdのepistemic recommendation
+      - 残存する反証条件と運用上の停止条件
+      - AuditorからIntegratorへの完全Handoff
+    unresolved_questions:
+      - 宣言的generation evidenceはLimited Connectionとして十分か。
+      - 三世代後の比較基準をGuest固有文法とHost共通境界へどう分割するか。

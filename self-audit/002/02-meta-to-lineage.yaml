@@ -1,0 +1,100 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: meta-protocol-designer
+  to_role: epistemic-lineage-steward
+  reason: 新しく定義した役割を、起点となったInnovator提案へ自己適用してBetrayal Pointと権限境界を検証するため。
+  inquiry:
+    problem_tension: 動機と評価文法の系譜が役割横断で失われる問題を、既存ロールの要約・監査・統合だけでは専任で保持できない。
+    current_question: Epistemic Lineage Stewardは@inoの動機を構成過程として保存し、比較不能な世界線を有限のParallel Run候補へ変換できるか。
+    distinct_dimensions:
+      - dimension: 意味の一致ではなく、次の発見を生む生成関係の一致を検査する。
+        significance: 1(1+1)から2への圧縮で失われる発展経路を保存するため。
+      - dimension: 評価文法が異なる世界線を共通尺度なしで並走準備する。
+        significance: 新しい審判席を作ることで起きる平坦化を防ぐため。
+    flattening_risks:
+      - "@inoの長文を短い目的文へ要約して構成関係を失う。"
+      - 生存を市場採用率と同一視する。
+      - Parallel Runの開始を新ロール自身が決定する。
+  hypothesis:
+    statement: "@linがMotive Packet、隣接Transit、Evaluation Grammar、有限Parallel Run候補を一つの非決定的成果物として出せば、二つのProposalの共通構造を失わずIntegratorへ渡せる。"
+    core_claims:
+      - 原問、1(1+1)、水素対ハイブリッド、ニュートン対アインシュタインの関係を別々のsource fragmentとして保持する。
+      - Motivation TransitとParallel Runを、生成系譜という共通軸で接続する。
+      - 異質性をprovider名ではなく、生成起点と評価文法の差異として記録する。
+      - 運用採択はIntegratorへ留保する。
+    mechanism: IssueコメントからMotive Packetを作成し、既存@int応答までのTransitを分類し、非可換な評価文法のParallel Run Contract案を作る。
+    assumptions:
+      - assumption: Issueコメントは起点と変形を追跡する十分な一次資料を含む。
+        status: supported
+    scope:
+      applies_to:
+        - "Issue #1の@ino Pivot Seedへの初回応答"
+      does_not_apply_to:
+        - SDK実装仕様の確定
+        - Issueのclose判断
+  hypothetical_world:
+    description: "@inoの動機が再要約されずMotive Packetとして通行し、Audit Meshの各経路が異なるWorldlineとして有限に並走する。"
+    consequences:
+      primary:
+        - 役割間のLineage Breakを隣接点で発見できる。
+      secondary:
+        - 異質性をmodel数で水増しせず、評価文法の差異として保持できる。
+      tertiary:
+        - 新しい概念世界が既存KPIで早期淘汰されず、独自の知的生産を示せる。
+    opportunities:
+      - "@ino動機ブロックを最初のMotive Packet fixtureにする。"
+  evaluation:
+    falsifiers:
+      - 成果物が@inoコメントの短い要約に留まる。
+      - Parallel Run Contractに内部信号、共有境界、期限、停止条件がない。
+      - "@linがどのWorldlineを採択するか決定する。"
+    evidence:
+      supporting:
+        - 単独ロード可能な@lin定義とmanifest routeを作成した。
+        - 権限をadvisory_observationへ限定した。
+      contradicting: []
+      unknown:
+        - 一つの役割へ二機能を置く認知負荷
+    tests_completed:
+      - role load、alias、withheld authorityの自動テスト
+    tests_remaining:
+      - "@ino提案への実適用"
+  decision:
+    status: not_evaluated
+    authority: advisory_observation
+    decided_by: meta-protocol-designer
+    rationale: 新ロールの構造は完成したが、その有効性は起点提案への自己適用前であり評価しない。
+    preserved_dimensions:
+      - 生成関係としての動機
+      - 非可換な評価文法
+      - 非決定的な役割権限
+    rejected_claims: []
+    revisions:
+      - Epistemic Lineage Stewardを@linとして定義・登録した。
+  pivot:
+    trigger: ""
+    learned_structure:
+      - 動機保存には原文と解釈の間の生成関係が必要である。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: Worldline内部の知的生産を外部審判なしで観測する方法は未検証である。
+        schema_limit: 現行SDKはEvaluation GrammarとParallel Runの専用Schemaを持たない。
+        provenance: "@ino Proposal 2と新ロール設計。"
+        review_when: 初回Parallel Run Contract案をAuditorが検証するとき。
+    dissent:
+      - position: Motivation TransitとParallel Run準備は将来別ロールへ分割すべき可能性がある。
+        holder: Meta-Protocol Designer
+        unresolved_because: 初回適用前で認知負荷と権限集中を観測していない。
+  next_step:
+    objective: "@ino提案をMotive Packet、Transit Chain、Evaluation Grammar Map、Parallel Run Contract Draftとして変換する。"
+    constraints:
+      - 要約でsource fragments間の生成関係を失わない。
+      - 勝者、採択、実装順を決定しない。
+      - 生存を真理または市場採用率と同一視しない。
+    expected_output:
+      - "@linの全Output Formatを満たす応答"
+      - AuditorまたはIntegratorへのHandoff方針
+    unresolved_questions:
+      - 「知的生産」を各Worldline内部で何として観測するか。

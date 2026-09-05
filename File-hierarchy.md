@@ -39,12 +39,15 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │   ├── handoff-contract.schema.json
 │   ├── state-history.schema.json
 │   ├── audit-report.schema.json
-│   └── workflow-run.schema.json         # 実行中ロール、digest、遷移履歴
+│   ├── workflow-run.schema.json         # 実行中ロール、digest、遷移履歴
+│   ├── worldline-registry.schema.json  # Stable Hostが認識するGuest一覧
+│   └── worldline.schema.json           # 三世代、review、spin-out境界
 │
 ├── validator/
 │   ├── cli.js                          # `unflatten` CLI
 │   ├── index.js                        # Node.js APIとLLMアダプター境界
 │   ├── workflow.js                     # advisory遷移、Snapshot patch、digest chain検証
+│   ├── worldlines.js                   # Guest隔離ロードと世代状態機械
 │   └── rules/
 │       ├── check-invariants.js         # Handoff状態遷移の決定的検査
 │       ├── detect-flattening.js        # 一般論への退避兆候を検出
@@ -52,6 +55,11 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │
 ├── fixtures/
 │   └── handoff.valid.yaml              # 検証可能な最小Handoff例
+├── worldlines/                         # Stable Hostから隔離した候補プロトコル
+│   ├── registry.json                   # Guest manifestレジストリ
+│   └── epistemic-lineage-v2/
+│       ├── manifest.json               # 第1世代の状態、親commit、内部評価文法
+│       └── epistemic-lineage-steward.md # Guest role（@lin）
 ├── self-audit/                         # このリポジトリ自身を通した役割別記録
 │   └── 001/
 └── test/

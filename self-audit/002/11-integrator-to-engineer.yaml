@@ -1,0 +1,127 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: engineer
+  reason: Auditorのrevise勧告を採用し、三世代後の状態遷移へIntegrator判断の系譜を通行させてからLimited Connectionを最終審査するため。
+  inquiry:
+    problem_tension: 三世代reviewを設けても、誰がなぜ終端状態を選んだか保存されなければ、API呼出しが正当な判断を偽装できる。
+    current_question: 一回の延長とその後の最終判断を上書きせず保存できる、最小のIntegrator decision historyをどう実装するか。
+    distinct_dimensions:
+      - dimension: 状態遷移と運用判断の由来を分離する。
+        significance: SDKが判断主体を代行したように見せないため。
+      - dimension: 延長判断と最終判断の双方を履歴として残す。
+        significance: 一回目の判断を二回目で上書きすると、なぜ猶予が必要だったか失われるため。
+      - dimension: Guest固有の評価文法とHostの共通権限境界を混同しない。
+        significance: IntegratorはGuest内部の真理を決めず、接続状態だけを決めるため。
+    flattening_risks:
+      - decision recordを承認booleanに縮約する。
+      - 最後の判断だけを保存し、延長理由を消す。
+      - 権限修復を理由に@linをroot roleへ移す。
+  hypothesis:
+    statement: review.decisionsを追記専用の最大二件履歴にし、各判断へoutcome、operational_decision、integrator、rationale、evidenceを必須化すれば、Guestの自己批准を防ぎ判断系譜を保存できる。
+    core_claims:
+      - terminal outcomeとextend_onceはIntegratorのoperational decision recordなしに生成できない。
+      - 一回の延長判断と、その後の最終判断を別レコードで保存する。
+      - generation 4は作らない。
+      - root role registryへ@linを追加しない。
+      - generation evidenceの意味的証明は今回の修復範囲へ含めない。
+    mechanism: review.decisions配列をschemaへ追加し、SDKはdecision入力を検証して追記する。custom invariantで現在statusと最後のoutcomeの整合性、最大件数、延長履歴を検証する。
+    assumptions:
+      - assumption: 最大二件はextend_once最大一回と最終判断を損失なく表現する。
+        status: supported
+      - assumption: decided_by文字列は実行者の暗号学的本人性まで証明する。
+        status: contradicted
+    scope:
+      applies_to:
+        - schema/worldline.schema.json
+        - validator/worldlines.js
+        - worldlines/epistemic-lineage-v2/manifest.json
+        - test/sdk.test.js
+        - README.md
+      does_not_apply_to:
+        - 署名付き本人確認
+        - generation evidenceの意味的自動証明
+        - root core roleまたはprotocol本文の変更
+  hypothetical_world:
+    description: 三世代到達後、Integratorは理由と証拠を伴う判断を記録する。一度だけ追加観測を選んだ場合、その判断を残したまま二件目に最終判断を記録する。
+    consequences:
+      primary:
+        - 無主体のterminal stateをschemaが拒否する。
+      secondary:
+        - 延長理由と最終結果を後から比較できる。
+      tertiary:
+        - protocol familyの分化が判断系譜を含む。
+    opportunities:
+      - 将来の署名またはworkflow-run digest接続
+  evaluation:
+    falsifiers:
+      - decision recordなしでterminal outcomeまたはextend_onceを生成できる。
+      - extend_once後の最終判断が前の判断を上書きする。
+      - authorityまたはdecided_byが別値でもschemaを通過する。
+      - generation 4を生成できる。
+    evidence:
+      supporting:
+        - AuditorはHost／Guest機構に致命的矛盾がなく、権限系譜だけをrevisable defectと分類した。
+        - "reviewにはmax_extensions: 1が既にあり、最大二件の判断履歴と対応する。"
+      contradicting:
+        - decided_byだけでは本人性を証明できない。
+      unknown:
+        - 実runでdecision evidenceがどの粒度になるか。
+    tests_completed:
+      - Auditor Dual-Stress Audit
+      - 既存SDKテスト24件
+    tests_remaining:
+      - decision record必須化テスト
+      - extensionと最終判断の履歴保持テスト
+      - schema/status整合性テスト
+      - 全回帰と配布境界確認
+  decision:
+    status: revise
+    authority: operational_decision
+    decided_by: integrator
+    rationale: Limited Connectionは維持するが、公式化前にAuditorの権限系譜欠落を修復する。単一decisionの上書きではなく最大二件の履歴にすることで、延長と最終判断の変形を保存する。
+    preserved_dimensions:
+      - Stable Host／Guest分離
+      - 三世代の有限孵化
+      - 一回だけの追加観測
+      - 複数spin-out
+      - Integratorの運用主権
+      - 判断変形の系譜
+    rejected_claims:
+      - 無主体のdecideWorldline APIだけでIntegrator reviewを表現できる。
+      - decided_byフィールドが本人性まで保証する。
+    revisions:
+      - review.decisionsを追記専用の最大二件履歴として追加する。
+      - 各decisionへoutcome、authority、decided_by、rationale、evidenceを必須化する。
+      - terminal statusと最後のdecision outcomeを一致させる。
+  pivot:
+    trigger: 文書上のIntegrator主権が状態データへ通行していないというAuditor finding。
+    learned_structure:
+      - 判断の結果だけでなく、判断が変化した経路も系譜である。
+      - 一回の延長は第四世代ではなく、同じ第三世代review内の追加観測である。
+    pivot_seeds: []
+    next_hypothesis: ""
+  epistemic_remainder:
+    residuals:
+      - observation: declared integratorと実際の判断主体の本人性は現在のJSON schemaでは保証できない。
+        schema_limit: 静的文書検証は署名やGitHub identityを検証しない。
+        provenance: Auditor再監査とIntegrator判断。
+        review_when: 外部自動化が人間reviewなしでmanifestを更新する要件が現れたとき。
+    dissent:
+      - position: generation advancementにもworkflow-run digestを直ちに必須化すべきである。
+        holder: auditor
+        unresolved_because: 実run前に証拠形式を固定せず、まず空文化の有無を観測するため。
+  next_step:
+    objective: review decision historyを実装し、無主体判断、履歴上書き、status不整合をテストで拒否する。
+    constraints:
+      - decisionsは追記し、既存判断を上書きしない。
+      - extend_onceは一回、generationは3のままにする。
+      - docs/HI thinkingをGitまたはnpmへ含めない。
+      - 修復後にAuditor再確認を行う。
+    expected_output:
+      - worldline schemaとSDK修復
+      - decision historyテスト
+      - 全回帰とnpm pack結果
+      - EngineerからAuditorへのHandoff
+    unresolved_questions:
+      - decision evidenceを将来workflow-run digestへ限定する条件。

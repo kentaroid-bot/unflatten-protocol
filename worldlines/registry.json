@@ -1,0 +1,13 @@
+{
+  "$schema": "../schema/worldline-registry.schema.json",
+  "host": {
+    "protocol_id": "unflatten-protocol",
+    "protocol_version": "0.2.0",
+    "baseline_commit": "a355fdba8fa09166b639ec79e1501ddab1fe17e1"
+  },
+  "worldlines": {
+    "epistemic-lineage-v2": {
+      "manifest": "worldlines/epistemic-lineage-v2/manifest.json"
+    }
+  }
+}
