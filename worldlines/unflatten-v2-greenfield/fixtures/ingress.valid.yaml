@@ -1,0 +1,45 @@
+ingress:
+  version: "1.0"
+  state: ready
+  scope:
+    kind: new_canonical_hypothesis
+    basis: "既存Handoffのない新しいprotocol仮説を開始する。"
+    existing_context:
+      motive_record: false
+      handoff: false
+      project_context: true
+  motive_record:
+    status: declared
+    claims:
+      - id: requester-origin
+        original_question: "AIが問題設定を先取りせず、新しいprojectを始められるか。"
+        generative_tension: "白紙依頼からAIが無難な完成像を推測すると、依頼者のまだ名前のない方向性が失われる。"
+        source_fragments:
+          - content: "最初に動機、背景、目的、方向をヒアリングする。"
+            disclosure: public
+            provenance: "Human Steward request"
+        desired_difference: "role選択前に生成起点を通行させる。"
+        basis: author_confirmed
+        disclosure: public
+        provenance: "Human Steward statement"
+        confirmed_by: "human-steward"
+        confirmed_at: "2026-09-06T00:00:00Z"
+    observation_horizon: "現在の依頼文まで。依頼以前の生成経験はunknown。"
+    pre_ingress_status: unknown
+  outcome_envelope:
+    status: partial
+    purpose: "Greenfield Ingressを検証可能なStable SDK primitiveにする。"
+    audience:
+      - "Unflatten Protocolを利用するproject owner"
+    artifact_forms:
+      - "documentation"
+      - "JSON Schema"
+      - "SDK prompt composer"
+    finish_level: "reviewable prototype"
+    constraints:
+      - "semantic authenticityを静的に認定しない"
+    completion_evidence:
+      - "schema positive/negative testsが通る"
+  query:
+    status: not_needed
+    missing_fields: []

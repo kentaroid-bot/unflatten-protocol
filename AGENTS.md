@@ -81,6 +81,22 @@
 
 拡張ロールとメタロールのショートカットは `manifest.json` に定義されています。これらを使用する場合も、`docs/protocol.md`、対象テンプレート、役割切り替え時の `docs/handoff.md` の順で実際に読み込んでください。
 
+## Emulator Worldlines
+
+ユーザーがgestating Worldlineを明示的に選択した場合だけ、`docs/worldlines.md` と対象の `worldlines/<id>/manifest.json` を追加で読み、manifestに宣言されたCapsule assetをロードしてください。
+
+- `internal_status: stable` はWorldline内部の正本性を示し、Stable Hostへの昇格を意味しない。
+- `upstream_status: gestating` の間、候補固有規則をrootのprotocolまたは通常roleへ暗黙適用しない。
+- 実行記録にはchannel名だけでなく、resolved Host commit、Host asset digest、Capsule digestを残す。
+- 内部roleの判断をHostへ投影するときは `advisory_observation` とし、第三世代後のHost Integrator判断を迂回しない。
+
+Versioned Semantic Mountを使用する場合、`~/`をOS homeへ展開してはいけません。`resolveProtocolPath()`、`loadProtocolPath()`または`unflatten path`だけで解決してください。
+
+- `~/…`または`~/v1/…`: Stable Host
+- `~/v2/…`: 登録されたv2 provisional latest
+
+CLIではshell展開を防ぐためlogical pathを必ずquoteします。resolverが返すWorldline、generation、base commit、Host digest、Capsule digestを実行記録へ残してください。
+
 ## Artifact Validation
 
 成果物の検証を依頼された場合、構造検証だけで意味的監査を完了したことにしてはいけません。

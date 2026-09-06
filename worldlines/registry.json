@@ -5,9 +5,17 @@
     "protocol_version": "0.2.0",
     "baseline_commit": "a355fdba8fa09166b639ec79e1501ddab1fe17e1"
   },
+  "mounts": [
+    { "prefix": "~/", "target": "host" },
+    { "prefix": "~/v1/", "target": "host" },
+    { "prefix": "~/v2/", "target": "worldline", "worldline": "unflatten-v2-greenfield" }
+  ],
   "worldlines": {
     "epistemic-lineage-v2": {
       "manifest": "worldlines/epistemic-lineage-v2/manifest.json"
+    },
+    "unflatten-v2-greenfield": {
+      "manifest": "worldlines/unflatten-v2-greenfield/manifest.json"
     }
   }
 }

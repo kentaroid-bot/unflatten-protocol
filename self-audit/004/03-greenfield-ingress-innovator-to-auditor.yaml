@@ -1,0 +1,138 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: "innovator"
+  to_role: "auditor"
+  reason: "Human Stewardの追加提案から、完全な新規作業ではMotive-Firstを@ino内部でなくrole選択前のGreenfield Ingressとして設計する仮説が形成されたため。"
+
+  inquiry:
+    problem_tension: "完全にゼロから始める作業では、@inoを選択した時点でAIがすでに問題設定と成果形態を推測し、依頼者の動機が仮説形成前に平坦化され得る。"
+    current_question: "役割選択前に、動機と成果物条件を分離した適応的ヒアリングを置けば、生成起点を保存しながら過剰な質問負荷を避けられるか。"
+    distinct_dimensions:
+      - dimension: "動機と納品仕様の分離"
+        significance: "背景・緊張・望む差異を、形態や完成度といったdelivery条件に上書きさせない。"
+      - dimension: "role選択前の認識形成"
+        significance: "@inoを含むrole選択自体が依頼者の目的を先取りしないようにする。"
+      - dimension: "完全な新規作業と既存文脈の継続の区別"
+        significance: "既存HandoffやMotive Recordがある作業へ毎回ヒアリングを要求しない。"
+      - dimension: "仕上がり条件の可変性"
+        significance: "初期の完成像を不変の勝利条件にせず、学習による改訂を許す。"
+    flattening_risks:
+      - "ヒアリングを一般的な要件定義checklistへ変える。"
+      - "成果物の形態と完成度を動機そのものとして記録する。"
+      - "選択肢を先に提示し、依頼者のまだ名前のない方向性を既存カテゴリへ誘導する。"
+
+  hypothesis:
+    statement: "既存project context、Motive Record、Handoffのない完全な新規生成では、role選択前にGreenfield Ingressを実行し、Motive RecordとOutcome Envelopeを分離して得ることでpre-role flatteningを防げる。"
+    core_claims:
+      - "Greenfield Ingressは@inoを含むrole選択より前にある。"
+      - "背景、生成的緊張、望む差異はMotive Recordへ記録する。"
+      - "目的、利用者、形態、仕上がりレベル、制約、完了条件はOutcome Envelopeへ記録する。"
+      - "不足時は一度に質問票を投げず、生成力の高い問いから適応的に尋ねる。"
+      - "既に十分な情報が依頼文にある場合は同じ内容を再質問しない。"
+    mechanism: "routerがgreenfield条件を判定し、motive_queryからmotive_confirmed、motive_partialまたはmotive_redactedを経てoutcome_envelopeを形成し、その記録に基づいてroleを選択する。"
+    assumptions:
+      - assumption: "greenfieldか既存作業かを観測可能な条件から判定できる。"
+        status: "unknown"
+      - assumption: "Motive RecordとOutcome Envelopeの分離は依頼者の生成意図を保つ。"
+        status: "unknown"
+      - assumption: "少数の適応的質問で必要情報を得られる。"
+        status: "unknown"
+    scope:
+      applies_to:
+        - "既存repository context、Handoff、Motive Recordのない新規project"
+        - "同条件の新規生成作業"
+      does_not_apply_to:
+        - "既存projectの継続"
+        - "軽微修正"
+        - "既存仮説の監査"
+        - "安全上の緊急対応"
+
+  hypothetical_world:
+    description: "AIは白紙の依頼を受けたとき、最初にsolutionやroleを選ばず、依頼者がなぜ始めるのかと、何として世界へ出したいのかを別々に聞く。十分な記録ができた後に初めてroleを選ぶ。"
+    consequences:
+      primary:
+        - "新規projectの成果物からMotive Recordと初期Outcome Envelopeを遡れる。"
+        - "動機不明ならMotive Queryが正規の進行として残る。"
+      secondary:
+        - "成果形態を変更しても動機が維持されたかを判断できる。"
+        - "同じ動機から複数形態のWorldlineを生成できる。"
+      tertiary:
+        - "projectの成功を初期納品仕様だけでなく生成動機との関係から再評価できる。"
+    opportunities:
+      - "新規project作成APIやAGENTS routerへpre-role ingressを接続する。"
+      - "MotiveとFormの変形を別transitとして観測する。"
+
+  evaluation:
+    falsifiers:
+      - "Greenfield判定が広すぎ、日常的な単純taskの大半で不要な質問を発生させる。"
+      - "Motive RecordとOutcome Envelopeを分けても後続roleが両者を混同する。"
+      - "適応的ヒアリングが依頼者の離脱または回答誘導を増やし、生成差異の保持に寄与しない。"
+      - "初期Outcome Envelopeが固定契約として作用し、正当なPivotを妨げる。"
+    evidence:
+      supporting:
+        - "NZA trialではrole cycle開始前に原問の動機が公開記録として不足していた。"
+        - "現行Role Selectionは新規構想のdefaultをInnovatorとするが、pre-role motive確認を定義しない。"
+      contradicting:
+        - "現行innovator Required Inputは入力不足でも停止せず暫定仮説を形成するため、hard Motive Gateと競合する。"
+      unknown:
+        - "greenfield detectionの誤判定率"
+        - "適切な質問回数"
+        - "Outcome Envelopeの更新頻度"
+    tests_completed:
+      - "現行AGENTS Role Selectionとinnovator Required Inputの競合確認"
+    tests_remaining:
+      - "Auditorによる質問負荷、誘導、deadlock、privacy、role routing監査"
+      - "新規projectでの比較run"
+
+  decision:
+    status: "not_evaluated"
+    authority: "not_evaluated"
+    decided_by: "innovator"
+    rationale: "pre-role ingressという新しい適用位置と二つのrecordを形成したが、採否と実装は評価していない。"
+    preserved_dimensions:
+      - "Greenfield Ingress"
+      - "Motive Record"
+      - "Outcome Envelope"
+      - "adaptive interview"
+      - "role selection before generation"
+    rejected_claims:
+      - "形態と仕上がりレベルは動機そのものである。"
+      - "新規作業は常に@inoから直ちに開始すべきである。"
+    revisions: []
+
+  pivot:
+    trigger: "Human Stewardが、完全に新しいprojectや作業を始める際に背景、目的、方向、仕上がり、形態を最初にヒアリングする案を追加した。"
+    learned_structure:
+      - "Motive-Firstはrole-local ruleでは遅く、router-level ingressである可能性がある。"
+      - "動機と成果物条件は相互作用するが同一recordではない。"
+    pivot_seeds:
+      - "Greenfield Ingress"
+      - "Outcome Envelope"
+      - "pre-role state machine"
+    next_hypothesis: "Motive RecordとOutcome Envelopeを形成してからroleを選べば、白紙依頼に対するAIの問題設定先取りを防げる。"
+
+  epistemic_remainder:
+    residuals:
+      - observation: "依頼者自身にもまだ言語化できない方向性は、質問へ回答する過程で初めて生成されることがある。"
+        schema_limit: "固定fieldは言語化前のNoiseを欠落または不完全な回答として扱いやすい。"
+        provenance: "Greenfield Ingress仮説のadversarial self-simulation"
+        review_when: "言語化前の違和感から始まる新規projectで実験するとき。"
+    dissent: []
+
+  next_step:
+    objective: "Greenfield Ingressを最強形にし、誤検出、質問誘導、認知負荷、緊急例外、Outcome固定化、router権限から監査する。"
+    constraints:
+      - "一般的なproject intake checklistへ薄めない。"
+      - "全項目の一括回答を要求しない。"
+      - "MotiveとOutcomeを統合しない。"
+      - "既存文脈が十分なら再質問しない。"
+    expected_output:
+      - "Dual-Stress Audit addendum"
+      - "Greenfield detection boundary"
+      - "Motive/Outcome state transitions"
+      - "Auditor-to-Integrator Handoff"
+    unresolved_questions:
+      - "完全な新規作業を機械的に何で判定するか。"
+      - "何問までを標準とするか。"
+      - "Outcome Envelopeを誰が更新できるか。"
+      - "role selectionに必要な最小情報は何か。"

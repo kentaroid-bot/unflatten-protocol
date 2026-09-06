@@ -1,0 +1,265 @@
+audit_target:
+  hypothesis: "既存のMotive RecordとHandoffがない完全な新規生成では、role選択前にMotive RecordとOutcome Envelopeを分離したGreenfield Ingressを行う。"
+  core_premises:
+    - "AIが白紙の問題設定を先取りする前に依頼者の動機を確認する。"
+    - "MotiveとOutcome/Delivery条件を同一視しない。"
+    - "質問は一括checklistではなく不足へ適応する。"
+    - "既知の情報を再質問しない。"
+    - "新規生成以外へ儀式的に適用しない。"
+  mechanism: "routerが新規canonical生成と既存Motive Recordの有無を判定し、必要ならMotive Queryを行い、Motive RecordとOutcome Envelopeを得てからroleを選ぶ。"
+  distinct_dimensions:
+    - "pre-role flattening"
+    - "MotiveとOutcomeの非同一性"
+    - "言語化前のNoise"
+    - "初期完成像の改訂可能性"
+
+counter_factual_steelman:
+  setup:
+    - "依頼文に十分な背景・緊張・望む差異があれば質問せず記録へ変換する。"
+    - "不足時は最も生成力の高い自由回答の問いを一つだけ先に出す。"
+    - "Motive Recordは複数claim、provenance、unknown、redactionを保持する。"
+    - "Outcome Envelopeはaudience、artifact form、initial finish target、constraints、completion evidenceを持つがpartial/deferredを許す。"
+    - "roleは記録後にtask natureから選び、新規repositoryだから自動的に@inoとはしない。"
+    - "安全緊急時はIngressを事後記録可能な例外とし、作業を止めない。"
+
+dual_stress:
+  logical_systemic:
+    - test: "greenfield detection by repository absence"
+      result: "repositoryがないことは動機不明を意味せず、既存repository内でも新しい生成系譜は生じる。判定軸をproject containerではなくcanonical generative scopeとMotive provenanceへ置く必要がある。"
+      falsifier: "新規repoなら常に再質問し、既存repoなら新規仮説でもIngressを省略する。"
+    - test: "role-selection circularity"
+      result: "Ingressを@ino内部へ置くとrole選択後になるため遅い。router-level phaseなら循環を回避できる。"
+      falsifier: "Motive不足を検知するために先に@inoを確定しなければならない。"
+    - test: "outcome sovereignty"
+      result: "finish level、form、completion criteriaを固定の勝利条件にすると、探索で得た新形態を失敗扱いする。Outcome Envelopeはinitial/revisableでなければならない。"
+      falsifier: "正当なPivotが初期artifact formと違うだけで拒否される。"
+    - test: "checklist compliance"
+      result: "必須fieldを埋めるだけならgeneric回答でGateを通せる。schemaは状態とprovenanceを検査しても生成力を認定できない。"
+      falsifier: "全fieldが非空というだけでmotive_readyを意味的に確定する。"
+    - test: "routing capture"
+      result: "Motive確認後も、routerが新規projectを常にInnovatorへ送ると、既に設計済み仕様の新規実装を不要に再発明する。roleはtask phaseから選ぶ必要がある。"
+      falsifier: "新しいdirectory/repositoryという理由だけで@inoへ固定される。"
+  cognitive_physical:
+    - test: "interview exhaustion"
+      result: "背景、目的、方向、完成度、形態を一括で尋ねると、人間はprojectを始める前に設計書作成を強いられる。最初は一問とし、partial/deferredを正規化する必要がある。"
+      falsifier: "回答者が全fieldを埋めるまで新規作業が始まらない。"
+    - test: "answer shaping"
+      result: "既存カテゴリの選択肢を先に示すと、まだ名前のない方向性が候補へ収縮する。初手は自由回答を基本にする。"
+      falsifier: "artifact typeや成功指標の選択肢が動機質問より先に提示される。"
+    - test: "unformulated motive"
+      result: "違和感しかない段階では完全なPacketを要求できない。source fragmentまたはNoiseをmotive_partialとして保持し、分からなさを欠陥にしない必要がある。"
+      falsifier: "言語化不能な違和感をgeneric purposeへ言い換えなければ進めない。"
+    - test: "urgent physical work"
+      result: "incident responseや危害停止をヒアリングで遅らせてはならない。safety_exception_loggedを前auditから継承する。"
+      falsifier: "緊急修復がMotive/Outcome確認待ちで停止する。"
+
+evidence_and_noise:
+  supporting:
+    - "現行AGENTSは新規構想をdefault Innovatorへ送るがpre-role phaseを持たない。"
+    - "現行innovatorは入力不足でも暫定仮説を形成するため、Motive不足時の先取りが実際に可能である。"
+    - "Motiveと成果形態を分離すれば、形態変更後も生成起点の維持を比較できる。"
+  contradicting:
+    - "repo/projectの有無だけではgreenfieldを正しく判定できない。"
+    - "全項目必須の一括ヒアリングは認知負荷と回答誘導を生む。"
+    - "初期finish levelを固定契約にするとPivotを妨げる。"
+  unknown:
+    - "一問で十分なtaskと複数turnが必要なtaskの比率"
+    - "greenfield detectionの誤検知率"
+    - "Motive/Outcome分離が成果のDistinct Dimensionsを改善する程度"
+  noise_signals:
+    - "作り始める前に完成像を完全記述させる運用は、まだ言葉にならない創作衝動を窒息させる。partialとdeferredがなければNoise Veto対象になる。"
+
+findings:
+  - id: "G1"
+    classification: "revisable_defect"
+    finding: "greenfieldを新規project/repositoryで判定すると誤検知する。"
+    rationale: "new canonical generative scopeかつsufficient Motive Record不在という二条件へ置換できる。"
+  - id: "G2"
+    classification: "revisable_defect"
+    finding: "Outcome Envelopeが固定勝利条件になり得る。"
+    rationale: "initial、partial、deferred、revisedを持つ可変recordにすればMotiveとPivotを維持できる。"
+  - id: "G3"
+    classification: "revisable_defect"
+    finding: "一括質問票は人間の認知帯域を消費し回答を誘導する。"
+    rationale: "既知情報を先に抽出し、自由回答の高情報量質問を一度に一つだけ行う。"
+  - id: "G4"
+    classification: "revisable_defect"
+    finding: "新規projectを自動的に@inoへ送るとrole routingを奪う。"
+    rationale: "Ingress完了後にtask phaseからroleを選択する。"
+  - id: "G5"
+    classification: "unresolved_uncertainty"
+    finding: "Ingressがpre-role flatteningを実運用で減らす程度は未観測である。"
+    rationale: "NZAは必要性を示す一例だが、比較runが必要である。"
+
+repair_boundary:
+  - "名称をGreenfield Ingressとし、core roleではなくrole-selection前のprotocol phaseにする。"
+  - "適用条件をnew canonical generative scope AND insufficient Motive Recordとする。"
+  - "Motive RecordとOutcome Envelopeを別objectにする。"
+  - "Outcome fieldsはinitial targetとしてpartial/deferred/revisedを許す。"
+  - "依頼文から既知情報を抽出し、再質問を禁止する。"
+  - "不足時は自由回答のMotive Queryを一度に一つだけ行う。"
+  - "Motive partial/redacted/unknownでも、何が不足しているかを明示して状態遷移できる。"
+  - "safety_exception_loggedを継承する。"
+  - "Ingress完了後にtask phaseからroleを選び、新規projectを@inoへ固定しない。"
+
+revision_gate:
+  core_preserved: "yes — AIが白紙の問題設定を先取りする前に動機を聞く。"
+  not_ad_hoc: "yes — scope detection、Motive/Outcome分離、可変状態はpre-role phaseに一般的に必要である。"
+  human_friction_addressed: "yes, if known-information reuse、one-question-at-a-time、partial/deferred、safety exceptionを実装する。"
+  distinct_observable_outcome: "yes — role選択前にIngress recordが存在し、不足時は仮説ではなくMotive Queryが出る。"
+
+final_verdict: "revise"
+authority: "epistemic_recommendation"
+
+handoff:
+  protocol_version: "0.2.0"
+  from_role: "auditor"
+  to_role: "integrator"
+  reason: "pre-role Greenfield Ingressの中心は支持されたが、適用判定、Outcome可変性、質問負荷、routing、安全例外を限定修復して実装範囲を決める必要がある。"
+
+  inquiry:
+    problem_tension: "完全な新規生成ではrole選択自体が問題設定を先取りするが、重い事前ヒアリングは言語化前の動機と人間の開始意欲を潰す。"
+    current_question: "修復済みGreenfield IngressとStable Motive Recordを、既存workflowを壊さない最小のStable protocol機能として実装するか。"
+    distinct_dimensions:
+      - dimension: "pre-role motive preservation"
+        significance: "roleが決まる前に依頼者の生成起点を通行させる。"
+      - dimension: "MotiveとOutcomeの分離"
+        significance: "delivery条件が問いの理由を支配しない。"
+      - dimension: "adaptive low-burden interview"
+        significance: "制度が人間の認知帯域と創作衝動を消費しない。"
+      - dimension: "revisable outcome"
+        significance: "初期完成像からの正当なPivotを許す。"
+    flattening_risks:
+      - "Greenfield Ingressをproject intake formへ縮約する。"
+      - "partial motiveを不十分としてgeneric purposeで埋める。"
+      - "新規projectをすべて@inoへ固定する。"
+
+  hypothesis:
+    statement: "new canonical generative scopeかつMotive Record不足の場合に限り、role選択前に一問ずつGreenfield Ingressを行い、Motive Recordと可変Outcome Envelopeを分離すればpre-role flatteningを抑制できる。"
+    core_claims:
+      - "Ingressはrole選択前にある。"
+      - "Motive RecordとOutcome Envelopeを分離する。"
+      - "既知情報を再質問しない。"
+      - "一度に一つの自由回答質問を基本とする。"
+      - "partial、redacted、deferred、安全例外を正規状態にする。"
+    mechanism: "routerが適用条件を検査し、Stable ingress recordへmotive statusとoutcome statusを記録する。query_requiredなら仮説形成前に一問を返し、ready/partial等の状態からtask phaseに対応するroleを選ぶ。"
+    assumptions:
+      - assumption: "適用条件を観測可能な入力から一貫して判定できる。"
+        status: "unknown"
+      - assumption: "one-question-at-a-timeは一括formより生成差異を保持する。"
+        status: "unknown"
+      - assumption: "Stable schemaはGuest @linなしで自己完結できる。"
+        status: "supported"
+    scope:
+      applies_to:
+        - "docs/protocol.mdのpre-role phase"
+        - "AGENTS.mdのrouting"
+        - "Stable ingress record schema"
+        - "innovator Required Inputとの競合修復"
+        - "SDK static validation"
+      does_not_apply_to:
+        - "自動semantic motive scoring"
+        - "Human Confirmationの本人性証明"
+        - "既存Handoff schemaへの全面埋込み"
+        - "外部projectへの自動書込み"
+
+  hypothetical_world:
+    description: "白紙の生成依頼では、AIは既知情報を再利用し、不足する最も重要な動機を一問だけ尋ねる。MotiveとOutcomeを別記録にした後、初めて適切なroleを選ぶ。"
+    consequences:
+      primary:
+        - "canonical新規生成にpre-role ingress stateが残る。"
+      secondary:
+        - "形態変更と動機変更を別々に追跡できる。"
+        - "Motive Queryの負荷と効果を観測できる。"
+      tertiary:
+        - "複数projectでpre-ingress flatteningを比較できる。"
+    opportunities:
+      - "NZAを最初のHuman motive recovery caseとして使う。"
+
+  evaluation:
+    falsifiers:
+      - "simple taskの大半で不要なMotive Queryを発生させる。"
+      - "partial/deferredがboilerplate bypassになり動機不明を再び隠す。"
+      - "Outcome Envelopeが正当なPivotを拒否する固定契約になる。"
+      - "role selection後もMotiveとOutcomeが同一目的へ平坦化される。"
+    evidence:
+      supporting:
+        - "現行routerとinnovatorの組合せにはpre-role motive stopがない。"
+        - "NZA trialで原問不足がrole cycle後まで残った。"
+      contradicting:
+        - "project/repository新規性だけの判定は不十分である。"
+        - "全field一括必須は認知負荷を生む。"
+      unknown:
+        - "比較runでの効果"
+        - "最適なquery policy"
+        - "partial stateの濫用率"
+    tests_completed:
+      - "Dual-Stress Audit"
+      - "current AGENTS/innovator conflict inspection"
+    tests_remaining:
+      - "Integrator scope decision"
+      - "schema、validator、docs、router instructionsの実装"
+      - "SDK regression test"
+      - "実project comparison"
+
+  decision:
+    status: "revise"
+    authority: "epistemic_recommendation"
+    decided_by: "auditor"
+    rationale: "pre-role motive確認は現行の起点欠落へ直接応答する。誤検知、質問過多、Outcome固定化、role固定は中核を維持したstate/scope修復で回避できるためreviseを推奨する。"
+    preserved_dimensions:
+      - "Greenfield Ingress"
+      - "Motive Record"
+      - "Outcome Envelope"
+      - "adaptive interview"
+      - "pre-role routing"
+    rejected_claims:
+      - "新規repositoryであることがGreenfieldの十分条件である。"
+      - "全fieldへ最初から回答する必要がある。"
+      - "初期Outcomeは不変の勝利条件である。"
+      - "新規projectは必ず@inoから始める。"
+    revisions:
+      - "適用条件をnew canonical generative scopeとMotive不足の積にする。"
+      - "Outcomeをpartial/deferred/revised可能にする。"
+      - "質問を既知情報再利用とone-question-at-a-timeへ限定する。"
+      - "Ingress後にtask phaseからroleを選ぶ。"
+
+  pivot:
+    trigger: "not_applicable: 中核を保ったreviseである。"
+    learned_structure:
+      - "project containerの新規性と認識系譜の新規性は異なる。"
+      - "完成像は動機と別に変形できる。"
+      - "質問数ではなく問題設定の主権を誰が持つかがIngressの中心である。"
+    pivot_seeds:
+      - "Greenfield detection"
+      - "Motive/Outcome dual record"
+      - "adaptive query policy"
+    next_hypothesis: "not_applicable: revised hypothesisに記録した。"
+
+  epistemic_remainder:
+    residuals:
+      - observation: "言葉になる前の方向性は、自由回答の一問でも完全には捕捉できない。"
+        schema_limit: "structured recordは言語化済み内容を前提とする。"
+        provenance: "Greenfield auditのunformulated motive stress。"
+        review_when: "motive_partialから有効な新規projectが生まれた事例を観測したとき。"
+    dissent:
+      - position: "質問による中断より、暫定仮説を先に提示して反応から動機を発見する方がよい場合がある。"
+        holder: "Auditor adversarial simulation"
+        unresolved_because: "Motive Query firstとの比較runがない。"
+
+  next_step:
+    objective: "修復済みMotive-First Greenfield IngressをStableの最小機能として実装するか判断し、実装する場合の変更ファイルと非目標を固定する。"
+    constraints:
+      - "Guest @linへStable dependencyを作らない。"
+      - "raw motive公開を要求しない。"
+      - "semantic authenticity scoringを実装しない。"
+      - "既存workflowをすべてIngress必須に変更しない。"
+      - "安全緊急作業を止めない。"
+    expected_output:
+      - "operational decision"
+      - "Integrator-to-Engineer Handoff"
+      - "実装scopeと停止条件"
+    unresolved_questions:
+      - "Ingress recordを独立schemaにするかHandoffへ埋め込むか。"
+      - "SDK compose APIへ自動Gateを入れるかadvisory validationに留めるか。"
+      - "比較run前にStable docsへ入れる強度があるか。"

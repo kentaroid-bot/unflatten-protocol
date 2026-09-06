@@ -1,0 +1,170 @@
+audit_target:
+  hypothesis: "v1所有の `~/` / `~/v2/` routerとv2所有のsemantic mappingにより、v1とv2をpath-addressableに共存できる。"
+  core_premises:
+    - "logical pathはOS filesystem pathではない。"
+    - "mount prefixの割当権限はv1母体にある。"
+    - "v2のcompose/override対応はv2 Capsuleにある。"
+    - "fallbackはdigest固定Host assetに限定する。"
+  mechanism: "longest-prefixでmountを選び、exact routeをcomposeまたはcandidate assetとして解決し、残りを宣言済みHost resourceへ継承する。"
+  distinct_dimensions:
+    - "path-addressable coexistence"
+    - "semantic composition rather than text replacement"
+    - "maternal routing authority"
+
+steelman_setup:
+  - "全AgentがSDKまたはCLI resolverを使い、shell pathとして直接開かない。"
+  - "すべてのmount prefixとsemantic routeがschema検証される。"
+  - "解決結果はworldlineと両digestを常に返す。"
+
+dual_stress:
+  logical_systemic:
+    - test: "namespace shadowing"
+      result: "candidateが `~/` を取得できるとStable Host全体を偽装できる。host mount固定、worldline prefixを `~/vN/` に限定し、一意性を検証する必要がある。"
+      falsifier: "二つのmountが同一prefixを持つ、またはcandidateが `~/` を持つ。"
+    - test: "unbounded inheritance"
+      result: "任意Host fileへfallbackするとHost digest外のdriftをv2へ混入できる。inheritanceはcandidate base.assetsに限定すべきである。"
+      falsifier: "base.assetsにないHost pathをv2 mountから読める。"
+    - test: "mapping drift"
+      result: "route tableをmanifest metadataだけに置くとCapsule digestの対象外で意味対応が変わる。route tableをCapsule assetとしてdigest固定する必要がある。"
+      falsifier: "route変更後もCapsule digestが同一である。"
+    - test: "traversal"
+      result: "`..`、absolute path、encoded bypassを正規化前後に拒否しなければnamespaceを脱出できる。"
+      falsifier: "`~/v2/../docs/protocol.md`が解決される。"
+  cognitive_physical:
+    - test: "home-path confusion"
+      result: "`~/`は強い既存意味を持つ。表記を捨てる必要はないが、logical-only markerとshellでのquote例が不可欠である。"
+      falsifier: "利用者がOS homeに物理 `v2` directoryを作る必要があると読む。"
+    - test: "version opacity"
+      result: "短いpathだけではmutable locatorの内容が残らない。resolverはlogical pathと同時にworldline、generation、Host/Capsule digestを返すべきである。"
+      falsifier: "後からどのv2を読んだか再構成できない。"
+
+evidence_and_noise:
+  supporting:
+    - "v1 registry、v2 base assets、Capsule digest、overlay composerが既に存在する。"
+  contradicting:
+    - "現行SDK/CLIはlogical path resolverを持たない。"
+  unknown:
+    - "Agentがquote規則を守る割合"
+  noise_signals:
+    - "`~/`がlogical-onlyであるという説明を毎回要求すると無菌的になる可能性がある。resolver outputへ一度だけ明示するのがよい。"
+
+findings:
+  - classification: revisable_defect
+    finding: "単純prefix置換はcompose、shadowing、digest境界を表現しない。"
+    rationale: "v1 mount registryとdigest対象route assetへ分離すれば中核を維持できる。"
+  - classification: revisable_defect
+    finding: "`~/`はOS homeとの誤認を生む。"
+    rationale: "resolver以外で展開しない規則、quoted CLI、logical-only metadataで修復できる。"
+  - classification: unresolved_uncertainty
+    finding: "path表現が外部Agentの認知負荷を実際に下げるかは未検証である。"
+    rationale: "第三世代runで観測する。"
+
+repair_boundary:
+  - "v1 registryへ `~/`、`~/v1/`、`~/v2/` mountを置き、longest-prefixと一意性を検証する。"
+  - "worldline mountは `~/vN/` だけを許可し、`~/`をHost専用にする。"
+  - "v2 route tableを `mount.json` としてCapsule digestへ含める。"
+  - "routeはassetまたはbase+overlay composeだけを許可する。"
+  - "fallbackはv2 base.assetsだけに限定する。"
+  - "resolverはcontentとresolved worldline/generation/digestsを返す。"
+  - "CLIではlogical pathをquoteする例を示す。"
+
+pivot_seeds:
+  - "plural named mounts after v2"
+  - "run records that store resolved logical paths"
+
+final_verdict: revise
+
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: "Versioned Semantic Mountを、文字列置換から母体router＋digest固定mappingへ修復すれば成立する。"
+  inquiry:
+    problem_tension: "pathの直感性を保ちながら、OS展開、shadowing、drift、曖昧identityを防ぐ必要がある。"
+    current_question: "修復済みSemantic Mountを第二世代Emulatorの入口として実装するか。"
+    distinct_dimensions:
+      - dimension: "path-addressable coexistence"
+        significance: "v1/v2選択を参照自身へ残す。"
+      - dimension: "maternal routing authority"
+        significance: "candidateの自己mountを防ぐ。"
+    flattening_risks:
+      - "単なるfilesystem directory aliasへ縮約する。"
+  hypothesis:
+    statement: "v1 registry mountとv2 digest固定route tableなら、`~/...`と`~/v2/...`を安全なsemantic addressとして使える。"
+    core_claims:
+      - "`~/`表記を維持する。"
+      - "OS pathとして直接展開しない。"
+      - "v1がmountを、v2が意味mappingを所有する。"
+      - "resolved identityを返す。"
+    mechanism: "longest-prefix resolver、schema、mount.json、CLI path commandを追加する。"
+    assumptions:
+      - assumption: "既存emulator loaderへ局所追加できる。"
+        status: supported
+    scope:
+      applies_to:
+        - "worldline registry/schema, v2 mount asset, SDK/CLI/docs/tests"
+      does_not_apply_to:
+        - "physical filesystem layout or candidate generation advancement"
+  hypothetical_world:
+    description: "同一repositoryからv1/v2 resourceを明示pathで読み分け、resolved identityをrunへ保存できる。"
+    consequences:
+      primary:
+        - "v1/v2を同時利用できる。"
+      secondary:
+        - "比較と段階移行がpath単位で可能になる。"
+      tertiary:
+        - "複数Worldline mountへ一般化できる。"
+    opportunities:
+      - "Agent-agnostic CLI loading"
+  evaluation:
+    falsifiers:
+      - "traversal、shadowing、undeclared fallbackが可能である。"
+      - "resolved outputにdigestがない。"
+    evidence:
+      supporting:
+        - "既存emulator primitivesを再利用できる。"
+      contradicting: []
+      unknown:
+        - "外部認知負荷"
+    tests_completed:
+      - "Dual-Stress semantic mount audit"
+    tests_remaining:
+      - "Integrator decision and implementation tests"
+  decision:
+    status: revise
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: "修復はpath-addressable coexistenceを弱めず、一般的なnamespace安全境界として再利用できる。"
+    preserved_dimensions:
+      - "`~/` and `~/v2/` readability"
+      - "Internal Stable / Upstream Gestating"
+    rejected_claims:
+      - "raw文字列置換だけでよい。"
+    revisions:
+      - "semantic resolverと母体mount registryへ変更する。"
+  pivot:
+    trigger: "raw path rewriteの意味不足。"
+    learned_structure:
+      - "version path is a semantic mount, not a directory alias"
+    pivot_seeds:
+      - "plural mounts"
+    next_hypothesis: "digest固定Semantic Mountは二つの世界を一つの母体で読める。"
+  epistemic_remainder:
+    residuals:
+      - observation: "`~/`の既存shell意味は消せない。"
+        schema_limit: "文字列だけではlogical/physicalを区別できない。"
+        provenance: "semantic mount audit"
+        review_when: "第三世代の外部Agent run。"
+    dissent:
+      - position: "`unflatten:/`をcanonicalにすべきである。"
+        holder: "Auditor counter-position"
+        unresolved_because: "今回はHuman Stewardのpath直感を維持しlogical-only境界で試す。"
+  next_step:
+    objective: "Integratorが修復境界を拘束し、EngineerへSemantic Mount実装を渡す。"
+    constraints:
+      - "第三世代へ数えない。"
+      - "physical v2 copyを作らない。"
+    expected_output:
+      - "Integrator-to-Engineer Handoff"
+    unresolved_questions:
+      - "外部runで `~/` とURI形式を比較するか。"

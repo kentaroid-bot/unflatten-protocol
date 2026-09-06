@@ -1,0 +1,275 @@
+audit_target:
+  hypothesis: "新規仮説・新規WorldlineではMotive Packetを@inoの開始条件とし、観測できない場合の最初の出力をMotive Queryに限定すれば、生成起点での平坦化を防げる。"
+  core_premises:
+    - "Motive Packetを新規生成のfirst-class inputにする。"
+    - "Packet不在時の質問を失敗や停止ではなく正規の一手にする。"
+    - "圧縮済み文書を原問と自動的に同一視しない。"
+    - "Gateを新規生成へ限定する。"
+    - "@linの観測権限を採否決定権限へ昇格させない。"
+  mechanism: "@ino起動時にMotive Packetを検査し、不足時はunknownとMotive Queryを出力する。回答を由来付きで固定し、後続Handoffへ参照させる。"
+  distinct_dimensions:
+    - "pre-ingress flatteningの前方防止"
+    - "Motive Query as a valid move"
+    - "declared originとhistorical originの分離"
+    - "動機の複数性と変形可能性"
+
+counter_factual_steelman:
+  setup:
+    - "Gateは新規仮説・Worldlineのcanonical生成だけに適用し、軽微修正・監査・許可済み実装には適用しない。"
+    - "Packetは原文、緊張、source fragments、desired differenceにOrigin Boundaryとprovenanceを持つ。"
+    - "不足時の@inoは仮説を捏造せず、Frameされた問いとMotive Queryだけを返す。"
+    - "回答者確認は、その人が現在そのclaimを宣言した事実だけを証明し、真の歴史的起源を自動認定しない。"
+    - "複数の確認者と競合するmotive claimは統合せず併存できる。"
+    - "機密動機は最小限の公開記述、redaction、非公開参照またはdigestを使い、raw disclosureを強制しない。"
+    - "安全上の緊急対応はGateで遅延させず、例外と欠落を事後記録する。"
+
+dual_stress:
+  logical_systemic:
+    - test: "Stable/Guest dependency inversion"
+      result: "提案はStable core @inoのRequired InputをGuest @lin内の仕様へ依存させる。Guestはarchive/terminate/spin-out可能であるため、Stableの開始条件の正本にできない。"
+      falsifier: "@lin Worldlineを無効化してもStable Gateのschemaと意味が自己完結する。現案では成立しない。"
+    - test: "Human Confirmation laundering"
+      result: "人間の確認は現在の自己申告を由来付きにできるが、記憶違い、後知恵、戦略的説明を歴史的起源の真実へ変換しない。単一labelではorigin claimとconfirmation eventが混同される。"
+      falsifier: "Human Confirmationだけを根拠にpre-ingress_statusをobservedへ変更する運用が発生する。"
+    - test: "plural motive collapse"
+      result: "共同projectでは創設者、利用者、実装者が異なる生成動機を持つ。単一Packetをcanonical motiveにするとDissentが消える。"
+      falsifier: "競合する複数motive claimを一Packetの最大公約数へ統合しなければvalidationできない。"
+    - test: "ceremonial compliance and gaming"
+      result: "構造上埋まったPacketはboilerplateでもschemaを通る。静的validatorは動機の生成力、真正性、十分性を証明できない。"
+      falsifier: "genericな『品質を上げるため』だけでGateがreadyになり、後続生成が開始できる。"
+    - test: "recursive gate and deadlock"
+      result: "Motive Query自体を新仮説と扱わなければ再帰は避けられる。しかしSteward不在時はcanonical生成が無期限停止し得るため、query_requiredとholdを正規状態にする必要がある。"
+      falsifier: "回答不能時にunknownを推測で埋める、または同じQueryを無限反復する。"
+    - test: "motive fossilization"
+      result: "初期Packetを不変の勝利条件にすると、正当な学習やPivotを原点への裏切りとして拒む。Packetはversioned claimであり、Motive Transformationを記録できなければならない。"
+      falsifier: "反証後もoriginal motiveを理由に棄却済み結論を維持する。"
+  cognitive_physical:
+    - test: "cognitive interruption"
+      result: "『新規仮説』の判定が細かすぎると、探索中の分岐ごとに人間へ問い合わせ、生成flowとhuman attentionを枯渇させる。Gate境界はcanonical new lineage creationに限定する必要がある。"
+      falsifier: "一つのbrainstorm内の各candidate hypothesisが別々のHuman Confirmation待ちになる。"
+    - test: "privacy and coercion"
+      result: "個人的経験、被害、政治的立場、営業秘密が動機の場合、public repositoryへのraw Human Confirmation強制は安全と尊厳を侵害する。"
+      falsifier: "秘密を開示しない限り新規Worldlineを開始できない。"
+    - test: "physical latency race"
+      result: "incident response、安全修復、法的期限のある対応を人間の動機回答待ちにすると、Gateの記録精度より先に被害が進む。"
+      falsifier: "安全上の緊急作業がMotive Query待ちで停止する。"
+    - test: "sterile biography"
+      result: "毎回整った起源物語を要求すると、まだ言語化されていない違和感から始まる探索を排除し、後付けの美しい物語を生む。unknown motiveは異常ではなく正規状態でなければならない。"
+      falsifier: "言語化不能なNoiseをgeneric motiveへ変換しないとGateを通れない。"
+
+evidence_and_noise:
+  supporting:
+    - "NZA trialは、role cycle完走がpre-ingress motive保存を保証しない実例を与えた。"
+    - "@linのOrigin Boundaryはdeclared originとobserved originを既に分離している。"
+    - "現行Handoffは不足情報をunknownとして保持する原則を持つ。"
+  contradicting:
+    - "Stable @inoからGuest @lin仕様への依存はWorldline隔離境界と両立しない。"
+    - "単一Human Confirmationは歴史的起源の証明にも複数動機の表現にもならない。"
+    - "提案された二つの反証条件はsharpnessの測定方法と比較単位が未定義である。"
+  unknown:
+    - "Gateが後続成果物のDistinct Dimensions保持率をどの程度変えるか。"
+    - "Motive Queryによる離脱率と応答遅延。"
+    - "どの粒度をnew hypothesisまたはnew Worldlineと判定するか。"
+  noise_signals:
+    - "publicなHuman Confirmation強制は、個人的動機を制度へ差し出させる圧力として強い不快感を生む。raw disclosureが必須ならNoise Vetoを発動する。"
+
+findings:
+  - id: "F1"
+    classification: "revisable_defect"
+    finding: "Stable GateがGuest @linのrole specificationへ依存する。"
+    rationale: "役割を昇格させず、Motive Recordのdata contractだけをStable schema/docsへ抽出すれば中核を維持できる。"
+  - id: "F2"
+    classification: "revisable_defect"
+    finding: "Human Confirmationがdeclaration provenanceとhistorical truthを区別しない。"
+    rationale: "confirmed_by、confirmed_at、basis、observation_horizonを分離し、confirmationの権限を限定できる。"
+  - id: "F3"
+    classification: "revisable_defect"
+    finding: "単一Packetは複数当事者の競合動機を平坦化する。"
+    rationale: "複数motive claimsとDissentを許し、共通動機の捏造を禁止できる。"
+  - id: "F4"
+    classification: "noise_veto_triggered"
+    finding: "公開repositoryへのraw motive開示をGate条件にしてはならない。"
+    rationale: "機密・被害・身体経験の開示強制は、生成品質より先に人間の安全と尊厳を侵害する。redactionまたはrestricted referenceが必要である。"
+  - id: "F5"
+    classification: "revisable_defect"
+    finding: "回答不能、緊急作業、曖昧なNoiseの状態遷移がない。"
+    rationale: "query_required、hold、safety_exception_loggedを定義し、仮説捏造と無限Queryを同時に防げる。"
+  - id: "F6"
+    classification: "unresolved_uncertainty"
+    finding: "Gateが実際の生成的sharpnessまたはlineage recoveryを改善する程度は未観測である。"
+    rationale: "現在の単一事例不足だけでは棄却しないが、正本化後の比較観測が必要である。"
+
+repair_boundary:
+  - "Motive PacketをGuest roleの所有物ではなくStable Motive Record data contractへ抽出する。@linはその高度な系譜分析者としてGuestに留める。"
+  - "Gate状態をready、query_required、hold、safety_exception_loggedとして明示する。"
+  - "Gate対象をcanonicalなnew hypothesis/new Worldline creationへ限定し、探索中の全candidateへ繰り返さない。"
+  - "Human Confirmationはcurrent declarationのprovenanceだけを示し、historical originの真実認定を行わない。"
+  - "複数motive claims、競合、Dissent、versioned transformationを許す。"
+  - "raw motive公開を要求せず、redacted summary、restricted reference、digest、unknownを許す。"
+  - "安全緊急時は作業を止めず、例外理由と欠落を事後記録する。"
+  - "static validationは形と状態遷移だけを検査し、真正性・十分性・生成力を証明しないと明記する。"
+  - "反証指標をlineage recovery、unknown-origin誤認率、query abandonment、confabulation finding等へ具体化する。"
+
+revision_gate:
+  core_preserved: "yes — 動機不明のままcanonical生成を開始しないという核心を維持する。"
+  not_ad_hoc: "yes — provenance、plural claims、privacy、exception stateはOrigin Boundaryを開始条件へ昇格させるための一般的境界である。"
+  human_friction_addressed: "yes, if scope、redaction、hold、safety exceptionを実装する。"
+  distinct_observable_outcome: "yes — canonical生成前にMotive statusが必ず記録され、unknownならMotive Queryまたは明示例外が残る。"
+
+final_verdict: "revise"
+authority: "epistemic_recommendation"
+
+handoff:
+  protocol_version: "0.2.0"
+  from_role: "auditor"
+  to_role: "integrator"
+  reason: "Motive-Firstの核心は支持されたが、Stable/Guest依存逆転、confirmation権限、複数動機、privacy、例外状態を修復してから接続判断する必要がある。"
+
+  inquiry:
+    problem_tension: "生成起点の動機欠落を後方監査だけに任せると、平坦化済みの問いがrole cycle全体へ伝播する。一方、単一の公開Human Confirmationを強制すると別の平坦化と人間侵害を生む。"
+    current_question: "Stable Motive Recordと有限状態Gateへ修復したMotive-Firstを、正本候補またはGuest Worldlineのどちらとして次工程へ接続するか。"
+    distinct_dimensions:
+      - dimension: "pre-ingress flatteningの前方防止"
+        significance: "仮説形成前に動機欠落を観測可能にする。"
+      - dimension: "declaration provenanceとhistorical origin truthの分離"
+        significance: "Human Confirmationを過剰な真実認定へ変えない。"
+      - dimension: "複数動機とprivacyの保存"
+        significance: "共同作業者のDissentと機密の安全を単一Packetへ潰さない。"
+      - dimension: "質問・Hold・例外を正規状態にする"
+        significance: "推測による穴埋め、無限停止、緊急対応遅延を区別する。"
+    flattening_risks:
+      - "Motive Gateを一般的な背景確認checklistへ薄める。"
+      - "Human Confirmationを唯一の正史へする。"
+      - "privacy修復を理由にmotiveを何も記録しない運用へ戻す。"
+
+  hypothesis:
+    statement: "新規canonical hypothesis/worldlineはStable Motive Recordの状態を先に記録し、readyでなければMotive Query、Holdまたは安全例外を明示することで、動機を捏造せずpre-ingress flatteningを防げる。"
+    core_claims:
+      - "新規canonical生成前にMotive statusを記録する。"
+      - "unknownを仮説で埋めずMotive QueryまたはHoldへする。"
+      - "確認は由来を示すが歴史的真実を自動認定しない。"
+      - "複数・競合・機密動機を保持する。"
+      - "@linはGuestのadvisory roleに留める。"
+    mechanism: "Stable Motive Record schema、Gate state machine、@ino input/output ruleを定義する。@linは必要時にTransitとOrigin Boundaryを深掘りするが、Stable Gateのdata contractを所有しない。"
+    assumptions:
+      - assumption: "Motive statusをcanonical生成前に判定できる。"
+        status: "unknown"
+      - assumption: "Origin Boundaryの区別はHuman Confirmationの過剰認定を防げる。"
+        status: "supported"
+      - assumption: "redactionを許しても後続roleが必要な生成差異を受け取れる。"
+        status: "unknown"
+    scope:
+      applies_to:
+        - "新規canonical hypothesis"
+        - "新規Worldline generation"
+        - "@inoのRequired InputとOutput boundary"
+        - "Stable Motive Record schema"
+      does_not_apply_to:
+        - "軽微修正"
+        - "既存Worldline内の監査・実装"
+        - "安全緊急対応の事前停止"
+        - "@linのroot role化"
+
+  hypothetical_world:
+    description: "新規生成の入口で、既知・宣言・推論・unknown・機密が分離され、動機不明なら質問そのものが盤上へ残る。複数の動機は一つへ平均化されず、変形もversioned transitとして追跡される。"
+    consequences:
+      primary:
+        - "全canonical新規生成にMotive statusまたは明示例外が存在する。"
+      secondary:
+        - "後続roleが成果物から生成起点と観測限界を遡れる。"
+        - "競合動機を別claimsとして監査できる。"
+      tertiary:
+        - "複数projectでpre-ingress flatteningとMotive Queryの効果を比較できる。"
+    opportunities:
+      - "NZAで欠けたHuman Steward motiveを最初の比較事例として記録する。"
+      - "Motive GateをSDK workflow stateとして静的検証する。"
+
+  evaluation:
+    falsifiers:
+      - "Gate通過後もorigin unknownがknownとして誤認される率が下がらない。"
+      - "boilerplate Packetが大半を占め、Distinct Dimensionsの復元に寄与しない。"
+      - "Motive Queryによる中断・離脱が新規生成の大半を停止させる。"
+      - "privacy保護後のrecordが後続roleに必要な差異を全く伝えない。"
+    evidence:
+      supporting:
+        - "NZA trialでpre-ingress motive欠落がrole cycle後まで未検出だった。"
+        - "既存@linはOrigin Boundary、basis、pre_ingress_statusを定義している。"
+      contradicting:
+        - "現提案はStable inputをGuest specificationへ依存させる。"
+        - "単一Human Confirmationは複数動機とhistorical truthを扱えない。"
+      unknown:
+        - "実運用でのGate効果と儀式化率"
+        - "new hypothesis判定の最適粒度"
+        - "機密recordの最小十分情報"
+    tests_completed:
+      - "Counter-Factual Steelman"
+      - "Dual-Stress Audit"
+      - "現行Host/Guest authority boundaryとの照合"
+    tests_remaining:
+      - "Integratorによる接続範囲判断"
+      - "修復仕様のEngineer実装とschema test"
+      - "NZAを含む複数taskでの比較run"
+
+  decision:
+    status: "revise"
+    authority: "epistemic_recommendation"
+    decided_by: "auditor"
+    rationale: "Motiveを生成前に要求する核心はNZAの観測へ直接応答し、既存後方監査の欠落を埋める。一方、Guest依存、単一confirmation、privacy強制、無限停止は中核を変えず修復可能であるためreviseを推奨する。"
+    preserved_dimensions:
+      - "Motive-First"
+      - "Motive Query as a valid move"
+      - "Origin Boundary"
+      - "pre-ingress unknown"
+      - "新規生成へのscope限定"
+    rejected_claims:
+      - "Stable @inoはGuest @linのrole fileをdata contractの正本として参照できる。"
+      - "Human Confirmationは真の歴史的起源を確定する。"
+      - "一つのcanonical Motive Packetですべての当事者を代表できる。"
+      - "raw motiveを公開しなければGateを通れない。"
+    revisions:
+      - "Motive RecordをStable data contractへ抽出する。"
+      - "Gate stateをready/query_required/hold/safety_exception_loggedにする。"
+      - "confirmation provenance、plural claims、Dissent、versioning、redactionを追加する。"
+      - "観測指標を具体化する。"
+
+  pivot:
+    trigger: "not_applicable: 中核を維持したreviseでありreplaceではない。"
+    learned_structure:
+      - "Guest roleの発見をStable data primitiveへ昇格しても、role authorityを昇格する必要はない。"
+      - "人間確認は真実判定ではなくprovenance eventである。"
+      - "動機を要求する制度はprivacyと複数性を持たなければ新しい平坦化装置になる。"
+    pivot_seeds:
+      - "Motive Record schema"
+      - "Motive Gate workflow state"
+      - "plural motive claims"
+    next_hypothesis: "not_applicable: revised hypothesis欄に記録した。"
+
+  epistemic_remainder:
+    residuals:
+      - observation: "言語化される前の身体的違和感は、完全なMotive Packetへ変換すると生成力を失う可能性がある。"
+        schema_limit: "現行fieldは言語化済みquestion、tension、fragment、differenceを前提とする。"
+        provenance: "Auditor Sterile Biography stress test。"
+        review_when: "言語化不能なNoiseから開始した実taskでGateを試すとき。"
+    dissent:
+      - position: "新規生成の勢いを守るため、Motive Packetなしでもprovisional hypothesisを許すべきである。"
+        holder: "Auditor adversarial simulation"
+        unresolved_because: "canonical生成前の質問を必須とする中核と緊張し、実runなしにどちらの損失が大きいか判断できない。"
+
+  next_step:
+    objective: "Motive-First Gateの修復境界をStable変更候補として実装するか、Guest Worldlineとして育成するかを決定する。"
+    constraints:
+      - "@lin role authorityをrootへ昇格させない。"
+      - "raw motive disclosureを要求しない。"
+      - "static validationをsemantic authenticity証明として扱わない。"
+      - "Motive Queryを一般的な質問推奨へ薄めない。"
+      - "安全緊急対応をGateで遅延させない。"
+    expected_output:
+      - "advance | revise | replace | holdのoperational_decision"
+      - "Stable primitiveまたはGuest Worldlineの選択"
+      - "Engineerが実装できるGate statesとschema scope"
+      - "比較runの観測条件"
+    unresolved_questions:
+      - "new hypothesisのcanonical境界をどこに置くか。"
+      - "restricted motive referenceをSDKでどこまで表現するか。"
+      - "provisional explorationを許すか。"
+      - "NZAでHuman Steward motiveをGate比較用に記録するか。"

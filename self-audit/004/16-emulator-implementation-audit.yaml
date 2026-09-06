@@ -1,0 +1,170 @@
+audit_target:
+  hypothesis: "generic emulator hostとdigest固定Capsuleにより、Greenfield v2を内部Stable／上流gestatingの第二世代として再現可能に運用できる。"
+  core_premises:
+    - "Greenfield固有規則はCapsule内に隔離される。"
+    - "内部Stableはupstreamの採択権限を持たない。"
+    - "実行対象はimmutable identityで再現できる。"
+    - "世代はrevisionでなく異なる経験を含む完全role cycleである。"
+  mechanism: "Stable Host Protocolへcandidate overlayを重ね、宣言assetをSHA-256で検証し、二重statusとauthorityをpromptへ表示する。"
+  distinct_dimensions:
+    - "Internal Stable / Upstream Gestating"
+    - "provisional locator / reproducible pin"
+    - "experience-bearing three generations"
+
+steelman_setup:
+  - "全利用者が明示的にWorldline IDを選択する。"
+  - "candidate asset digest検証は完全に動作する。"
+  - "人間はprompt headerを読み、内部判断とupstream判断を区別する。"
+
+dual_stress:
+  logical_systemic:
+    - test: "candidate isolation"
+      result: "root protocol、root Innovator、root manifestからGreenfield固有規則は除去され、candidate assetはCapsule内にある。"
+      falsifier: "通常のcomposeRolePromptがGreenfield Ingressを暗黙適用する。"
+    - test: "capsule tamper"
+      result: "宣言candidate assetの変更はCapsule digest mismatchで起動前に拒否される。"
+      falsifier: "asset変更後もresolveWorldlineが成功する。"
+    - test: "host pin truthfulness"
+      result: "manifestはparent commitを記録するが、composerは現在のroot protocolとroleを読み、実際にそのcommit由来の内容か検証しない。将来のHost上ではheaderが固定commitを表示しながら別内容をロードし得る。"
+      falsifier: "Host asset集合のdigestをmanifestへ固定し、起動時に現在のHost asset集合と照合する。"
+    - test: "generation laundering"
+      result: "固有experience_id、literal evidence重複拒否、current Capsule digest要求が実装された。同一経験の言い換えまでは意味監査が必要である。"
+      falsifier: "同じexperience_idまたは同じevidence locatorでadvanceできる。"
+  cognitive_physical:
+    - test: "mode visibility"
+      result: "promptはinternal/upstream status、generation、channel、commit、digest、authorityを同時表示する。情報量は多いが、暗黙modeより境界確認可能性が高い。"
+      falsifier: "利用者がpromptから現在の世界線を特定できない。"
+    - test: "provisional friction"
+      result: "opt-in APIは一呼出しでentrypointまたはroleを合成でき、手作業のoverlayより負荷が低い。実projectでの理解率は未検証である。"
+      falsifier: "外部利用者がStable Hostとcandidateを恒常的に混同する。"
+
+evidence_and_noise:
+  supporting:
+    - "29件のtests、package dry-run、CLI解決が成功した。"
+    - "root Greenfield正本変更はcandidate directoryへ隔離された。"
+    - "candidate asset digest、未宣言asset拒否、二重status headerが実装された。"
+  contradicting:
+    - "Host commitは表示されるだけで、実際にロードしたHost protocol/role contentと結び付いていない。"
+  unknown:
+    - "外部projectにおける二重statusの認知負荷"
+    - "literalでない世代evidence再包装の検出率"
+  noise_signals:
+    - "『Resolved base commit』という表示が未検証のHost内容へ暗号学的確実性を装う違和感がある。"
+
+findings:
+  - classification: revisable_defect
+    finding: "Candidate Capsuleは固定されるが、その下でロードされるStable Host assetが固定・検証されない。"
+    rationale: "中核を変えず、base asset listとhost asset digestをmanifestへ追加して起動時に照合できる。"
+  - classification: unresolved_uncertainty
+    finding: "二重status headerが実利用者のmode confusionを十分に防ぐかは未検証である。"
+    rationale: "現在データがないことは棄却理由ではなく、第三世代の外部runで観測すべきである。"
+
+repair_boundary:
+  - "emulation.baseへHost側の宣言asset一覧とSHA-256 digestを追加する。"
+  - "root manifest、Stable Host Protocol、全load可能role templateをbase asset集合へ含める。"
+  - "resolveWorldline時に現在のHost asset digestを照合する。"
+  - "prompt headerへHost asset digestを表示する。"
+  - "Greenfield candidate内容、第二世代status、第三世代保留は変更しない。"
+
+pivot_seeds:
+  - "semantic evidence identity for generation runs"
+  - "parent-to-capsule nutrition/rebase log"
+
+final_verdict: revise
+
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: "Emulatorの中核は成立するが、表示するHost commitと実際にロードするHost assetが暗号学的に結び付いていないため限定修復が必要である。"
+  inquiry:
+    problem_tension: "Candidateだけをdigest固定しても基底Hostがdriftすれば、同じCapsule identityが別の実行意味を持つ。"
+    current_question: "Host asset digestを追加してEmulator identityを完全に固定した後、汎用母体変更を受け入れるか。"
+    distinct_dimensions:
+      - dimension: "two-sided reproducibility"
+        significance: "overlayと基底の両方が同じ実行意味を構成する。"
+      - dimension: "relative stability"
+        significance: "修復後も内部Stableと上流gestatingを維持する。"
+    flattening_risks:
+      - "commit表示だけを実内容のpinとみなす。"
+  hypothesis:
+    statement: "HostとCapsule双方の宣言asset digestを照合すれば、内部Stable Emulatorを再現可能に起動できる。"
+    core_claims:
+      - "Greenfield固有規則をCapsuleへ隔離する。"
+      - "内部判断をupstreamへ自動昇格しない。"
+      - "第三世代は外部経験まで開始しない。"
+    mechanism: "base.assetsとbase.digestをmanifestへ追加し、candidate digestと同じ決定的算法でrootから検証する。"
+    assumptions:
+      - assumption: "manifest、protocol、全role templateがHost実行意味を固定する最小集合である。"
+        status: supported
+    scope:
+      applies_to:
+        - "emulation base schema, loader, prompt, tests, candidate manifest"
+      does_not_apply_to:
+        - "candidate promotion or generation 3"
+  hypothetical_world:
+    description: "Hostとoverlayの両面が固定され、headerのidentityから同じprompt構成を再現できる。"
+    consequences:
+      primary:
+        - "Host driftは起動前に検出される。"
+      secondary:
+        - "Host更新の取り込みは明示的な次世代candidate変更になる。"
+      tertiary:
+        - "分散clone間で同一Emulator identityを比較できる。"
+    opportunities:
+      - "nutrition logをHost digest変化として追跡する。"
+  evaluation:
+    falsifiers:
+      - "Host asset変更後も同じbase digestで起動できる。"
+      - "修復がGreenfieldをroot正本へ戻す。"
+    evidence:
+      supporting:
+        - "candidate側では同じdigest方式が機能している。"
+      contradicting:
+        - "現実装はHost assetを照合しない。"
+      unknown:
+        - "外部認知負荷"
+    tests_completed:
+      - "implementation Dual-Stress Audit"
+    tests_remaining:
+      - "Host tamper invariant test"
+      - "Integrator operational decision"
+  decision:
+    status: revise
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: "Host側pin欠落は再現可能性の中核に触れるが、対称digest追加で元の尖りを保ったまま修復できる。"
+    preserved_dimensions:
+      - "Internal Stable / Upstream Gestating"
+      - "provisional latest"
+      - "three-generation gestation"
+    rejected_claims:
+      - "manifestのcommit文字列だけでloaded Host contentが検証済みになる。"
+    revisions:
+      - "Host asset digestを追加する。"
+  pivot:
+    trigger: "not_applicable: 中核を維持する限定修復である。"
+    learned_structure:
+      - "Emulator identityはbaseとoverlayの順序対である。"
+    pivot_seeds:
+      - "nutrition log"
+    next_hypothesis: "not_applicable: 修復後の同一仮説を維持する。"
+  epistemic_remainder:
+    residuals:
+      - observation: "意味的に同じ経験を別文字列で世代化する問題は静的digestでは解けない。"
+        schema_limit: "現在のinvariantはidentityとlocatorのliteral一致だけを扱う。"
+        provenance: "implementation audit"
+        review_when: "第三世代の意味監査時。"
+    dissent:
+      - position: "全role templateの固定はHost security update取り込みを重くする。"
+        holder: "Auditor counter-position"
+        unresolved_because: "その摩擦は暗黙driftを防ぐ意図的な停止境界でもある。"
+  next_step:
+    objective: "IntegratorがHost asset digest修復を採否し、Engineerへ限定変更を渡す。"
+    constraints:
+      - "candidate世代を進めない。"
+      - "Greenfield固有規則をrootへ戻さない。"
+    expected_output:
+      - "Integrator-to-Engineer decision"
+    unresolved_questions:
+      - "なし。外部認知負荷は第三世代へ保持する。"

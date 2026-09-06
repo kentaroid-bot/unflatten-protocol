@@ -1,0 +1,106 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: other
+  reason: "Auditorのadvance推奨を受け、修復差分をPRへ反映する運用判断を確定する。"
+  inquiry:
+    problem_tension: "merge blockerを解消しつつ、修復そのものをv2の第三世代やpromotionとして誤計上してはならない。"
+    current_question: "修復差分を現在のPRへcommit/pushし、merge可能な状態としてHuman Stewardへ戻すか。"
+    distinct_dimensions:
+      - dimension: "mergeとpromotionの分離"
+        significance: "Emulator基盤の採用はGreenfield v2候補のHost昇格を意味しない。"
+      - dimension: "generationは経験である"
+        significance: "merge前修復を新世代として数えない。"
+    flattening_risks:
+      - "テスト成功を第三世代の外部経験とみなす。"
+  hypothesis:
+    statement: "二つのblockerを修復した現行treeは、v2を第二世代gestatingのまま保持してPRへ反映できる。"
+    core_claims:
+      - "version addressとauthorityを分離する。"
+      - "lineage parentとruntime content identityを分離する。"
+      - "generation 3とpromotionは別の将来判断に残す。"
+    mechanism: "修復commitをfeature branchへpushし、GitHubの更新状態とローカル検証をHuman Stewardへ提示する。"
+    assumptions:
+      - assumption: "PR baseが監査時から変化していない、またはGitHubが競合なしと再判定する。"
+        status: unknown
+    scope:
+      applies_to:
+        - "PR #3 repair update"
+      does_not_apply_to:
+        - "PR merge execution"
+        - "v2 promotion"
+        - "generation 3 advancement"
+  hypothetical_world:
+    description: "修復済みPRがStable Hostへ取り込まれても、Greenfieldは明示opt-inの第二世代Worldlineとして残る。"
+    consequences:
+      primary:
+        - "二つのmerge blockerが除去される。"
+      secondary:
+        - "第三者運用を次の独立経験として観測できる。"
+      tertiary:
+        - "昇格判断を実運用証拠に基づいて行える。"
+    opportunities:
+      - "third-generation external run"
+  evaluation:
+    falsifiers:
+      - "修復後テスト、digest、Handoff validationのいずれかが失敗する。"
+      - "GitHubが競合または失敗checkを報告する。"
+      - "manifestがgeneration 3またはpromotedへ変化する。"
+    evidence:
+      supporting:
+        - "Auditorはadvanceをepistemic recommendationとして発行した。"
+        - "33 tests、diff check、package dry-run、二つのdigest照合が成功した。"
+        - "manifestはlineage_generation 2、status runnable、upstream gestatingを維持する。"
+      contradicting: []
+      unknown:
+        - "push後のGitHub mergeStateStatus"
+    tests_completed:
+      - "self-audit/004/24-merge-repair-auditor-to-integrator.yaml"
+      - "local verification suite"
+    tests_remaining:
+      - "post-push GitHub status check"
+      - "third-generation external experience"
+  decision:
+    status: advance
+    authority: operational_decision
+    decided_by: integrator
+    rationale: "Fatal ContradictionとRevisable Defectが残らず、変更は可逆なfeature branch内に限定されるため、PRへのcommit/pushを許可する。merge実行とv2 promotionは許可範囲外に残す。"
+    preserved_dimensions:
+      - "Internal Stable / Upstream Gestating"
+      - "generation 2"
+      - "Human Steward merge authority"
+      - "remote retrieval residual"
+    rejected_claims:
+      - "修復commitが新世代を構成する。"
+      - "PR更新が自動的なmerge許可またはpromotionになる。"
+    revisions:
+      - "現在のPRへ修復差分と監査記録を追加する。"
+  pivot:
+    trigger: "merge blocker修復の完了"
+    learned_structure:
+      - "候補の内容修復と経験世代の進行は異なる状態遷移である。"
+    pivot_seeds:
+      - "external reproduction run"
+    next_hypothesis: "第三者がcontent-addressed Capsuleを再現できれば第三世代の経験条件を満たし得る。"
+  epistemic_remainder:
+    residuals:
+      - observation: "remote content discoveryと旧Host保存migrationは未実装である。"
+        schema_limit: "現行実装はlocal package/check-out内のcontent verificationまでを担う。"
+        provenance: "self-audit/004/24-merge-repair-auditor-to-integrator.yaml"
+        review_when: "第三者再現または実際のpromotion設計時。"
+    dissent:
+      - position: "Host基盤とCandidateを別PRへ分割する選択肢を履歴上の改善として保持する。"
+        holder: "Auditor counter-position"
+        unresolved_because: "現在の最終treeには論理的blockerがなく、既存PRを分割する追加コストを正当化する観測がない。"
+  next_step:
+    objective: "修復差分をcommit/pushし、更新後のPR状態を確認してHuman Stewardへmerge可否を返す。"
+    constraints:
+      - "PRを自動mergeしない。"
+      - "generation 3へ進めない。"
+      - "Greenfield Worldlineをpromoteしない。"
+    expected_output:
+      - "commit SHA"
+      - "updated GitHub merge status"
+      - "remaining residuals"
+    unresolved_questions:
+      - "Human StewardがこのPRをいつmergeするか。"

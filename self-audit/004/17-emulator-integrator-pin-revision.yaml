@@ -1,0 +1,100 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: engineer
+  reason: "Auditorが発見したHost pinの非対称性を修復し、Emulator identityを基底HostとCapsuleのdigest対として完成させる。"
+  inquiry:
+    problem_tension: "表示されたcommitと実際にロードされたHost内容が一致しなければ、同じCapsuleが別の意味を実行し得る。"
+    current_question: "candidate世代を進めず、Host asset digestを追加して再現可能性を完成できるか。"
+    distinct_dimensions:
+      - dimension: "two-sided identity"
+        significance: "Emulatorの意味はbaseとoverlayの双方から生じる。"
+      - dimension: "generation integrity"
+        significance: "実装欠陥修正を新しい経験世代に数えない。"
+    flattening_risks:
+      - "commit文字列の表示をcontent verificationと取り違える。"
+  hypothesis:
+    statement: "root manifest、protocol、load可能role群をHost asset集合としてdigest固定すれば、Candidate digestと合わせてEmulator実行を再現できる。"
+    core_claims:
+      - "Greenfield固有規則はCapsuleに隔離する。"
+      - "内部Stableと上流gestatingを維持する。"
+      - "HostとCandidateの両digestを起動時に検証する。"
+      - "Greenfield v2は第二世代のままとする。"
+    mechanism: "emulation.baseへassetsとsha256 digestを追加し、resolve時の照合とprompt header表示を行う。"
+    assumptions:
+      - assumption: "root manifest、protocol、全role templateがcomposerのHost側意味を覆う。"
+        status: supported
+    scope:
+      applies_to:
+        - "worldline schema and loader"
+        - "Greenfield candidate manifest"
+        - "emulator tests and docs"
+      does_not_apply_to:
+        - "generation 3、promotion、spin-out"
+  hypothetical_world:
+    description: "同じHost digestとCapsule digestの対は、cloneを越えて同じ合成入力を表す。"
+    consequences:
+      primary:
+        - "Host driftを起動前に拒否する。"
+      secondary:
+        - "Host更新の取り込みは明示的なCapsule更新になる。"
+      tertiary:
+        - "将来nutrition lineageとしてbase更新を記録できる。"
+    opportunities:
+      - "分散したEmulator runのidentity比較"
+  evaluation:
+    falsifiers:
+      - "Host asset変更後も旧digestで起動する。"
+      - "修復がcandidate世代を3へ進める。"
+    evidence:
+      supporting:
+        - "Candidate asset側で同じ算法が検証済みである。"
+      contradicting:
+        - "現実装はHost contentを照合しない。"
+      unknown:
+        - "外部認知負荷"
+    tests_completed:
+      - "Auditor implementation audit"
+    tests_remaining:
+      - "Host digest implementation and regression"
+  decision:
+    status: revise
+    authority: operational_decision
+    decided_by: integrator
+    rationale: "Host pin欠落はEmulatorの再現可能性を損なうが、対称digestという局所修復で中核と世代境界を維持できる。"
+    preserved_dimensions:
+      - "Internal Stable / Upstream Gestating"
+      - "provisional latest"
+      - "three-generation gestation"
+    rejected_claims:
+      - "commit表示だけでHost contentが固定される。"
+    revisions:
+      - "Host asset digestをschema、manifest、runtime、promptへ追加する。"
+  pivot:
+    trigger: "Host側content pinの欠落。"
+    learned_structure:
+      - "Emulator identityはHost digestとCapsule digestの順序対である。"
+    pivot_seeds:
+      - "nutrition lineage"
+    next_hypothesis: "二面digestを持つCapsuleは、内部Stableを再現可能に運用できる。"
+  epistemic_remainder:
+    residuals:
+      - observation: "Host更新をどの条件でcandidateへ取り込むかは未設計である。"
+        schema_limit: "今回のbase pinは更新履歴を表さない。"
+        provenance: "self-audit/004/16-emulator-implementation-audit.yaml"
+        review_when: "第三世代前にHost更新が必要になったとき。"
+    dissent:
+      - position: "Host全role固定は更新摩擦を増やす。"
+        holder: "Auditor counter-position"
+        unresolved_because: "暗黙driftより明示停止を優先し、実負荷は第三世代で観測する。"
+  next_step:
+    objective: "Host asset digestを実装・検証し、Greenfield v2を第二世代のままprovisional latestとして完成する。"
+    constraints:
+      - "Greenfield固有規則をrootへ入れない。"
+      - "candidate manifestのlineage_generationを変更しない。"
+      - "HostとCandidate両digestをpromptへ表示する。"
+    expected_output:
+      - "two-sided digest implementation"
+      - "passing regression and packaging checks"
+    unresolved_questions:
+      - "外部projectで行う第三世代runの選定"

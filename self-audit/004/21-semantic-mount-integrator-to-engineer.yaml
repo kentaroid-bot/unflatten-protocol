@@ -1,0 +1,102 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: engineer
+  reason: "Auditorの修復境界を採用し、Versioned Semantic Mountを第二世代Emulatorの可逆な入口として実装する。"
+  inquiry:
+    problem_tension: "v1/v2の同時利用には直感的pathが必要だが、raw rewriteはshadowingとdriftを生む。"
+    current_question: "v1所有mountとv2所有mappingを分離したlogical resolverを実装できるか。"
+    distinct_dimensions:
+      - dimension: "path-addressable coexistence"
+        significance: "参照ごとにv1/v2選択を保持する。"
+      - dimension: "semantic composition"
+        significance: "v2差分とv1継承を正しい順序で合成する。"
+    flattening_risks:
+      - "物理directory copyへ退行する。"
+  hypothesis:
+    statement: "v1 registryのlongest-prefix mountとv2のdigest固定mount.jsonにより、`~/...`、`~/v1/...`、`~/v2/...`を安全に解決できる。"
+    core_claims:
+      - "`~/`はlogical-onlyである。"
+      - "host mount割当はv1 registryだけが持つ。"
+      - "candidate route tableはCapsule digest対象である。"
+      - "fallbackはbase.assetsに限定する。"
+      - "resolved identityを返す。"
+    mechanism: "registry mounts、mount.json route、resolve/load API、quoted CLI commandを追加する。"
+    assumptions:
+      - assumption: "longest-prefix規則で `~/` と `~/v2/` を曖昧なく選べる。"
+        status: supported
+    scope:
+      applies_to:
+        - "registry/schema, v2 Capsule, SDK/CLI/docs/tests"
+      does_not_apply_to:
+        - "OS filesystem aliases, symlinks, generation advancement"
+  hypothetical_world:
+    description: "Agentは同一sessionでv1/v2のlogical resourceを明示pathからロードし、identityを記録する。"
+    consequences:
+      primary:
+        - "v1/v2が同時利用可能になる。"
+      secondary:
+        - "比較と限定移行が容易になる。"
+      tertiary:
+        - "複数Worldline mountへ拡張できる。"
+    opportunities:
+      - "run-level resolved path provenance"
+  evaluation:
+    falsifiers:
+      - "traversalまたはundeclared pathが読める。"
+      - "v2 protocolがoverlayなしで返る。"
+      - "route変更がCapsule digestへ反映されない。"
+    evidence:
+      supporting:
+        - "existing registry、digest、composer primitives"
+      contradicting: []
+      unknown:
+        - "external Agent mode confusion"
+    tests_completed:
+      - "semantic mount Dual-Stress Audit"
+    tests_remaining:
+      - "resolver implementation and regression"
+  decision:
+    status: advance
+    authority: operational_decision
+    decided_by: integrator
+    rationale: "修復済み案はHuman Stewardの読替直感を維持し、母体Captureとfilesystem誤操作を構造的に防げる。"
+    preserved_dimensions:
+      - "`~/...` / `~/v2/...` coexistence"
+      - "Internal Stable / Upstream Gestating"
+      - "second-generation boundary"
+    rejected_claims:
+      - "raw text replacement"
+      - "physical v2 copy"
+    revisions:
+      - "logical-only semantic resolverとして実装する。"
+  pivot:
+    trigger: "raw rewriteのshadowingとdrift。"
+    learned_structure:
+      - "v1 owns addresses; v2 owns meaning overrides"
+    pivot_seeds:
+      - "plural mounts"
+    next_hypothesis: "Versioned Semantic Mountは複数の内部Stable worldを同時に読める。"
+  epistemic_remainder:
+    residuals:
+      - observation: "`~/`のshell意味との衝突はdocumentationだけでは完全に消えない。"
+        schema_limit: "resolver外の人間操作を強制できない。"
+        provenance: "self-audit/004/20-semantic-mount-audit.yaml"
+        review_when: "第三世代external run。"
+    dissent:
+      - position: "`unflatten:/`をcanonical URIにする。"
+        holder: "Auditor counter-position"
+        unresolved_because: "今回は`~/`をlogical-onlyで試し、誤認を観測する。"
+  next_step:
+    objective: "Versioned Semantic Mountを実装し、v1/v2 compose、inheritance、traversal、shadowing、identityを検証する。"
+    constraints:
+      - "candidate generationを2から変更しない。"
+      - "mount.jsonをCapsule digestへ含める。"
+      - "root Greenfield正本を作らない。"
+    expected_output:
+      - "resolveProtocolPath/loadProtocolPath APIs"
+      - "CLI path command"
+      - "schema and invariant tests"
+      - "updated documentation"
+    unresolved_questions:
+      - "第三世代でURI aliasも比較するか。"

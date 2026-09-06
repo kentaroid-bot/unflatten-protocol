@@ -1,0 +1,123 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: integrator
+  to_role: engineer
+  reason: Auditorが再現した4件のdriftは中核を変えず局所修復できるため、同じPRで修正して再監査へ戻す。
+  inquiry:
+    problem_tension: Greenfield IngressをStable probeとして試せる状態にしたいが、未定情報の捏造圧力と例外後の系譜忘却を残したまま採用してはならない。
+    current_question: 4件の修復だけを行い、pre-role、opt-in、privacy、semantic authority boundaryを維持できるか。
+    distinct_dimensions:
+      - dimension: non-fabricated incompleteness
+        significance: partial/deferredをplaceholderで埋めない。
+      - dimension: observed basis before ready
+        significance: 根拠unknownだけでcanonical生成へ進ませない。
+      - dimension: safety return path
+        significance: urgent action後のIngress回収を失わない。
+      - dimension: composer-validator closure
+        significance: 標準promptからschema適合record生成へ接続できる。
+    flattening_risks:
+      - "修復を理由に全workflowへmandatory Gateを導入する。"
+      - "non-unknown basisを動機の真実性認定へ拡張する。"
+  hypothesis:
+    statement: "4件の限定修復でGreenfield Ingressはunknownを捏造せず保持するopt-in Stable probeになる。"
+    core_claims:
+      - "Outcome partial/deferredは未観測fieldを省略できる。"
+      - "readyには少なくとも一つのnon-unknown basis claimがある。"
+      - "safety_exception_loggedはfollow_up_required: trueを持つ。"
+      - "composeIngressPromptはmachine-readable schemaとrecord-only指示を含む。"
+    mechanism: "Ingress schemaのconditional required、composer構成、regression tests、必要なdocsだけを変更する。"
+    assumptions:
+      - assumption: "修復は既存fixtureとAPI互換性を維持する。"
+        status: supported
+      - assumption: "Stable probeとしてmerge後に実runで意味的効果を評価できる。"
+        status: unknown
+    scope:
+      applies_to:
+        - "schema/ingress-record.schema.json"
+        - "validator/index.js"
+        - "test/sdk.test.js"
+        - "docs/ingress.md"
+      does_not_apply_to:
+        - "automatic mandatory gate"
+        - "field-level epistemic status全面設計"
+        - "workflow-run schema変更"
+        - "version bumpまたはrelease"
+  hypothetical_world:
+    description: "未定fieldは未定のまま省略でき、readyと安全例外の境界が機械検証され、composerはroleを選ばずschemaを提示する。"
+    consequences:
+      primary:
+        - "4件の再現反証がすべて逆転する。"
+      secondary:
+        - "比較runへ持ち込める最小Stable probeになる。"
+      tertiary:
+        - "実run結果からmandatory化、改訂、Worldline分岐を判断できる。"
+    opportunities:
+      - "query-firstとhypothesis-probe-firstを混ぜずに比較する。"
+  evaluation:
+    falsifiers:
+      - "4件のbehavior testのいずれかが残る。"
+      - "既存testが退行する。"
+      - "composerがroleを含む。"
+    evidence:
+      supporting:
+        - "欠陥は具体的schema/API箇所へ局在する。"
+      contradicting:
+        - "現commitでは4件が再現する。"
+      unknown:
+        - "実run効果"
+    tests_completed:
+      - "Auditor implementation re-audit"
+    tests_remaining:
+      - "4件のregression tests"
+      - "full npm testとpackage verification"
+      - "修復後Auditor再監査"
+  decision:
+    status: revise
+    authority: operational_decision
+    decided_by: integrator
+    rationale: "実装を破棄またはHoldする根拠はなく、4件はMotive-Firstの中核を強める局所修復である。同じPR内で直し、Auditorへ戻す。"
+    preserved_dimensions:
+      - "Greenfield Ingress"
+      - "pre-role and opt-in"
+      - "Motive/Outcome separation"
+      - "privacy and plurality"
+      - "semantic validation boundary"
+    rejected_claims:
+      - "現状のSchemaをそのままStableへmergeできる。"
+      - "実run前にautomatic mandatory gateへ昇格する。"
+    revisions:
+      - "Outcome required fieldsをstatus別にする。"
+      - "readyへnon-unknown basis containsを追加する。"
+      - "safety follow-upをtrueへ固定する。"
+      - "composerへschemaとrecord-only指示を追加する。"
+  pivot:
+    trigger: "not_applicable: 同じ中核の修復である。"
+    learned_structure:
+      - "Stable採用は真理認定ではなく、比較可能なprobeの配置として行える。"
+    pivot_seeds:
+      - "field-level epistemic status"
+      - "alternative ingress Worldline"
+    next_hypothesis: "not_applicable: 修復範囲を固定した。"
+  epistemic_remainder:
+    residuals:
+      - observation: "structured fieldをoptionalにしても言語化前のNoiseは直接保存できない。"
+        schema_limit: "Schemaは観測済み表現だけを扱う。"
+        provenance: "Auditor finding"
+        review_when: "実runでpartial motiveを扱うとき。"
+    dissent:
+      - position: "hypothesis-probe-first経路も必要である。"
+        holder: "Auditor adversarial simulation"
+        unresolved_because: "今回のrepairへ平均化せず、比較対象として保持する。"
+  next_step:
+    objective: "4件の限定修復とregression testを実装し、Engineer-to-Auditor Handoffを作る。"
+    constraints:
+      - "指定4件以外へscopeを拡張しない。"
+      - "semantic scoring、mandatory gate、version bumpを行わない。"
+      - "test成功を実効果の証明にしない。"
+    expected_output:
+      - "修復済みschemaとcomposer"
+      - "4件のregression test"
+      - "full verification"
+      - "Engineer-to-Auditor Handoff"
+    unresolved_questions:
+      - "最終再監査後にStable mergeするか。"
