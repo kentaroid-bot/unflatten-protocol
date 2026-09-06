@@ -18,12 +18,13 @@
 
 ## Loading Order
 
-1. manifestに記録されたHost commitを基底として確認する。
-2. Stable Host Protocolを読む。
-3. `protocol-overlay.md` を重ねる。
-4. entrypointまたはStable Host roleを読む。
-5. 対応するrole overlayがあれば重ねる。
-6. Capsule digestとresolved pinを実行記録へ残す。
+1. manifestの`parent.commit`を、候補が分岐した系譜上の祖先として確認する。
+2. 現在のHost asset群をcontent digestで検証し、実行母体を固定する。
+3. Stable Host Protocolを読む。
+4. `protocol-overlay.md` を重ねる。
+5. entrypointまたはStable Host roleを読む。
+6. 対応するrole overlayがあれば重ねる。
+7. lineage parent commit、Host asset digest、Capsule digestを実行記録へ残す。
 
 ## Versioned Semantic Mount
 

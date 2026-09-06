@@ -55,7 +55,7 @@
       "status": "completed",
       "roles_completed": ["innovator", "auditor", "integrator"],
       "experience_id": "human-steward-emulator-correction",
-      "candidate_digest": "c9ea37704f8ee5d2db800646eff8683c0c35591da87a8a12d5a37439d8b9ed53",
+      "candidate_digest": "1c0b8d4b39db9073be20b96d34606c2c9ba573d2fb870aa3cc80fb46619df5ce",
       "evidence": [
         "Human Steward correction: Greenfield Ingress is internally Stable inside a gestating v2 emulator",
         "self-audit/004/12-emulator-innovator-to-auditor.yaml",
@@ -76,8 +76,7 @@
     "upstream_status": "gestating",
     "channel": "provisional_latest",
     "base": {
-      "strategy": "inherit_host",
-      "commit": "86ef384bf2d83648a1140434d6f41bcf0120bfe7",
+      "strategy": "content_addressed_host",
       "assets": [
         "docs/handoff.md",
         "docs/protocol.md",
@@ -103,7 +102,7 @@
       ],
       "digest": {
         "algorithm": "sha256",
-        "value": "b5bc8a0e620f619ddd035eac04b05373287f12f53e991d53500d7ff0b78e606f"
+        "value": "803f774e8908f0a049791f6b794c8e1c274fe9b86ca7183d02b9538f5c08e74e"
       }
     },
     "protocol_overlay": "protocol-overlay.md",
@@ -137,7 +136,7 @@
       ],
       "digest": {
         "algorithm": "sha256",
-        "value": "c9ea37704f8ee5d2db800646eff8683c0c35591da87a8a12d5a37439d8b9ed53"
+        "value": "1c0b8d4b39db9073be20b96d34606c2c9ba573d2fb870aa3cc80fb46619df5ce"
       }
     }
   }

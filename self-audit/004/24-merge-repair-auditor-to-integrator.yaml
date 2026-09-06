@@ -1,0 +1,116 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: auditor
+  to_role: integrator
+  reason: "merge blocker修復をCounter-Factual SteelmanとDual-Stress Auditに通した。"
+  inquiry:
+    problem_tension: "v2の住所、権限、系譜、実行内容を混同せず、将来の昇格可能性と現在の再現性を両立する必要がある。"
+    current_question: "修復差分に、マージを止めるFatal ContradictionまたはRevisable Defectが残るか。"
+    distinct_dimensions:
+      - dimension: "authority-neutral version address"
+        significance: "version番号によって候補の生涯を固定しない。"
+      - dimension: "ancestryとruntime contentの二重identity"
+        significance: "自己参照を避けながら変換系譜と実行内容の双方を追跡する。"
+    flattening_risks:
+      - "commitを万能の同一性とみなす。"
+      - "digestを配布可能性の証明とみなす。"
+  hypothesis:
+    statement: "Registryがversioned prefixのauthorityを決め、実行母体をcontent digestで固定すれば、v2はgestatingのまま動き、同じ住所で将来Hostへ切り替えられる。"
+    core_claims:
+      - "root mountはHost専用である。"
+      - "versioned mountはHost/Worldline双方を表現できる。"
+      - "parent.commitはancestryでありruntime pinではない。"
+      - "Host/Capsule digest不一致時は実行を拒否する。"
+      - "候補のgenerationは2のままである。"
+    mechanism: "schema、registry invariant、longest-prefix resolver、二面digest検査を分離して適用する。"
+    assumptions:
+      - assumption: "実行者は検証済みpackageまたはcheckoutからHost/Capsule assetを取得する。"
+        status: supported
+      - assumption: "digestだけから遠隔artifactを発見できる。"
+        status: unknown
+    scope:
+      applies_to:
+        - "current repository/package runtime"
+        - "future Registry authority switch"
+      does_not_apply_to:
+        - "remote content discovery"
+  hypothetical_world:
+    description: "多数の候補とHost版がversioned addressを共有しても、各prefixは一つの明示targetを持ち、実行時contentはdigest照合される。"
+    consequences:
+      primary:
+        - "v2の昇格可能性がschemaで閉じられない。"
+      secondary:
+        - "系譜を偽らず候補を自己包含packageとして配布できる。"
+      tertiary:
+        - "versionとlifecycleを独立に発展させられる。"
+    opportunities:
+      - "digest-indexed artifact registry"
+  evaluation:
+    falsifiers:
+      - "`~/v2/` Hostまたは`~/v1/` Worldlineがschemaで不可能である。"
+      - "Worldlineがroot mountを取得できる。"
+      - "asset drift後もEmulatorが起動する。"
+      - "parent commitがruntime commitとして表示される。"
+    evidence:
+      supporting:
+        - "authority-neutral mount testを含む33テストが成功した。"
+        - "root capture、duplicate prefix、unknown target、traversalを拒否する。"
+        - "Host/Capsuleの実測digestとmanifest値が一致した。"
+        - "SDK出力はlineage_parent_commitと二つのdigestを分離する。"
+        - "diff検査とpackage dry-runが成功した。"
+      contradicting: []
+      unknown:
+        - "digestからremote artifactを自動取得する機構"
+        - "昇格時に旧Host版も同時保存する具体的migration"
+    tests_completed:
+      - "logical/systemic collapse: address capture, authority lock-in, identity self-reference"
+      - "cognitive friction: runtime identity labels and opt-in path readability"
+      - "SDK regression, digest integrity, package inclusion"
+    tests_remaining:
+      - "third-party provisional run"
+      - "actual promotion migration rehearsal"
+  decision:
+    status: advance
+    authority: epistemic_recommendation
+    decided_by: auditor
+    rationale: "二つのmerge blockerは中核を弱めず解消された。残る配布locatorと旧版保存は現在の局所実行を反証せず、将来の運用実験として明示されている。"
+    preserved_dimensions:
+      - "No Gray Stones through separate Worldline identity"
+      - "Internal Stable / Upstream Gestating"
+      - "three-generation limit"
+      - "lineage traceability"
+    rejected_claims:
+      - "Git commit一つがancestryとruntime contentを同時に表す。"
+      - "v2という番号がWorldline authorityを意味する。"
+    revisions:
+      - "remote retrievalを再現性の既実装機能とはせずunknownとして保持する。"
+  pivot:
+    trigger: "commit自己参照の反証"
+    learned_structure:
+      - "content identityはlocatorから独立できる。"
+      - "住所の継続性はauthorityの継続性を要求しない。"
+    pivot_seeds:
+      - "promotion migration rehearsal"
+      - "content digest locator"
+    next_hypothesis: "第三者実行でartifact discoveryが障壁になった場合のみ、digest locatorを次世代候補として追加する。"
+  epistemic_remainder:
+    residuals:
+      - observation: "digestは内容の一致を証明するが、その内容を取得できる場所を保証しない。"
+        schema_limit: "現行Emulator schemaにdistribution locatorがない。"
+        provenance: "base.commit自己参照の修復監査"
+        review_when: "別checkoutまたはrelease artifactからの再現実験時。"
+    dissent:
+      - position: "Host基盤とGreenfield Capsuleを別PRへ分割すると履歴はさらに単純になる。"
+        holder: "Auditor counter-position"
+        unresolved_because: "最終treeの論理矛盾は解消しており、分割は履歴設計の選好であって現在のFatal Contradictionではない。"
+  next_step:
+    objective: "Integratorがmerge範囲、残余の追跡方法、第三世代を開始しない条件を拘束する。"
+    constraints:
+      - "advanceを自動的なpromotionとみなさない。"
+      - "remote artifact retrievalを実装済みと主張しない。"
+      - "外部経験なしにgeneration 3へ進めない。"
+    expected_output:
+      - "operational merge decision"
+      - "post-merge observation boundary"
+    unresolved_questions:
+      - "旧Stable版の同時保存をpromotion手順へ必須化する時期"

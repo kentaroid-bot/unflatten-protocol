@@ -152,7 +152,7 @@ const result = unflatten.validateWorldlineArtifact(
 );
 ```
 
-`provisional_latest` は名前だけの可変参照です。各実行では、composerが示すHost commit、Host asset digest、Capsule digestを記録してください。候補内部のrole判断は、Hostへ投影すると `advisory_observation` になります。第三世代の外部経験とHost Integratorの判断なしに、rootのStable規則へ昇格しません。
+`provisional_latest` は名前だけの可変参照です。各実行では、composerが示すlineage parent commit、Host asset digest、Capsule digestを記録してください。parent commitは分岐元を示す系譜情報であり、実行内容は二つのcontent digestで固定されます。候補内部のrole判断は、Hostへ投影すると `advisory_observation` になります。第三世代の外部経験とHost Integratorの判断なしに、rootのStable規則へ昇格しません。
 
 ### Versioned Semantic Mount
 
@@ -176,7 +176,7 @@ console.log(resolved.worldline, resolved.host_digest, resolved.capsule_digest);
 const protocol = unflatten.loadProtocolPath('~/v2/docs/protocol.md');
 ```
 
-`~/v2/docs/protocol.md`は物理fileの別名ではなく、v1 Protocolとv2 overlayの合成resourceです。`~/v2/docs/handoff.md`のようにv2が変更していないresourceは、Host digestに固定されたv1 assetを継承します。未知のpath、digest外asset、`..`によるtraversalは拒否します。mount prefixはv1 registryが、v2内のsemantic mappingはCapsuleの`mount.json`が所有します。
+`~/v2/docs/protocol.md`は物理fileの別名ではなく、v1 Protocolとv2 overlayの合成resourceです。`~/v2/docs/handoff.md`のようにv2が変更していないresourceは、Host digestに固定されたv1 assetを継承します。未知のpath、digest外asset、`..`によるtraversalは拒否します。mount prefixはv1 registryが、v2内のsemantic mappingはCapsuleの`mount.json`が所有します。version番号は権限を表さないため、将来v2を昇格する場合は`~/v2/`のtargetをWorldlineからHostへ切り替えられます。
 
 ## Validate a Handoff
 
@@ -281,7 +281,7 @@ SDKは特定のLLMプロバイダー、モデルまたはエージェントフ�
 その後、選択した役割をロードする。
 
 gestating Worldlineを試す場合だけ、対象IDを明示してEmulator Capsuleをロードし、
-resolved Host commit、Host asset digest、Capsule digestを実行記録へ残す。候補内部のStableをHost Stableとみなさない。
+lineage parent commit、Host asset digest、Capsule digestを実行記録へ残す。parent commitを実行内容のpinとみなさず、候補内部のStableをHost Stableとみなさない。
 
 成果物の自動検証では、静的検証とMetasystemic Auditorによる意味的監査を
 区別し、静的スコアだけで仮説の真偽または価値を判定しない。

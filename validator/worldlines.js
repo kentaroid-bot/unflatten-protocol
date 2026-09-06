@@ -112,13 +112,6 @@ function checkWorldlineInvariants(value) {
         message: 'emulated generations must not reuse the same evidence locator'
       });
     }
-    if (value.emulation.base.commit !== value?.parent?.commit) {
-      findings.push({
-        severity: 'error',
-        rule: 'worldline-emulator-base-pin',
-        message: 'emulation base commit must match the immutable parent commit'
-      });
-    }
     const latest = records.at(-1);
     if (latest?.candidate_digest !== value.emulation.capsule.digest.value) {
       findings.push({
@@ -369,7 +362,7 @@ function createWorldlineTools(dependencies) {
       upstream_status: worldline.emulation.upstream_status,
       resource_path: resourcePath,
       source,
-      base_commit: worldline.emulation.base.commit,
+      lineage_parent_commit: worldline.parent.commit,
       host_digest: worldline.emulation.base.digest.value,
       capsule_digest: worldline.emulation.capsule.digest.value,
       content
@@ -479,7 +472,7 @@ function createWorldlineTools(dependencies) {
       internal_status: worldline.emulation.internal_status,
       upstream_status: worldline.emulation.upstream_status,
       channel: worldline.emulation.channel,
-      base_commit: worldline.emulation.base.commit,
+      lineage_parent_commit: worldline.parent.commit,
       host_digest: worldline.emulation.base.digest.value,
       capsule_digest: worldline.emulation.capsule.digest.value
     };
@@ -497,7 +490,7 @@ function createWorldlineTools(dependencies) {
       'Upstream status: ' + emulation.upstream_status,
       'Channel: ' + emulation.channel,
       'Generation: ' + worldline.lineage_generation + '/' + worldline.generation_limit,
-      'Resolved base commit: ' + emulation.base.commit,
+      'Lineage parent commit (ancestry only): ' + worldline.parent.commit,
       'Host asset digest (sha256): ' + emulation.base.digest.value,
       'Capsule digest (sha256): ' + emulation.capsule.digest.value,
       'Internal authority: ' + emulation.authority_projection.internal,

@@ -173,10 +173,9 @@
         "channel": { "const": "provisional_latest" },
         "base": {
           "type": "object",
-          "required": ["strategy", "commit", "assets", "digest"],
+          "required": ["strategy", "assets", "digest"],
           "properties": {
-            "strategy": { "const": "inherit_host" },
-            "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+            "strategy": { "const": "content_addressed_host" },
             "assets": {
               "type": "array",
               "minItems": 1,

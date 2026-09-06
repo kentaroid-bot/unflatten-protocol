@@ -1,0 +1,120 @@
+handoff:
+  protocol_version: "0.2.0"
+  from_role: engineer
+  to_role: auditor
+  reason: "merge可否監査で発見された、versionとauthorityの結合および実行母体commitの自己参照を修復した。"
+  inquiry:
+    problem_tension: "v2をWorldlineとして運用しながら、将来のHost昇格と現在の再現可能性を同じschemaが妨げていた。"
+    current_question: "修復後のmount authorityとcontent-addressed emulator baseは、世代境界を保ったままマージ可能か。"
+    distinct_dimensions:
+      - dimension: "addressとauthorityの分離"
+        significance: "v2という番号がWorldlineであることを永久に決めず、同じ住所を将来Hostへ切り替えられる必要がある。"
+      - dimension: "lineageとruntime identityの分離"
+        significance: "分岐元commitと実際にロードした内容を混同せず、自己参照なしに再現性を検証する必要がある。"
+    flattening_risks:
+      - "GitHubがMERGEABLEであることをprotocol上のmerge可と同一視する。"
+      - "commitかdigestの一方へ全ての意味を押し込み、系譜と実行内容の違いを消す。"
+  hypothesis:
+    statement: "versioned prefixのtargetをRegistryが決め、runtimeをHost/Capsule content digestで固定すれば、v2はgestatingのまま実行でき、将来同じprefixでHostへ昇格できる。"
+    core_claims:
+      - "`~/`は常にHostが所有する。"
+      - "`~/vN/`はHostまたはWorldlineのどちらにも割り当てられる。"
+      - "parent.commitは系譜上の祖先でありruntime contentのpinではない。"
+      - "runtime contentはHost asset digestとCapsule digestで固定する。"
+      - "Greenfield候補は第二世代のままである。"
+    mechanism: "registry schemaとroot invariantがnamespaceを制御し、Emulatorが宣言asset集合の二つのcontent digestを起動時に照合する。"
+    assumptions:
+      - assumption: "再現者が同じcontent digestを持つHostとCapsuleを取得できる。"
+        status: unknown
+      - assumption: "content digest対象assetが実行に必要なHost面を十分に含む。"
+        status: supported
+    scope:
+      applies_to:
+        - "Versioned Semantic Mount"
+        - "unflatten-v2-greenfield Emulator Capsule"
+      does_not_apply_to:
+        - "Git object全体の保存や外部artifact registry"
+  hypothetical_world:
+    description: "v2は`~/v2/`で候補として育ち、第三世代のHost判断後には住所を変えずtargetだけをHostへ切り替えられる。"
+    consequences:
+      primary:
+        - "version番号がlifecycleを拘束しない。"
+        - "候補自身が未来のmerge commitを要求しない。"
+      secondary:
+        - "実行記録からancestryとcontent identityを別々に追跡できる。"
+      tertiary:
+        - "将来v3以降も同じschemaでHost/Worldlineの入替えができる。"
+    opportunities:
+      - "content-addressed Capsule配布"
+  evaluation:
+    falsifiers:
+      - "schemaが`~/v2/` Hostまたは`~/v1/` Worldlineを拒否する。"
+      - "Worldlineが`~/`を取得できる。"
+      - "Host assetまたはCapsule assetの変更をdigest検査が見逃す。"
+      - "出力がparent commitをresolved runtime commitとして表示する。"
+    evidence:
+      supporting:
+        - "33件のSDK testが成功した。"
+        - "versioned mountをHost/Worldlineの両targetへ割り当てる反証テストを追加した。"
+        - "root Worldline captureをschema/invariantで拒否した。"
+        - "base.commitをEmulator runtime identityから除去し、lineage_parent_commitへ名称を分離した。"
+        - "git diff --checkが成功した。"
+        - "一時npm cacheを用いたnpm pack --dry-runが44ファイルを収録して成功した。"
+      contradicting: []
+      unknown:
+        - "content digestからartifactを自動取得する仕組みはまだない。"
+    tests_completed:
+      - "SDK regression and adversarial mount tests"
+      - "Host and Capsule digest integrity"
+      - "diff whitespace validation"
+      - "package dry run"
+    tests_remaining:
+      - "independent semantic audit"
+      - "third-generation external run"
+  decision:
+    status: advance
+    authority: implementation_report
+    decided_by: engineer
+    rationale: "指摘された二つの中核欠陥を、候補の世代や権限を変更せず修復し、構造検証と回帰テストを通した。これはmerge許可ではなく監査への実装完了報告である。"
+    preserved_dimensions:
+      - "Internal Stable / Upstream Gestating"
+      - "three-generation review boundary"
+      - "v1/v2 simultaneous addressability"
+      - "lineage provenance"
+    rejected_claims:
+      - "version 2以上は常にWorldlineである。"
+      - "parent commitが現在の実行Host内容も固定する。"
+    revisions:
+      - "mount prefix schemaをauthority-neutralにした。"
+      - "Emulator baseをcontent_addressed_hostへ変更した。"
+      - "SDK出力と文書でlineage parent commitとruntime digestを分離した。"
+      - "既存の末尾空白エラーを修正した。"
+  pivot:
+    trigger: "未来のmerge commitを候補manifest自身へ埋め込めない自己参照を発見した。"
+    learned_structure:
+      - "ancestry locatorとruntime content addressは異なるidentityである。"
+      - "versioned addressはauthorityではなくlookup locationである。"
+    pivot_seeds:
+      - "digestからartifactを取得する外部content registry"
+    next_hypothesis: "content-addressed baseを配布locatorと接続すれば、Git commit自己参照なしに別環境でCapsuleを再構成できる。"
+  epistemic_remainder:
+    residuals:
+      - observation: "同一digestのartifactをどこから取得するかは現在のschemaで表現していない。"
+        schema_limit: "digestは同一性を検証するが可用性や配布場所を記述しない。"
+        provenance: "merge可否監査のbase.commit不整合"
+        review_when: "第三者環境でCapsule再構成が必要になったとき。"
+    dissent:
+      - position: "汎用Host基盤とGreenfield Capsuleを二つのPRへ分割する方が履歴上さらに明快である。"
+        holder: "merge可否監査"
+        unresolved_because: "content identity分離で論理矛盾は解消したが、履歴の読みやすさという別の価値は残る。"
+  next_step:
+    objective: "修復差分をAuditorがDual-Stress Auditし、merge blockerが解消したか判定する。"
+    constraints:
+      - "GitHubのmechanical mergeabilityを意味的承認とみなさない。"
+      - "Greenfield候補を第三世代またはpromotedへ変更しない。"
+      - "lineage parent commitをruntime locatorへ再統合しない。"
+    expected_output:
+      - "epistemic recommendation"
+      - "残存blockerと修復境界"
+    unresolved_questions:
+      - "同一PRにHost基盤とCandidateを置く履歴上のコストをmerge blockerとするか。"

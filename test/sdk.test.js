@@ -210,7 +210,7 @@ test('runs Greenfield Ingress as an internally stable, upstream-gestating emulat
   assert.equal(description.internal_status, 'stable');
   assert.equal(description.upstream_status, 'gestating');
   assert.equal(description.channel, 'provisional_latest');
-  assert.match(description.base_commit, /^[a-f0-9]{40}$/u);
+  assert.match(description.lineage_parent_commit, /^[a-f0-9]{40}$/u);
   assert.match(description.host_digest, /^[a-f0-9]{64}$/u);
   assert.match(description.capsule_digest, /^[a-f0-9]{64}$/u);
 
@@ -225,7 +225,7 @@ test('runs Greenfield Ingress as an internally stable, upstream-gestating emulat
   assert.match(prompt, /Upstream status: gestating/u);
   assert.match(prompt, /Channel: provisional_latest/u);
   assert.match(prompt, /Generation: 2\/3/u);
-  assert.match(prompt, /Resolved base commit: [a-f0-9]{40}/u);
+  assert.match(prompt, /Lineage parent commit \(ancestry only\): [a-f0-9]{40}/u);
   assert.match(prompt, /Host asset digest \(sha256\): [a-f0-9]{64}/u);
   assert.match(prompt, /Capsule digest \(sha256\): [a-f0-9]{64}/u);
   assert.match(prompt, /# Candidate Protocol Overlay/u);
@@ -298,7 +298,7 @@ test('binds emulator identity to Host asset content, not only a commit label', (
   assert.notEqual(before, after);
 
   const description = sdk.describeWorldlineEmulation('unflatten-v2-greenfield');
-  assert.equal(description.host_digest, 'b5bc8a0e620f619ddd035eac04b05373287f12f53e991d53500d7ff0b78e606f');
+  assert.equal(description.host_digest, '803f774e8908f0a049791f6b794c8e1c274fe9b86ca7183d02b9538f5c08e74e');
 });
 
 test('resolves v1 and v2 through Versioned Semantic Mounts', () => {
@@ -342,6 +342,22 @@ test('Semantic Mount rejects traversal, unknown fallback, and namespace capture'
   const duplicate = sdk.validate('worldline-registry', registry);
   assert.equal(duplicate.valid, false);
   assert.ok(duplicate.findings.some((finding) => finding.rule === 'worldline-mount-prefix-unique'));
+});
+
+test('versioned mount addresses do not encode Host or Worldline authority', () => {
+  const registry = JSON.parse(fs.readFileSync(path.join(ROOT, 'worldlines/registry.json'), 'utf8'));
+  registry.mounts = [
+    { prefix: '~/', target: 'host' },
+    { prefix: '~/v1/', target: 'worldline', worldline: 'unflatten-v2-greenfield' },
+    { prefix: '~/v2/', target: 'host' },
+    { prefix: '~/v3/', target: 'worldline', worldline: 'unflatten-v2-greenfield' }
+  ];
+  assert.equal(sdk.validate('worldline-registry', registry).valid, true);
+
+  registry.mounts[0] = { prefix: '~/', target: 'worldline', worldline: 'unflatten-v2-greenfield' };
+  const capturedRoot = sdk.validate('worldline-registry', registry);
+  assert.equal(capturedRoot.valid, false);
+  assert.ok(capturedRoot.findings.some((finding) => finding.rule === 'worldline-host-root-mount'));
 });
 
 test('validates the protocol manifest and every registered path exists', () => {

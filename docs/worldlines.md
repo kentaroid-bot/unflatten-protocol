@@ -60,14 +60,17 @@ Guest Worldlineは、Stable Hostの一部を直接変更する差分ではなく
 
 起動順序は固定します。
 
-1. `parent.commit`でStable Hostの基底を解決する。
-2. Stable Host Protocolをロードする。
-3. Capsuleのprotocol overlayを重ねる。
-4. entrypoint、またはStable Host roleをロードする。
-5. 対応するrole overlayを重ねる。
-6. resolved Host commit、Host asset digest、Capsule digestをrunへ記録する。
+1. `parent.commit`を候補が分岐した系譜上の祖先として記録する。
+2. 現在インストールされているHost資産が`base.digest`と一致することを検証する。
+3. Stable Host Protocolをロードする。
+4. Capsuleのprotocol overlayを重ねる。
+5. entrypoint、またはStable Host roleをロードする。
+6. 対応するrole overlayを重ねる。
+7. lineage parent commit、Host asset digest、Capsule digestをrunへ記録する。
 
-`provisional_latest`のようなchannel名は発見用locatorであり、再現性のpinではありません。同じ名前の内容が進んでも過去のrunを再現できるよう、実行時点の40桁commit、Host asset digest、Capsule digestを併記します。Host digestはroot manifest、protocol、load可能role群を、Capsule digestはmanifest自身を除く候補asset集合を固定します。両方を宣言path順に依存しない決定的算法で計算し、baseとoverlayの片面だけがdriftするのを拒否します。
+`provisional_latest`のようなchannel名は発見用locatorであり、再現性のpinではありません。`parent.commit`も候補が生まれた位置を示す系譜locatorであり、実行母体の内容を指すとは限りません。自己を含む候補が、まだ存在しない将来のmerge commitを自分自身へ埋め込むことはできないためです。
+
+実行内容は、Host asset digestとCapsule digestという二つのcontent addressで固定します。Host digestはroot manifest、protocol、load可能role群など宣言された実行母体を、Capsule digestはmanifest自身を除く候補asset集合を固定します。両方を宣言path順に依存しない決定的算法で計算し、baseとoverlayの片面だけがdriftするのを拒否します。再現時は同じcontent digestを持つHostとCapsuleを取得し、`parent.commit`はその内容のlocatorではなく系譜検証へ使用します。
 
 ### Dual Authority Projection
 
@@ -93,7 +96,7 @@ Stable Hostと内部Stable Worldlineは、物理directoryを複製せず、logic
 
 この`~/`はshellやOSのhome directoryではありません。SDK/CLIだけが解決するlogical namespaceです。CLI引数では`'~/v2/…'`のようにquoteし、filesystem APIへ直接渡してはいけません。
 
-住所の割当は母体の`worldlines/registry.json`が所有します。`~/`はHost専用で、Worldlineは`~/vN/`だけを取得できます。resolverは最長prefixを選ぶため、`~/v2/`が`~/`より先に解決されます。重複prefix、存在しないWorldline、traversalは拒否します。
+住所の割当は母体の`worldlines/registry.json`が所有します。`~/`はHost専用ですが、`~/vN/`の番号自体は権限や成熟状態を表しません。versioned prefixはHostにもWorldlineにも割り当てられ、昇格時には同じ`~/v2/`をWorldlineからHostへ切り替えられます。resolverは最長prefixを選ぶため、`~/v2/`が`~/`より先に解決されます。重複prefix、存在しないWorldline、root namespaceのWorldlineによる取得、traversalは拒否します。
 
 住所の内部で何を返すかは各Capsuleのdigest対象`mount.json`が所有します。routeは次の三種です。
 
@@ -101,7 +104,7 @@ Stable Hostと内部Stable Worldlineは、物理directoryを複製せず、logic
 - **asset**: Candidate固有assetを返す。
 - **inherit**: exact routeがなく、かつ`base.assets`に固定されたHost resourceだけを返す。
 
-`v2`は発見用の可変locatorです。resolverはlogical pathだけでなく、resolved Worldline、generation、base commit、Host digest、Capsule digestを返します。実行記録ではこのresolved identityを保存してください。
+`v2`は発見用の可変locatorです。resolverはlogical pathだけでなく、resolved Worldline、generation、lineage parent commit、Host digest、Capsule digestを返します。実行記録ではこのresolved identityを保存してください。
 
 ## Anti-Proliferation Boundary
 
@@ -123,7 +126,7 @@ Worldlineは判断回避のための分岐ではありません。新しいWorld
 - 一つのHost registryに複数Guestを登録できる。
 - Guest roleをroot通常roleから隔離して明示的にロードできる。
 - Internal Stable / Upstream Gestatingの二重状態でCapsuleを起動できる。
-- Host commitに加えてHost asset digestとCapsule digestを検証し、entrypoint、schemaおよびrole overlayを隔離ロードできる。
+- lineage parent commitを実行内容のpinと混同せず、Host asset digestとCapsule digestを検証してentrypoint、schemaおよびrole overlayを隔離ロードできる。
 - v1/v2をVersioned Semantic Mountから同時に解決し、compose、candidate asset、pinned inheritanceを区別できる。
 - 世代ごとのexperienceとevidence再利用を検査できる。
 - 世代を進め、第三世代でreviewを要求できる。

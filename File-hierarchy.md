@@ -41,7 +41,7 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │   ├── state-history.schema.json
 │   ├── audit-report.schema.json
 │   ├── workflow-run.schema.json         # 実行中ロール、digest、遷移履歴
-│   ├── semantic-mount.schema.json       # v1/v2 logical pathのcompose/asset対応
+│   ├── semantic-mount.schema.json       # versioned logical pathのcompose/asset対応
 │   ├── worldline-registry.schema.json  # Stable Hostが認識するGuest一覧
 │   └── worldline.schema.json           # 三世代、review、spin-out境界
 │

@@ -26,7 +26,7 @@
             "type": "object",
             "required": ["prefix", "target"],
             "properties": {
-              "prefix": { "enum": ["~/", "~/v1/"] },
+              "prefix": { "type": "string", "pattern": "^~/(?:v[1-9][0-9]*/)?$" },
               "target": { "const": "host" }
             },
             "additionalProperties": false
@@ -35,7 +35,7 @@
             "type": "object",
             "required": ["prefix", "target", "worldline"],
             "properties": {
-              "prefix": { "type": "string", "pattern": "^~/v[2-9][0-9]*/$" },
+              "prefix": { "type": "string", "pattern": "^~/v[1-9][0-9]*/$" },
               "target": { "const": "worldline" },
               "worldline": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" }
             },
