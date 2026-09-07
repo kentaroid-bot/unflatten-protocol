@@ -1,0 +1,8 @@
+kind: observe
+actor: example-author
+note: 提供範囲に差があると仮定して、構成の可能性を調べる。
+progress: new_information
+evidence:
+  - kind: simulation
+    source: 架空の制作打ち合わせ
+    note: 甲は完成原稿を提供し、乙は非公開の相談だけを提供する。乙の草稿の公開同意はない。

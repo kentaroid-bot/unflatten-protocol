@@ -1,7 +1,7 @@
 {
   "name": "unflatten-protocol",
-  "version": "0.2.0",
-  "description": "Loadable agent roles and validation primitives for preserving sharp hypotheses across AI workflows.",
+  "version": "0.3.0",
+  "description": "Adaptive inquiry and decision records that preserve origins, tensions and alternative futures, with classic workflow compatibility.",
   "license": "UNLICENSED",
   "main": "validator/index.js",
   "type": "commonjs",
@@ -18,7 +18,11 @@
     "prompt-templates",
     "schema",
     "validator",
-    "worldlines"
+    "worldlines",
+    "protocols",
+    "examples",
+    "CHANGELOG.md",
+    "self-audit/CORRECTIONS.md"
   ],
   "scripts": {
     "test": "node --test",

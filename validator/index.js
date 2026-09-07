@@ -175,6 +175,7 @@ const worldlines = createWorldlineTools({
 });
 
 module.exports = {
+  ...require('./inquiry'),
   manifest,
   listRoles,
   resolveRole,

@@ -19,6 +19,7 @@ const {
   loadWorldlineRole,
   resolveProtocolPath
 } = require('./index');
+const {createInquiry, recordInquiryMove, readInquiry, validateInquiry, composeInquiryPrompt} = require('./inquiry');
 
 function fail(message, code = 1) {
   process.stderr.write(`${message}\n`);
@@ -34,6 +35,24 @@ const [, , command, ...args] = process.argv;
 
 try {
   switch (command) {
+    case 'inquiry-new':
+      process.stdout.write(JSON.stringify(createInquiry(readFile(args[0])), null, 2) + '\n');
+      break;
+    case 'inquiry-move':
+      process.stdout.write(JSON.stringify(recordInquiryMove(readFile(args[0]), readFile(args[1])), null, 2) + '\n');
+      break;
+    case 'inquiry-show':
+      process.stdout.write(JSON.stringify(readInquiry(readFile(args[0])), null, 2) + '\n');
+      break;
+    case 'inquiry-validate': {
+      const result = validateInquiry(readFile(args[0]));
+      process.stdout.write(JSON.stringify(result, null, 2) + '\n');
+      if (!result.valid) process.exitCode = 1;
+      break;
+    }
+    case 'inquiry-prompt':
+      process.stdout.write(composeInquiryPrompt(readFile(args[0]), readFile(args[1])));
+      break;
     case 'roles':
       process.stdout.write(`${JSON.stringify(listRoles(), null, 2)}\n`);
       break;
@@ -101,7 +120,7 @@ try {
       break;
     }
     default:
-      fail('Usage: unflatten <roles | role ROLE | worldlines | worldline ID | worldline-role ID ROLE | path LOGICAL_PATH | prompt ROLE TASK_FILE | validate SCHEMA FILE | inspect FILE | audit-prompt ARTIFACT [CONTEXT] | handoff-patch BASE PATCH | run-start RUN_ID HANDOFF [DEVIATION_REASON] | run-transition RUN HANDOFF [DEVIATION_REASON] | run-prompt RUN TASK [CONTEXT] | run-verify RUN>');
+      fail('Usage: unflatten <inquiry-new SEED | inquiry-move RECORD MOVE | inquiry-show RECORD | inquiry-validate RECORD | inquiry-prompt RECORD TASK_FILE | roles | role ROLE | worldlines | worldline ID | worldline-role ID ROLE | path LOGICAL_PATH | prompt ROLE TASK_FILE | validate SCHEMA FILE | inspect FILE | audit-prompt ARTIFACT [CONTEXT] | handoff-patch BASE PATCH | run-start RUN_ID HANDOFF [DEVIATION_REASON] | run-transition RUN HANDOFF [DEVIATION_REASON] | run-prompt RUN TASK [CONTEXT] | run-verify RUN>');
   }
 } catch (error) {
   fail(error.stack || error.message);

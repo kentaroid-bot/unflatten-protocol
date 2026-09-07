@@ -1,5 +1,7 @@
 # Repository Structure
 
+0.3.0の通常入口は `protocols/adaptive/`。既存のルートmanifest、docs/protocol、role、WorldlineはClassic互換として保持する。
+
 ```text
 unflatten-protocol/                     # ロード可能なガバナンス・ツールキット（SDK）
 ├── AGENTS.md                           # ローカルエージェント向けの入口と役割ルーター
@@ -7,6 +9,10 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 ├── package.json                        # Node.jsパッケージ、CLI、公開ファイル
 ├── manifest.json                       # 役割、alias、正本、schemaの機械可読レジストリ
 ├── File-hierarchy.md
+│
+├── protocols/adaptive/                # 新版の核、二つのモード、schema、API・移行・評価手順
+├── examples/adaptive/                 # seed、観測例、架空の共同制作デモ
+├── CHANGELOG.md
 │
 ├── docs/
 │   ├── protocol.md                     # Unflattenの定義と不変条件の正本
@@ -48,6 +54,7 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 ├── validator/
 │   ├── cli.js                          # `unflatten` CLI
 │   ├── index.js                        # Node.js APIとLLMアダプター境界
+│   ├── inquiry.js                      # Adaptiveの追記記録、フレーム改訂、判断・停止・分岐
 │   ├── workflow.js                     # advisory遷移、Snapshot patch、digest chain検証
 │   ├── worldlines.js                   # Guest隔離ロードと世代状態機械
 │   └── rules/

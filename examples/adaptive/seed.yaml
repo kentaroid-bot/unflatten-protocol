@@ -1,0 +1,15 @@
+id: shared-making
+question: 異なる提供条件のまま、全体として成立する作品を作れるか。
+context: 架空の共同制作例。現実の参加者から同意を得た記録ではない。
+motives:
+  - claim: 同じ価値観へ統合せず、一緒に作る可能性を探りたい。
+    basis: direct_record
+    source: この架空例の設定
+  - claim: 各参加者の詳しい制作動機はまだ分からない。
+    basis: unknown
+    source: この架空例では未設定
+dimensions:
+  - id: whole
+    description: 断片の寄せ集めでなく、完成物として成立すること
+  - id: agency
+    description: 本人が委ねた範囲を他者だけで広げないこと

@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Adaptive Inquiry Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "protocol", "seed", "events", "head_digest"],
+  "properties": {
+    "format": {"const": "unflatten-inquiry/1"},
+    "protocol": {
+      "type": "object", "additionalProperties": false,
+      "required": ["edition", "version", "digest"],
+      "properties": {
+        "edition": {"const": "adaptive"}, "version": {"const": "0.3.0"},
+        "digest": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "seed": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "mode", "question", "motives", "dimensions", "budget"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "mode": {"enum": ["explore", "decision"]},
+        "question": {"$ref": "#/$defs/text"},
+        "context": {"type": "string"},
+        "motives": {"$ref": "#/$defs/motives"},
+        "dimensions": {"$ref": "#/$defs/dimensions"},
+        "budget": {"$ref": "#/$defs/budget"}
+      }
+    },
+    "events": {"type": "array", "items": {"$ref": "#/$defs/event"}},
+    "head_digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "text": {"type": "string", "pattern": "\\S"},
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+    "texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}},
+    "budget": {
+      "type": "object", "additionalProperties": false,
+      "required": ["max_moves", "max_stalled_moves"],
+      "properties": {
+        "max_moves": {"type": "integer", "minimum": 1, "maximum": 1000},
+        "max_stalled_moves": {"type": "integer", "minimum": 1, "maximum": 1000}
+      }
+    },
+    "motives": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["claim", "basis", "source"],
+        "properties": {
+          "claim": {"$ref": "#/$defs/text"},
+          "basis": {"enum": ["direct_record", "author_confirmed", "inferred", "unknown"]},
+          "source": {"$ref": "#/$defs/text"}
+        }
+      }
+    },
+    "dimensions": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "description"],
+        "properties": {"id": {"$ref": "#/$defs/id"}, "description": {"$ref": "#/$defs/text"}}
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["kind", "source", "note"],
+        "properties": {
+          "kind": {"enum": ["direct_record", "reported", "inferred", "simulation"]},
+          "source": {"$ref": "#/$defs/text"}, "note": {"$ref": "#/$defs/text"}
+        }
+      }
+    },
+    "alternative": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "claim", "mechanism", "falsifiers", "evaluation_frame"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "claim": {"$ref": "#/$defs/text"},
+        "mechanism": {"$ref": "#/$defs/text"}, "falsifiers": {"$ref": "#/$defs/texts"},
+        "evaluation_frame": {"$ref": "#/$defs/text"}, "derived_from": {"$ref": "#/$defs/ids"}
+      }
+    },
+    "explore": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"alternatives": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/alternative"}}}
+    },
+    "empty": {"type": "object", "additionalProperties": false},
+    "reframe": {
+      "type": "object", "additionalProperties": false, "minProperties": 1,
+      "properties": {
+        "question": {"$ref": "#/$defs/text"}, "motives": {"$ref": "#/$defs/motives"},
+        "dimensions": {"$ref": "#/$defs/dimensions"}
+      }
+    },
+    "assess": {
+      "type": "object", "additionalProperties": false,
+      "required": ["alternative_id", "verdict", "criterion", "effects"],
+      "properties": {
+        "alternative_id": {"$ref": "#/$defs/id"},
+        "verdict": {"enum": ["open", "supported", "rejected", "held"]},
+        "criterion": {"$ref": "#/$defs/text"},
+        "effects": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["dimension_id", "outcome", "reason"],
+            "properties": {
+              "dimension_id": {"$ref": "#/$defs/id"},
+              "outcome": {"enum": ["preserved", "lost", "unknown"]}, "reason": {"$ref": "#/$defs/text"}
+            }
+          }
+        }
+      }
+    },
+    "dissent": {
+      "type": "object", "additionalProperties": false,
+      "required": ["holder", "position", "source", "revisit_when"],
+      "properties": {
+        "holder": {"$ref": "#/$defs/text"}, "position": {"$ref": "#/$defs/text"},
+        "source": {"$ref": "#/$defs/text"}, "revisit_when": {"$ref": "#/$defs/text"}
+      }
+    },
+    "commit": {
+      "type": "object", "additionalProperties": false,
+      "required": ["selected", "decision_maker", "authority", "scope", "affected_parties", "accepted_tradeoffs", "stop_when", "review_when"],
+      "properties": {
+        "selected": {"$ref": "#/$defs/ids"}, "decision_maker": {"$ref": "#/$defs/text"},
+        "authority": {
+          "type": "object", "additionalProperties": false, "required": ["status", "basis"],
+          "properties": {
+            "status": {"enum": ["declared_authorized", "pending"]}, "basis": {"$ref": "#/$defs/text"}
+          }
+        },
+        "scope": {"$ref": "#/$defs/text"}, "affected_parties": {"$ref": "#/$defs/texts"},
+        "accepted_tradeoffs": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["alternative_id", "dimension_id", "reason"],
+            "properties": {
+              "alternative_id": {"$ref": "#/$defs/id"}, "dimension_id": {"$ref": "#/$defs/id"},
+              "reason": {"$ref": "#/$defs/text"}
+            }
+          }
+        },
+        "stop_when": {"$ref": "#/$defs/text"}, "review_when": {"$ref": "#/$defs/text"}
+      }
+    },
+    "pause": {
+      "type": "object", "additionalProperties": false, "required": ["resume_when"],
+      "properties": {"resume_when": {"$ref": "#/$defs/text"}}
+    },
+    "resume": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"budget": {"$ref": "#/$defs/budget"}}
+    },
+    "finish": {
+      "type": "object", "additionalProperties": false, "required": ["outcome"],
+      "properties": {"outcome": {"enum": ["no_discovery", "existing_explanation", "answered", "withdrawn"]}}
+    },
+    "mode": {
+      "type": "object", "additionalProperties": false, "required": ["mode"],
+      "properties": {"mode": {"enum": ["explore", "decision"]}}
+    },
+    "fork": {
+      "type": "object", "additionalProperties": false, "required": ["id"],
+      "properties": {"id": {"$ref": "#/$defs/id"}}
+    },
+    "event": {
+      "type": "object", "additionalProperties": false,
+      "required": ["index", "kind", "actor", "note", "progress", "evidence", "data", "previous_digest", "digest"],
+      "properties": {
+        "index": {"type": "integer", "minimum": 1},
+        "kind": {"enum": ["explore", "observe", "reframe", "assess", "dissent", "commit", "pause", "resume", "finish", "mode", "fork"]},
+        "actor": {"$ref": "#/$defs/text"}, "note": {"$ref": "#/$defs/text"},
+        "progress": {"enum": ["new_information", "no_change", "unassessed"]},
+        "evidence": {"$ref": "#/$defs/evidence"}, "data": {"type": "object"},
+        "previous_digest": {"$ref": "#/$defs/digest"}, "digest": {"$ref": "#/$defs/digest"}
+      },
+      "allOf": [
+        {"if": {"properties": {"kind": {"const": "explore"}}}, "then": {"properties": {"data": {"$ref": "#/$defs/explore"}}}},
+        {"if": {"properties": {"kind": {"const": "observe"}}}, "then": {"properties": {"data": {"$ref": "#/$defs/empty"}, "evidence": {"minItems": 1}}}},
+        {"if": {"properties": {"kind": {"const": "reframe"}}}, "then": {"properties": {"data": {"$ref": "#/$defs/reframe"}}}},
+        {"if": {"properties": {"kind": {"const": "assess"}}}, "then": {"properties": {"data": {"$ref": "#/$defs/assess"}, "evidence": {"minItems": 1}}}},
+        {"if": {"properties": {"kind": {"const": "dissent"}}}, "then": {"properties": {"data": {"$ref": "#/$defs/dissent"}}}},
+        {"if": {"properties": {"kind": {"const": "commit"}}}, "then": {"properties": {"data": {"$ref": "#/$defs/commit"}, "evidence": {"minItems": 1}}}},
+        {"if": {"properties": {"kind": {"const": "pause"}}}, "then": {"properties": {"data": {"$ref": "#/$defs/pause"}}}},
+        {"if": {"properties": {"kind": {"const": "resume"}}}, "then": {"properties": {"data": {"$ref": "#/$defs/resume"}, "evidence": {"minItems": 1}}}},
+        {"if": {"properties": {"kind": {"const": "finish"}}}, "then": {"properties": {"data": {"$ref": "#/$defs/finish"}}}},
+        {"if": {"properties": {"kind": {"const": "mode"}}}, "then": {"properties": {"data": {"$ref": "#/$defs/mode"}}}},
+        {"if": {"properties": {"kind": {"const": "fork"}}}, "then": {"properties": {"data": {"$ref": "#/$defs/fork"}}}}
+      ]
+    }
+  }
+}
