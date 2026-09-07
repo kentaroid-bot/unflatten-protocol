@@ -13,14 +13,13 @@ audit_target:
     - "言語化前のNoise"
     - "初期完成像の改訂可能性"
 
-counter_factual_steelman:
-  setup:
-    - "依頼文に十分な背景・緊張・望む差異があれば質問せず記録へ変換する。"
-    - "不足時は最も生成力の高い自由回答の問いを一つだけ先に出す。"
-    - "Motive Recordは複数claim、provenance、unknown、redactionを保持する。"
-    - "Outcome Envelopeはaudience、artifact form、initial finish target、constraints、completion evidenceを持つがpartial/deferredを許す。"
-    - "roleは記録後にtask natureから選び、新規repositoryだから自動的に@inoとはしない。"
-    - "安全緊急時はIngressを事後記録可能な例外とし、作業を止めない。"
+steelman_setup:
+  - "依頼文に十分な背景・緊張・望む差異があれば質問せず記録へ変換する。"
+  - "不足時は最も生成力の高い自由回答の問いを一つだけ先に出す。"
+  - "Motive Recordは複数claim、provenance、unknown、redactionを保持する。"
+  - "Outcome Envelopeはaudience、artifact form、initial finish target、constraints、completion evidenceを持つがpartial/deferredを許す。"
+  - "roleは記録後にtask natureから選び、新規repositoryだから自動的に@inoとはしない。"
+  - "安全緊急時はIngressを事後記録可能な例外とし、作業を止めない。"
 
 dual_stress:
   logical_systemic:

@@ -13,15 +13,14 @@ audit_target:
     - "declared originとhistorical originの分離"
     - "動機の複数性と変形可能性"
 
-counter_factual_steelman:
-  setup:
-    - "Gateは新規仮説・Worldlineのcanonical生成だけに適用し、軽微修正・監査・許可済み実装には適用しない。"
-    - "Packetは原文、緊張、source fragments、desired differenceにOrigin Boundaryとprovenanceを持つ。"
-    - "不足時の@inoは仮説を捏造せず、Frameされた問いとMotive Queryだけを返す。"
-    - "回答者確認は、その人が現在そのclaimを宣言した事実だけを証明し、真の歴史的起源を自動認定しない。"
-    - "複数の確認者と競合するmotive claimは統合せず併存できる。"
-    - "機密動機は最小限の公開記述、redaction、非公開参照またはdigestを使い、raw disclosureを強制しない。"
-    - "安全上の緊急対応はGateで遅延させず、例外と欠落を事後記録する。"
+steelman_setup:
+  - "Gateは新規仮説・Worldlineのcanonical生成だけに適用し、軽微修正・監査・許可済み実装には適用しない。"
+  - "Packetは原文、緊張、source fragments、desired differenceにOrigin Boundaryとprovenanceを持つ。"
+  - "不足時の@inoは仮説を捏造せず、Frameされた問いとMotive Queryだけを返す。"
+  - "回答者確認は、その人が現在そのclaimを宣言した事実だけを証明し、真の歴史的起源を自動認定しない。"
+  - "複数の確認者と競合するmotive claimは統合せず併存できる。"
+  - "機密動機は最小限の公開記述、redaction、非公開参照またはdigestを使い、raw disclosureを強制しない。"
+  - "安全上の緊急対応はGateで遅延させず、例外と欠落を事後記録する。"
 
 dual_stress:
   logical_systemic:
@@ -87,7 +86,7 @@ findings:
     finding: "単一Packetは複数当事者の競合動機を平坦化する。"
     rationale: "複数motive claimsとDissentを許し、共通動機の捏造を禁止できる。"
   - id: "F4"
-    classification: "noise_veto_triggered"
+    classification: "noise_veto"
     finding: "公開repositoryへのraw motive開示をGate条件にしてはならない。"
     rationale: "機密・被害・身体経験の開示強制は、生成品質より先に人間の安全と尊厳を侵害する。redactionまたはrestricted referenceが必要である。"
   - id: "F5"
