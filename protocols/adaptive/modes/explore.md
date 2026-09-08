@@ -10,3 +10,14 @@
 - 原問の変更、重要な観測、棄却、異論、残す未来が生じたら記録する。
 
 このモードの結論は提案・解釈であり、他者や共有物への実行許可にはならない。実行判断を記録する必要が生じたらDecisionへ切り替える。
+
+## 出典と併用する文書
+
+Unflatten Protocol / Adaptive 0.3.2 のモード定義。
+
+- [リポジトリ](https://github.com/kentaroid-bot/unflatten-protocol) / [Adaptive版の入口](https://github.com/kentaroid-bot/unflatten-protocol/tree/codex/adaptive-inquiry)
+- [このモードの文書](https://github.com/kentaroid-bot/unflatten-protocol/blob/codex/adaptive-inquiry/protocols/adaptive/modes/explore.md)
+- [一緒に使うプロトコル本文](https://github.com/kentaroid-bot/unflatten-protocol/blob/codex/adaptive-inquiry/protocols/adaptive/protocol.md)
+- [Decision：判断を整理するとき](https://github.com/kentaroid-bot/unflatten-protocol/blob/codex/adaptive-inquiry/protocols/adaptive/modes/decision.md)
+
+単独でこのファイルを受け取った場合は、プロトコル本文も参照する。外部ページを開けなければ、本文を貼り付けるか添付してもらう。読めていない文書の規則を推測で補わない。コピー時もこの参照先を残し、リンク先の版と手元の版が違う場合は、使う版を揃える。

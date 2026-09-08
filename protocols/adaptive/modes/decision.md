@@ -11,3 +11,14 @@
 - 実行を見送った候補も、誤りと証明されたとは限らない。異論と再開条件を残す。
 
 記録された判断は、接続先の手続きと権限に従って扱う。SDKは実行や採択を行わない。
+
+## 出典と併用する文書
+
+Unflatten Protocol / Adaptive 0.3.2 のモード定義。
+
+- [リポジトリ](https://github.com/kentaroid-bot/unflatten-protocol) / [Adaptive版の入口](https://github.com/kentaroid-bot/unflatten-protocol/tree/codex/adaptive-inquiry)
+- [このモードの文書](https://github.com/kentaroid-bot/unflatten-protocol/blob/codex/adaptive-inquiry/protocols/adaptive/modes/decision.md)
+- [一緒に使うプロトコル本文](https://github.com/kentaroid-bot/unflatten-protocol/blob/codex/adaptive-inquiry/protocols/adaptive/protocol.md)
+- [Explore：探索へ戻るとき](https://github.com/kentaroid-bot/unflatten-protocol/blob/codex/adaptive-inquiry/protocols/adaptive/modes/explore.md)
+
+単独でこのファイルを受け取った場合は、プロトコル本文も参照する。外部ページを開けなければ、本文を貼り付けるか添付してもらう。読めていない文書の規則を推測で補わない。コピー時もこの参照先を残し、リンク先の版と手元の版が違う場合は、使う版を揃える。

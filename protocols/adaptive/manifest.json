@@ -1,6 +1,6 @@
 {
   "edition": "adaptive",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "protocol": "protocols/adaptive/protocol.md",
   "modes": {
     "explore": "protocols/adaptive/modes/explore.md",

@@ -1,6 +1,6 @@
 {
   "name": "unflatten-protocol",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Adaptive inquiry and decision records that preserve origins, tensions and alternative futures, with classic workflow compatibility.",
   "license": "UNLICENSED",
   "main": "validator/index.js",

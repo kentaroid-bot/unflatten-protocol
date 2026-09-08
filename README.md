@@ -12,7 +12,7 @@ Unflattenは、そのための会話と記録のルールです。アイデア�
 
 背景にはMonkuAiとAperture Meshがある。AI開発の補助に加えて、異質な主体が接続する社会の思考・意思決定方法を、現在の作業で作り、試すプロトコルである。
 
-## 0.3.1 — Adaptive Inquiry
+## 0.3.2 — Adaptive Inquiry
 
 新版は、**分かったことに応じて、次に必要な一手を選ぶ**。原問へ戻る、仮説を強くする、観測を増やす、評価方法を変える、別の未来へ分岐する、終了する。順序と文書量を作業に合わせる。
 
@@ -63,7 +63,7 @@ Adaptive以降は、通常のGitブランチと短い [BRANCH.md](BRANCH.md) で
 
 ## 既存版との関係
 
-パッケージは0.3.1。Adaptiveの正本は `protocols/adaptive/manifest.json`。従来のルート `manifest.json` はClassic 0.2.0のまま保持している。
+パッケージは0.3.2。Adaptiveの正本は `protocols/adaptive/manifest.json`。従来のルート `manifest.json` はClassic 0.2.0のまま保持している。
 
 従来の役割・Handoff・Workflow・Worldline APIは継続利用できる。`loadProtocol()` と `run-*` は従来版を返す。Adaptiveは `loadAdaptiveProtocol()` と `inquiry-*` で明示的に使う。このブランチの通常入口はAdaptiveに変更した。親mainの通常入口は変更しない。
 

@@ -1,6 +1,6 @@
 # Unflatten — Adaptive Inquiry
 
-Edition `adaptive` / 0.3.1。人間とAIが問いを育て、異なる考えを接続し、必要なら規則自体を作り直すためのプロトコル。
+Edition `adaptive` / 0.3.2。人間とAIが問いを育て、異なる考えを接続し、必要なら規則自体を作り直すためのプロトコル。
 
 ## 動機
 
@@ -58,10 +58,23 @@ SDKのInquiry Recordを使う場合、初期の問いと動機はseedに残り�
 
 ## この版も検証対象にする
 
-Adaptive以降の改善版は[ブランチ方式](evolution.md)で育てる。候補は親のcommitから分岐し、由来・差異・状態・適用範囲・見直し条件を `BRANCH.md` に残す。さらに独立した後継候補を作るときは、現在の版を独立して継続する判断を記録し、そのcommitから子を作る。母体へのコード内包、固定三世代、専用Guest登録、別repositoryへの出産は必須にしない。新しい差異がなければ後継を作らなくてよい。独立継続も、他者への適用や共有側の採択を自動的に許可しない。
+Adaptive以降の改善版は[ブランチ方式](https://github.com/kentaroid-bot/unflatten-protocol/blob/codex/adaptive-inquiry/protocols/adaptive/evolution.md)で育てる。候補は親のcommitから分岐し、由来・差異・状態・適用範囲・見直し条件を `BRANCH.md` に残す。さらに独立した後継候補を作るときは、現在の版を独立して継続する判断を記録し、そのcommitから子を作る。母体へのコード内包、固定三世代、専用Guest登録、別repositoryへの出産は必須にしない。新しい差異がなければ後継を作らなくてよい。独立継続も、他者への適用や共有側の採択を自動的に許可しない。
 
 問いの差異の保存、正当な棄却、複数未来の保持、新しい観測や成果、人間の負荷と継続意欲を別々に見る。単一のSharpnessスコアを成功判定にしない。
 
 同じ課題で従来サイクル、短い原則、Adaptiveを比較できるようにする。この版が重いなら短縮し、見落としが増えるなら必要な境界を戻す。判断や評価文法が両立しない場合は、無理に一本化せず別の版として試せる。
 
 SDKが検査するのは、記録形式、参照関係、状態遷移、内容の整合性である。意味保存、証拠の真実性、本人性、実際の許可、社会的な正当性は証明しない。
+
+## 出典と関連文書
+
+出典: [Unflatten Protocol](https://github.com/kentaroid-bot/unflatten-protocol)。この文書を使う入口は [Adaptive版のブランチ](https://github.com/kentaroid-bot/unflatten-protocol/tree/codex/adaptive-inquiry)です。
+
+- [このプロトコル本文](https://github.com/kentaroid-bot/unflatten-protocol/blob/codex/adaptive-inquiry/protocols/adaptive/protocol.md)
+- [Explore：自由に探索する](https://github.com/kentaroid-bot/unflatten-protocol/blob/codex/adaptive-inquiry/protocols/adaptive/modes/explore.md)
+- [Decision：判断と実行範囲を整理する](https://github.com/kentaroid-bot/unflatten-protocol/blob/codex/adaptive-inquiry/protocols/adaptive/modes/decision.md)
+- [使い方と使用例](https://github.com/kentaroid-bot/unflatten-protocol/blob/codex/adaptive-inquiry/docs/getting-started.ja.md)
+
+本文をコピーしたり、ファイルとして渡したりするときは、この参照先も一緒に残す。AIが外部ページを開けなくても、渡された本文とモードの説明で作業を始められる。追加の文書が必要なときは、その文書も渡してもらう。リンク先を読んでいない場合は、読んだものとして扱わない。
+
+上のURLは更新されるブランチを指す。過去の作業を再現するときは、使ったcommitの文書を参照し、別の版を暗黙に混ぜない。
