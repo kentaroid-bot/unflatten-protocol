@@ -1,6 +1,6 @@
 # Repository Structure
 
-0.3.0の通常入口は `protocols/adaptive/`。既存のルートmanifest、docs/protocol、role、WorldlineはClassic互換として保持する。
+0.3.1の通常入口は `protocols/adaptive/`。既存のルートmanifest、docs/protocol、role、WorldlineはClassic互換として保持する。
 
 ```text
 unflatten-protocol/                     # ロード可能なガバナンス・ツールキット（SDK）
@@ -12,6 +12,7 @@ unflatten-protocol/                     # ロード可能なガバナンス・�
 │
 ├── protocols/adaptive/                # 新版の核、二つのモード、schema、API・移行・評価手順
 ├── examples/adaptive/                 # seed、観測例、架空の共同制作デモ
+├── BRANCH.md                          # このブランチの親・状態・範囲・判断履歴
 ├── CHANGELOG.md
 │
 ├── docs/

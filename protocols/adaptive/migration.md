@@ -10,3 +10,9 @@ Adaptiveは独立した入口として開発した。既存のGuest Worldlineを
 自動変換を用意しない理由は、Schema間の対応だけでは問いの同一性、失われる差異、現在の委任範囲を判断できないためである。
 
 既存のWorldline/Semantic Mountは従来通り明示選択する。通常のInquiry forkは記録の分岐であり、Guest生成や共有版の採択、他者への適用を実行しない。
+
+## 0.3.1以降の進化方式
+
+Adaptiveの改善は[evolution.md](evolution.md)に従い、通常のGitブランチとBRANCH.mdで扱う。既存Guest registryへの接続は不要。このブランチを選んだ環境内でAdaptiveを通常入口として利用できる。既存Guestの完了・昇格を認定したことにはならない。
+
+0.3.0の記録にはその版の資産digestが残る。0.3.1としてヘッダーだけを書き換えず、旧commitを使うか、原記録を出典にした新しいInquiryへ移す。

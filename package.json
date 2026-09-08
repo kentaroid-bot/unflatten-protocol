@@ -1,6 +1,6 @@
 {
   "name": "unflatten-protocol",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Adaptive inquiry and decision records that preserve origins, tensions and alternative futures, with classic workflow compatibility.",
   "license": "UNLICENSED",
   "main": "validator/index.js",
@@ -22,7 +22,8 @@
     "protocols",
     "examples",
     "CHANGELOG.md",
-    "self-audit/CORRECTIONS.md"
+    "self-audit/CORRECTIONS.md",
+    "BRANCH.md"
   ],
   "scripts": {
     "test": "node --test",

@@ -160,6 +160,7 @@ test('accidental rewriting, reordering and truncation without a matching head ar
 
 test('identity mismatch may be inspected but not continued as current assets', () => {
   const r = sdk.createInquiry(seed());
+  r.protocol.version = '0.3.0';
   r.protocol.digest = '0'.repeat(64);
   const canonical = v => Array.isArray(v) ? v.map(canonical) : v && typeof v === 'object'
     ? Object.fromEntries(Object.keys(v).sort().map(k => [k, canonical(v[k])])) : v;
@@ -177,6 +178,36 @@ test('schema rejects ambiguous origins, unsupported progress and duplicate dimen
   assert.throws(() => sdk.createInquiry(seed({dimensions: [{id: 'x', description: 'one'}, {id: 'x', description: 'two'}]})), /unique/);
   assert.throws(() => move(sdk.createInquiry(seed()), 'explore', {}, {progress: 'proved'}), /allowed values/);
   assert.throws(() => move(sdk.createInquiry(seed()), 'observe'), /evidence/);
+});
+
+test('changing branch evolution rules changes recorded assets even when the core text is unchanged', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'unflatten-evolution-'));
+  try {
+    const manifestPath = 'protocols/adaptive/manifest.json';
+    const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, manifestPath), 'utf8'));
+    for (const relative of [manifestPath, manifest.protocol, manifest.evolution, manifest.schema, manifest.runtime, ...Object.values(manifest.modes)]) {
+      const target = path.join(dir, relative);
+      fs.mkdirSync(path.dirname(target), {recursive: true});
+      fs.copyFileSync(path.join(ROOT, relative), target);
+    }
+    const recordPath = path.join(dir, 'record.json');
+    fs.writeFileSync(recordPath, JSON.stringify(sdk.createInquiry(seed())));
+    const check = () => spawnSync(process.execPath, ['-e',
+      'const sdk=require(process.argv[1]); const r=require(process.argv[2]); console.log(JSON.stringify({current:sdk.validateInquiry(r), historical:sdk.validateInquiry(r,{checkAssets:false})}));',
+      path.join(dir, manifest.runtime), recordPath],
+    {encoding: 'utf8', env: {...process.env, NODE_PATH: path.join(ROOT, 'node_modules')}});
+    const before = check();
+    assert.equal(before.status, 0, before.stderr);
+    assert.equal(JSON.parse(before.stdout).current.valid, true);
+    fs.appendFileSync(path.join(dir, manifest.evolution), '\nChanged rules in a candidate checkout.\n');
+    const after = check();
+    assert.equal(after.status, 0, after.stderr);
+    const result = JSON.parse(after.stdout);
+    assert.equal(result.current.valid, false);
+    assert.match(result.current.errors[0].message, /assets changed/);
+    assert.equal(result.historical.valid, true);
+    assert.equal(result.historical.assets_match, false);
+  } finally { fs.rmSync(dir, {recursive: true, force: true}); }
 });
 
 test('prompt carries the actual edition, original and revised question, simulation and dissent', () => {

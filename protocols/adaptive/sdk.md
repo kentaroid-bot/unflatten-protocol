@@ -37,10 +37,12 @@ authorityは `{status: 'pending' または 'declared_authorized', basis: '範囲
 
 ## 版と履歴
 
-記録はmanifest、本文、モード、schema、inquiry runtimeの内容ダイジェストと、seedからのハッシュ連鎖を持つ。読み込み・追記・プロンプト生成は一致を要求する。依存ライブラリやNodeの版まではハッシュに含めないため、再現にはcheckout、package-lock、Node版も保存する。
+記録はmanifest、本文、進化規則、モード、schema、inquiry runtimeの内容ダイジェストと、seedからのハッシュ連鎖を持つ。読み込み・追記・プロンプト生成は一致を要求する。依存ライブラリやNodeの版まではハッシュに含めないため、再現にはcheckout、package-lock、Node版も保存する。
 
-`validateInquiry(record, {checkAssets: false})` は、同じ0.3.0形式を現在の実装で検査する調査用オプション。現在の資産と違えば `assets_match: false` が返る。古い実装の意味を再現したことにはならず、この結果を使ってそのまま追記するAPIもない。元の資産を復元するか、出典を記した新しいInquiryへ移行する。
+`validateInquiry(record, {checkAssets: false})` は、対応する0.3.0／0.3.1の記録形式を現在の実装で検査する調査用オプション。現在の資産と違えば `assets_match: false` が返る。古い実装の意味を再現したことにはならず、この結果を使ってそのまま追記するAPIもない。元の資産を復元するか、出典を記した新しいInquiryへ移行する。
 
 記録者が履歴全体を再計算すれば、別の整合した記録を作れる。第三者の改変検出には、信頼できる場所に保存したheadとの比較や外部署名が必要。プロンプトは履歴全体を含むので、長期運用では原記録を保存したまま新しい問いへ明示的に引き継ぐ。無制限のコンテキスト維持は保証しない。
 
 完全なフィールド定義は[inquiry.schema.json](inquiry.schema.json)。CLIのinquiry-new/move/show/validate/promptは対応するAPIを使い、JSONまたは文章を標準出力へ返す。形式違反や無効な遷移は終了コード1。
+
+0.3.1ではブランチ運用規則を資産digestへ含める。0.3.0の記録を既定の検査・追記へ渡すと版と資産の不一致で拒否する。旧記録は旧commitの実装で続けるか、上記の調査用検査を経て出典を残した新記録へ移す。`BRANCH.md` の状態宣言はGitで履歴管理し、SDKが本人性や出生を自動認定するものではない。

@@ -10,6 +10,8 @@
 
 正本の対応は `protocols/adaptive/manifest.json`。APIとCLIは `protocols/adaptive/sdk.md` を参照する。
 
+プロトコル自体を改善・分岐・独立継続する作業では、`protocols/adaptive/evolution.md` と現在の `BRANCH.md` も読む。Adaptive以降は通常のGitブランチと系譜記録で管理する。専用Guest登録や固定三世代の消化は要求しない。親や共有側への適用範囲を拡張せず、子ブランチでは親から引き継いだ `BRANCH.md` の状態・出典を更新する。
+
 ## 既存の役割・Workflow・Worldlineが指定された作業 — Classic
 
 `@ino`、`@aud`、`@eng`、`@int` 等の既存ロール、従来サイクル、既存Workflow Run、Guest Worldlineが指定された場合は `docs/classic-agent-rules.md` を入口として、その指示に従い `docs/protocol.md` と指定された役割を読む。Classicのルートmanifestは `manifest.json`。

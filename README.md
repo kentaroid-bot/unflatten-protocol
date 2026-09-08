@@ -4,7 +4,7 @@
 
 背景にはMonkuAiとAperture Meshがある。AI開発の補助に加えて、異質な主体が接続する社会の思考・意思決定方法を、現在の作業で作り、試すプロトコルである。
 
-## 0.3.0 — Adaptive Inquiry
+## 0.3.1 — Adaptive Inquiry
 
 新版は、**分かったことに応じて、次に必要な一手を選ぶ**。原問へ戻る、仮説を強くする、観測を増やす、評価方法を変える、別の未来へ分岐する、終了する。順序と文書量を作業に合わせる。
 
@@ -45,11 +45,19 @@ SDKは `createInquiry`、`recordInquiryMove`、`readInquiry`、`validateInquiry`
 
 [API・記録形式](protocols/adaptive/sdk.md) / [実行可能な例](examples/adaptive/demo.js) / [検証と比較課題](protocols/adaptive/evaluation.md)
 
+## この版から次を作る
+
+Adaptive以降は、通常のGitブランチと短い [BRANCH.md](BRANCH.md) で改善候補を管理する。候補を試すことが従来の妊娠、その版を独立して継続することが出産に対応する。さらに独立した後継候補を作るときは、親版の独立継続を記録してから分岐する。
+
+このブランチは `codex/adaptive-inquiry`。旧Hostの `04caeb3` から派生した改善候補で、ブランチ内部ではAdaptiveを使う。専用Guest登録、固定三世代、別repositoryへの移転を要求しない。親へのmergeは共有側の別の判断であり、独立継続の必須条件ではない。
+
+[ブランチ運用の規則](protocols/adaptive/evolution.md)に、親の固定、試行、独立継続、子の作成、休眠と保存の方法をまとめた。SDKのInquiry forkは探究記録の操作で、Gitブランチを作る機能ではない。
+
 ## 既存版との関係
 
-パッケージは0.3.0。Adaptiveの正本は `protocols/adaptive/manifest.json`。従来のルート `manifest.json` はClassic 0.2.0のまま保持している。
+パッケージは0.3.1。Adaptiveの正本は `protocols/adaptive/manifest.json`。従来のルート `manifest.json` はClassic 0.2.0のまま保持している。
 
-従来の役割・Handoff・Workflow・Worldline APIは継続利用できる。`loadProtocol()` と `run-*` は従来版を返す。Adaptiveは `loadAdaptiveProtocol()` と `inquiry-*` で明示的に使う。リポジトリの通常入口はAdaptiveに変更した。
+従来の役割・Handoff・Workflow・Worldline APIは継続利用できる。`loadProtocol()` と `run-*` は従来版を返す。Adaptiveは `loadAdaptiveProtocol()` と `inquiry-*` で明示的に使う。このブランチの通常入口はAdaptiveに変更した。親mainの通常入口は変更しない。
 
 既存Guestの昇格や世代完了を今回の開発で認定していない。新しいInquiryのforkは、旧Worldlineや共有規約の採択ではない。
 

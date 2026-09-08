@@ -10,7 +10,7 @@
       "type": "object", "additionalProperties": false,
       "required": ["edition", "version", "digest"],
       "properties": {
-        "edition": {"const": "adaptive"}, "version": {"const": "0.3.0"},
+        "edition": {"const": "adaptive"}, "version": {"enum": ["0.3.0", "0.3.1"]},
         "digest": {"$ref": "#/$defs/digest"}
       }
     },

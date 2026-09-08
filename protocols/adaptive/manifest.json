@@ -1,11 +1,12 @@
 {
   "edition": "adaptive",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "protocol": "protocols/adaptive/protocol.md",
   "modes": {
     "explore": "protocols/adaptive/modes/explore.md",
     "decision": "protocols/adaptive/modes/decision.md"
   },
   "schema": "protocols/adaptive/inquiry.schema.json",
-  "runtime": "validator/inquiry.js"
+  "runtime": "validator/inquiry.js",
+  "evolution": "protocols/adaptive/evolution.md"
 }

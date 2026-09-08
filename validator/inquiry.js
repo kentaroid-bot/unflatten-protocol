@@ -34,7 +34,7 @@ function text(file) {
 }
 
 function identity() {
-  const assets = [MANIFEST_PATH, manifest.protocol, manifest.schema, manifest.runtime, ...Object.values(manifest.modes)];
+  const assets = [MANIFEST_PATH, manifest.protocol, manifest.evolution, manifest.schema, manifest.runtime, ...Object.values(manifest.modes)];
   return {
     edition: manifest.edition,
     version: manifest.version,
